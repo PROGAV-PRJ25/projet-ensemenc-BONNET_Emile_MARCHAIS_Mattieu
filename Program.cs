@@ -4,5 +4,6 @@ public class Program
     {
         var app = new App();
         app.Run();
+        Console.Writeline("vfbfhkver");
     }
 }
