@@ -19,7 +19,6 @@ public class Joueur
         while (again)
         {
             again = false;
-            Grille.AfficherGrille(); // Display the grid before moving
 
             char? action = null;
             var timer = new System.Diagnostics.Stopwatch();
@@ -75,10 +74,6 @@ public class Joueur
             JoueurPositionY = tempY;
             again = true;
         }
-
-        // Example update functions if needed
-        Grille.ModifierGrille(JoueurPositionX, JoueurPositionY, Affichage); // Update the grid with the player's new position
-        Grille.InitialiserGrille(); // Reset the grid for the next move
     }
 
     public override string ToString()

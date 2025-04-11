@@ -1,4 +1,3 @@
-using System.Reflection.Emit;
 
 public class GrilleDeJeu
 {
@@ -7,12 +6,15 @@ public class GrilleDeJeu
     public int TailleY { get; private set; }
     public string[] Inventaire {get; set;}
     public int SelectInventaire {get; private set;}
+
+    public Joueur Joueur { get; set; } 
     
 
-    public GrilleDeJeu(int tailleX, int tailleY, string[]? inventaire = null)
+    public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null)
     {
         TailleX = tailleX;
         TailleY = tailleY;
+        Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
@@ -37,12 +39,17 @@ public class GrilleDeJeu
         }
     }
 
-    public void ModifierGrille(int x, int y, string valeur)
+    public void DefineGrille(int x, int y)
     {
-        if (x >= 0 && x < TailleX && y >= 0 && y < TailleY)
+        if ((x == Joueur.JoueurPositionX) && (y == Joueur.JoueurPositionY))
         {
-            Grille[x, y] = valeur;
+            Grille[y, x] = Joueur.Affichage;
         }
+        else 
+        {
+            Grille[y, x] = " . ";
+        }
+
     }
     public void AfficherGrille()
     {

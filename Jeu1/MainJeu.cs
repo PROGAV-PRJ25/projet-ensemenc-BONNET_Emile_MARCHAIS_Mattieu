@@ -5,7 +5,7 @@ public class MainJeu
 
     public MainJeu()
     {
-        Grille = new GrilleDeJeu(10, 10); // Example size, adjust as needed
+        Grille = new GrilleDeJeu(10, 10, Joueur); // Example size, adjust as needed
         Joueur = new Joueur(0, 0); // Starting position of the player
     }
 
@@ -14,7 +14,9 @@ public class MainJeu
         bool win = true;
         while (win)
         {
-            Joueur.MoveJoueur();            
+            Grille.AfficherGrille();
+            Joueur.MoveJoueur();
+            Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);            
         }
     }
 }
