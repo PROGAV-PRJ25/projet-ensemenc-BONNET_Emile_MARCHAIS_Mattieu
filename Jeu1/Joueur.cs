@@ -77,8 +77,8 @@ public class Joueur
         }
 
         // Example update functions if needed
-        // DefineOwen(JoueurPositionX, JoueurPositionY);
-        // DefineGrid();
+        Grille.ModifierGrille(JoueurPositionX, JoueurPositionY, Affichage); // Update the grid with the player's new position
+        Grille.InitialiserGrille(); // Reset the grid for the next move
     }
 
     public override string ToString()

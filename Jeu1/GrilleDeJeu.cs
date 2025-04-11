@@ -2,18 +2,18 @@ using System.Reflection.Emit;
 
 public class GrilleDeJeu
 {
-    public int[,] Grille { get; private set; }
+    public string[,] Grille { get; private set; }
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
     public string[] Inventaire {get; set;}
     public int SelectInventaire {get; private set;}
     
 
-    public GrilleDeJeu(int tailleX, int tailleY, string[]? inventaire)
+    public GrilleDeJeu(int tailleX, int tailleY, string[]? inventaire = null)
     {
         TailleX = tailleX;
         TailleY = tailleY;
-        Grille = new int[TailleX, TailleY];
+        Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
             Inventaire = new string[] {"houe", "vide", "vide", "vide", "vide", "vide", "vide", "vide"}; 
@@ -26,17 +26,24 @@ public class GrilleDeJeu
         InitialiserGrille();
     }
 
-    private void InitialiserGrille()
+    public void InitialiserGrille()
     {
         for (int i = 0; i < TailleX; i++)
         {
             for (int j = 0; j < TailleY; j++)
             {
-                Grille[i, j] = 0; // Initialiser chaque case à 0
+                Grille[i, j] = " . ";
             }
         }
     }
 
+    public void ModifierGrille(int x, int y, string valeur)
+    {
+        if (x >= 0 && x < TailleX && y >= 0 && y < TailleY)
+        {
+            Grille[x, y] = valeur;
+        }
+    }
     public void AfficherGrille()
     {
         Console.Clear();
@@ -44,7 +51,7 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                Console.Write(Grille[i, j] + " ");
+                Console.Write(Grille[i, j]);
             }
             Console.WriteLine();
         }
