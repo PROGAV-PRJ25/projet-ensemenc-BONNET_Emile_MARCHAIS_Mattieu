@@ -12,20 +12,43 @@ public class Joueur
         JoueurPositionY = y;
         Score = 0;
     }
-    public void MoveJoueur() //-> Pour faire bouger Owen et lancer ses grenades 
+    public void MoveJoueur()
     {
         bool again = true;
-        while (again) //Tant que l'on ne rentre pas un mouvement valide
+        while (again)
         {
-            Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
-            char action = Console.ReadKey().KeyChar;
-            action = Char.ToLower(action);
+            Console.SetCursorPosition(Console.WindowWidth / 2, Console.CursorTop);
 
+            char? action = null;
+            var timer = new System.Diagnostics.Stopwatch();
+            timer.Start();
 
-            //On ajoute en variable temporaire les position X et Y
+            // Give the player a short time to act (e.g. 300 ms)
+            while (timer.ElapsedMilliseconds < 300)
+            {
+                if (Console.KeyAvailable)
+                {
+                    ConsoleKeyInfo key = Console.ReadKey(true); // true to not show the key on screen
+                    action = Char.ToLower(key.KeyChar);
+                    break;
+                }
+            }
+
+            // Reset timer
+            timer.Stop();
+
+            // Handle "no input" case
+            if (action == null)
+            {
+                // No input -> time passes
+                again = true; // Or keep it true depending on your design
+                continue;
+            }
+
+            // Handle movement
             int tempX = JoueurPositionX;
             int tempY = JoueurPositionY;
-            
+
             switch (action)
             {
                 case 'z':
@@ -40,23 +63,21 @@ public class Joueur
                 case 'q':
                     tempX--;
                     break;
-                default: // Sécurité si le joueur appuie sur une touche non-valide. Cela recommence l'action.
-                    again = true;
-                    break;
+                default:
+                    // Invalid input — you could skip or treat it as no action
+                    continue;
             }
 
-/*             if (IsMoveOwenBlueValid(tempX, tempY)) // Si le mouvement est valide, on actualise les positions temporaires
-            {
-                owenPositionX = tempX;
-                owenPositionY = tempY;
-            }
-            else//Sinon on relance la boucle
-            {
-                again = true;
-            } */
+            // Assume movement is always valid for now
+            JoueurPositionX = tempX;
+            JoueurPositionY = tempY;
+            again = true;
         }
-/*         DefineOwen(owenPositionX, owenPositionY); // On redéfinit la position dans la grille
-        DefineGrid();//On actualise la grille de crevasses si Owen a lancé une grenade */
+
+        // Example update functions if needed
+        // DefineOwen(JoueurPositionX, JoueurPositionY);
+        // DefineGrid();
     }
+
 }
 
