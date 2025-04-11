@@ -4,20 +4,22 @@ public class Joueur
 
     public int JoueurPositionY { get; set; }
 
-    public int Score { get; set; }
+    public GrilleDeJeu Grille { get; set; }
 
+    public string Affichage { get; set; } = "J";
     public Joueur(int x, int y)
     {
         JoueurPositionX = x;
         JoueurPositionY = y;
-        Score = 0;
+        Grille = new GrilleDeJeu(10, 10); // Example size, adjust as needed
     }
     public void MoveJoueur()
     {
         bool again = true;
         while (again)
         {
-            Console.SetCursorPosition(Console.WindowWidth / 2, Console.CursorTop);
+            again = false;
+            Grille.AfficherGrille(); // Display the grid before moving
 
             char? action = null;
             var timer = new System.Diagnostics.Stopwatch();
@@ -77,6 +79,11 @@ public class Joueur
         // Example update functions if needed
         // DefineOwen(JoueurPositionX, JoueurPositionY);
         // DefineGrid();
+    }
+
+    public override string ToString()
+    {
+        return Affichage;
     }
 
 }
