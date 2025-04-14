@@ -4,7 +4,7 @@ public class Plante
     public int PlantePositionX { get; set; }
     public int PlantePositionY { get; set; }
 
-    private int cycleStep = 0;
+    public int cycleStep = 0;
     private string[] affichageCycle = new string[] { "P", "p", "." };
     public string Affichage => affichageCycle[cycleStep];
 
