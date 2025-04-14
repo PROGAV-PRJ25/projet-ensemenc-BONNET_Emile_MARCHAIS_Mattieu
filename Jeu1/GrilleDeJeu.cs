@@ -10,6 +10,9 @@ public class GrilleDeJeu
     public int Jours { get; set; } = 0;
     public int luminosity { get; set; } = 0;
 
+    public bool[,] EstLaboure { get; private set; }
+
+
     public List<Plante> Plantes = new List<Plante>();
 
     public Joueur Joueur { get; set; } 
@@ -19,11 +22,12 @@ public class GrilleDeJeu
     {
         TailleX = tailleX;
         TailleY = tailleY;
+        EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
-            Inventaire = new string[] {"|| ", "|Planter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
+            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
         }
         else
         {
@@ -56,6 +60,19 @@ public class GrilleDeJeu
         {
             Grille[plante.PlantePositionY, plante.PlantePositionX] = " " + plante.Affichage + " ";
         }
+
+        // PLace labourage
+        for (int i = 0; i < TailleX; i++)
+        {
+            for (int j = 0; j < TailleY; j++)
+            {
+                if (EstLaboure[i, j])
+                {
+                    Grille[i, j] = " # ";
+                }
+            }
+        }
+
 
         // Place player last
         Grille[y, x] = Joueur.Affichage;

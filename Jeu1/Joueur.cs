@@ -69,14 +69,23 @@ public class Joueur
 
     public void PlacePlante(Plante plante)
     {
-        Grille.Plantes.Add(plante);
+        if (Grille.EstLaboure[JoueurPositionY, JoueurPositionX])
+        {
+            Grille.Plantes.Add(plante);
+        }
+        
     }
+    public void Labourer()
+    {
+        Grille.EstLaboure[JoueurPositionY, JoueurPositionX] = true;
+    }
+
 
     public void Action(int selection)
     {
         switch (selection)
         {
-            //case 0: Labourer(); break;
+            case 0: Labourer(); break;
             case 1: PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY,20,50)); break;
         }    
     }
