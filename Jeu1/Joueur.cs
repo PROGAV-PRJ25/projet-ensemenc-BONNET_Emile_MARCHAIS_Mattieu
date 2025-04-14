@@ -47,9 +47,10 @@ public class Joueur
 
             case 'l': Grille.SelectInventaire --; break;
             case 'm': Grille.SelectInventaire ++; break;
-            case 'e': PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY)); break;
+            case 'e': Action(Grille.SelectInventaire); break;
             default: return; // Invalid key, skip
         }
+
 
         // Stay within bounds
         if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX)
@@ -64,7 +65,14 @@ public class Joueur
         Grille.Plantes.Add(plante);
     }
 
-
+    public void Action(int selection)
+    {
+        switch (selection)
+        {
+            //case 1: Labourer(); break;
+            case 2: PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY)); break;
+        }    
+    }
 
     public override string ToString()
     {
