@@ -30,6 +30,13 @@ public class Joueur
         }
 
         timer.Stop();
+        Grille.luminosity += 1; 
+        if (Grille.luminosity == 16)
+        {
+            Grille.Jours ++;
+            Grille.luminosity = 0; // Reset luminosity after reaching a certain threshold
+        }
+
 
         // If no input, do nothing
         if (action == null)
