@@ -12,6 +12,7 @@ public class Joueur
         JoueurPositionX = x;
         JoueurPositionY = y;
     }
+    
     public void MoveJoueur()
     {
         char? action = null;
@@ -43,6 +44,9 @@ public class Joueur
             case 's': tempY++; break;
             case 'q': tempX--; break;
             case 'd': tempX++; break;
+
+            case 'l': Grille.SelectInventaire --; break;
+            case 'm': Grille.SelectInventaire ++; break;
             case 'e': PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY)); break;
             default: return; // Invalid key, skip
         }

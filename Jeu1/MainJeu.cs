@@ -19,8 +19,8 @@ public class MainJeu
             Grille.InitialiserGrille();
             Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
             Grille.AfficherGrille();
-
             Joueur.MoveJoueur();
+            
         }
     }
 

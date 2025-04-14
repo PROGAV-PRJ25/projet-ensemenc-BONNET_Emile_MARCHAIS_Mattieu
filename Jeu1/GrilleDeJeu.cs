@@ -5,7 +5,7 @@ public class GrilleDeJeu
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
     public string[] Inventaire {get; set;}
-    public int SelectInventaire {get; private set;}
+    public int SelectInventaire {get; set;}
 
     public List<Plante> Plantes = new List<Plante>();
 
@@ -20,7 +20,7 @@ public class GrilleDeJeu
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
-            Inventaire = new string[] {"houe", "vide", "vide", "vide", "vide", "vide", "vide", "vide"}; 
+            Inventaire = new string[] {"|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
         }
         else
         {
@@ -78,44 +78,23 @@ public class GrilleDeJeu
             }
             Console.WriteLine();
         }
+        AfficherInventaire(SelectInventaire);
     }
 
-    public void AfficherInvetaire()
+    public void AfficherInventaire(int selection)
     {
-        foreach (string elem in Inventaire)
+        for(int i = 0; i < Inventaire.Length; i++ )
         {
-            Console.Write(elem);
-            Console.WriteLine();
+            if (i == selection)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(Inventaire[i]);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.Write(Inventaire[i]);
+            }
         }
     }
-
-   /* public void SelectionnerInventaire()
-    {
-        bool again = true;
-        while (again) //Tant que l'on ne rentre pas un mouvement valide
-        {
-            again = false;
-
-            //On ajoute en variable temporaire les position X et Y
-            int tempX = JoueurPositionX;
-            
-            switch (action)
-            {
-                case 'z':
-                    tempY--;
-                    break;
-                case 'd':
-                    tempX++;
-                    break;
-                case 's':
-                    tempY++;
-                    break;
-                case 'q':
-                    tempX--;
-                    break;
-                default: // Sécurité si le joueur appuie sur une touche non-valide. Cela recommence l'action.
-                    again = true;
-                    break;
-            }
-    }*/
 }
