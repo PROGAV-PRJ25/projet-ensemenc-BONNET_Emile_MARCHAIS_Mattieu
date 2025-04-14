@@ -6,7 +6,7 @@ public class Plante
     public int PlantePositionY { get; set; }
     public int TauxCroissance {get; set; }
 
-    private int cycleStep = 0;
+    public int cycleStep = 0;
     private string[] EtatPlante = new string[] { "p", "p", "P", "P", "R" };
     public string Affichage => EtatPlante[cycleStep];
 
