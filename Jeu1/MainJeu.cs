@@ -15,12 +15,13 @@ public class MainJeu
         bool win = true;
         while (win)
         {
+            Grille.UpdatePlantes();
             Grille.InitialiserGrille();
             Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
             Grille.AfficherGrille();
 
-            // Then try to move the player (may or may not move)
             Joueur.MoveJoueur();
         }
     }
+
 }

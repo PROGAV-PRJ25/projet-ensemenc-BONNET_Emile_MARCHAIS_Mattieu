@@ -7,6 +7,8 @@ public class GrilleDeJeu
     public string[] Inventaire {get; set;}
     public int SelectInventaire {get; private set;}
 
+    public List<Plante> Plantes = new List<Plante>();
+
     public Joueur Joueur { get; set; } 
     
 
@@ -41,16 +43,30 @@ public class GrilleDeJeu
 
     public void DefineGrille(int x, int y)
     {
-        if ((x == Joueur.JoueurPositionX) && (y == Joueur.JoueurPositionY))
+        // Reset everything to empty
+        for (int i = 0; i < TailleX; i++)
+            for (int j = 0; j < TailleY; j++)
+                Grille[i, j] = " . ";
+
+        // Place all plants
+        foreach (var plante in Plantes)
         {
-            Grille[y, x] = Joueur.Affichage;
-        }
-        else 
-        {
-            Grille[y, x] = " . ";
+            Grille[plante.PlantePositionY, plante.PlantePositionX] = " " + plante.Affichage + " ";
         }
 
+        // Place player last
+        Grille[y, x] = Joueur.Affichage;
     }
+
+    public void UpdatePlantes()
+    {
+        foreach (var plante in Plantes)
+        {
+            plante.MetAJour();
+        }
+    }
+
+
     public void AfficherGrille()
     {
         Console.Clear();

@@ -43,6 +43,7 @@ public class Joueur
             case 's': tempY++; break;
             case 'q': tempX--; break;
             case 'd': tempX++; break;
+            case 'e': PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY)); break;
             default: return; // Invalid key, skip
         }
 
@@ -53,6 +54,12 @@ public class Joueur
             JoueurPositionY = tempY;
         }
     }
+
+    public void PlacePlante(Plante plante)
+    {
+        Grille.Plantes.Add(plante);
+    }
+
 
 
     public override string ToString()
