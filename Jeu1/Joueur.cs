@@ -77,7 +77,7 @@ public class Joueur
         switch (selection)
         {
             //case 0: Labourer(); break;
-            case 1: PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY,20)); break;
+            case 1: PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY,20,50)); break;
         }    
     }
 
