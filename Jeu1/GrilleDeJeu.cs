@@ -7,6 +7,9 @@ public class GrilleDeJeu
     public string[] Inventaire {get; set;}
     public int SelectInventaire {get; set;}
 
+    public int Jours { get; set; } = 0;
+    public int luminosity { get; set; } = 0;
+
     public List<Plante> Plantes = new List<Plante>();
 
     public Joueur Joueur { get; set; } 
@@ -79,6 +82,23 @@ public class GrilleDeJeu
             Console.WriteLine();
         }
         AfficherInventaire(SelectInventaire);
+        Console.WriteLine("\nJours: " + Jours);
+        if (luminosity <= 4)
+        {
+            Console.WriteLine("Luminosité: On est le matin, il fait sombre.");
+        }
+        else if (luminosity <= 8)
+        {
+            Console.WriteLine("Luminosité: On est le midi, il fait jour.");
+        }
+        else if (luminosity <= 12)
+        {
+            Console.WriteLine("Luminosité: On est le soir, il fait sombre.");
+        }
+        else if (luminosity <= 16)
+        {
+            Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
+        }
     }
 
     public void AfficherInventaire(int selection)
