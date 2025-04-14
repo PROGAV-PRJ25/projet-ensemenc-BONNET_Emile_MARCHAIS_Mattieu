@@ -6,7 +6,7 @@ public class Joueur
 
     public GrilleDeJeu Grille { get; set; }
 
-    public string Affichage { get; set; } = "J";
+    public string Affichage { get; set; } = " J ";
     public Joueur(int x, int y)
     {
         JoueurPositionX = x;
