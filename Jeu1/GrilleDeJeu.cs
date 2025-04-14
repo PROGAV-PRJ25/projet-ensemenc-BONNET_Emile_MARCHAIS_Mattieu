@@ -23,7 +23,7 @@ public class GrilleDeJeu
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
-            Inventaire = new string[] {"|| ", "|Planter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
+            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
         }
         else
         {

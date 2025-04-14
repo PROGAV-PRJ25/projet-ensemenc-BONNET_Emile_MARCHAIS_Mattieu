@@ -1,5 +1,6 @@
 public class Joueur
 {
+    public int[] TableauRecolte { get; set; }
     public int JoueurPositionX { get; set; }
 
     public int JoueurPositionY { get; set; }
