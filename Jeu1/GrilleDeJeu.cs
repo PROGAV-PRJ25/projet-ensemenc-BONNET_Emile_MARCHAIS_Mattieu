@@ -67,6 +67,8 @@ public class GrilleDeJeu
         {
             plante.MetAJour();
         }
+
+        Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
     }
 
 

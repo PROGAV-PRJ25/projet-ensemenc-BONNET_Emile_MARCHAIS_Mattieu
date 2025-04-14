@@ -27,12 +27,6 @@ public class Plante
         {
             cycleStep = (cycleStep + 1) ;
         }
-        EsperanceDeVie--;
-        if (EsperanceDeVie <= 0)
-        {
-            
-        }
-
-        
+        EsperanceDeVie--;        
     }
 }
