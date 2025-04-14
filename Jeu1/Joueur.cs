@@ -11,70 +11,49 @@ public class Joueur
     {
         JoueurPositionX = x;
         JoueurPositionY = y;
-        Grille = new GrilleDeJeu(10, 10); // Example size, adjust as needed
     }
     public void MoveJoueur()
     {
-        bool again = true;
-        while (again)
+        char? action = null;
+        var timer = new System.Diagnostics.Stopwatch();
+        timer.Start();
+
+        while (timer.ElapsedMilliseconds < 300)
         {
-            again = false;
-
-            char? action = null;
-            var timer = new System.Diagnostics.Stopwatch();
-            timer.Start();
-
-            // Give the player a short time to act (e.g. 300 ms)
-            while (timer.ElapsedMilliseconds < 300)
+            if (Console.KeyAvailable)
             {
-                if (Console.KeyAvailable)
-                {
-                    ConsoleKeyInfo key = Console.ReadKey(true); // true to not show the key on screen
-                    action = Char.ToLower(key.KeyChar);
-                    break;
-                }
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                action = Char.ToLower(key.KeyChar);
+                break;
             }
+        }
 
-            // Reset timer
-            timer.Stop();
+        timer.Stop();
 
-            // Handle "no input" case
-            if (action == null)
-            {
-                // No input -> time passes
-                again = true; // Or keep it true depending on your design
-                continue;
-            }
+        // If no input, do nothing
+        if (action == null)
+            return;
 
-            // Handle movement
-            int tempX = JoueurPositionX;
-            int tempY = JoueurPositionY;
+        int tempX = JoueurPositionX;
+        int tempY = JoueurPositionY;
 
-            switch (action)
-            {
-                case 'z':
-                    tempY--;
-                    break;
-                case 'd':
-                    tempX++;
-                    break;
-                case 's':
-                    tempY++;
-                    break;
-                case 'q':
-                    tempX--;
-                    break;
-                default:
-                    // Invalid input — you could skip or treat it as no action
-                    continue;
-            }
+        switch (action)
+        {
+            case 'z': tempY--; break;
+            case 's': tempY++; break;
+            case 'q': tempX--; break;
+            case 'd': tempX++; break;
+            default: return; // Invalid key, skip
+        }
 
-            // Assume movement is always valid for now
+        // Stay within bounds
+        if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX)
+        {
             JoueurPositionX = tempX;
             JoueurPositionY = tempY;
-            again = true;
         }
     }
+
 
     public override string ToString()
     {
