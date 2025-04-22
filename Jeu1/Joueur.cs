@@ -87,7 +87,7 @@ public class Joueur
 
     public void Recolter()
     {
-        Plante plante = Grille.SelectionnerPlante(JoueurPositionX,JoueurPositionY);
+        Plante plante = Grille.SelectionnerPlante(JoueurPositionX, JoueurPositionY) ;
         if(plante == null)
         {
             Console.WriteLine("Il n'y à pas de plante à cette position");
