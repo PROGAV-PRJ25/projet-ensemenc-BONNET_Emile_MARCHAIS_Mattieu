@@ -73,6 +73,7 @@ public class Joueur
         if (Grille.EstLaboure[JoueurPositionY, JoueurPositionX])
         {
             Grille.Plantes.Add(plante);
+            Grille.EstLaboure[JoueurPositionY, JoueurPositionX] = false;
         }
         
     }

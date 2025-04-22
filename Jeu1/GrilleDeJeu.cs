@@ -10,7 +10,7 @@ public class GrilleDeJeu
     public int Jours { get; set; } = 0;
     public int luminosity { get; set; } = 0;
 
-    public bool[,] EstLaboure { get; private set; }
+    public bool[,] EstLaboure { get; set; }
 
 
     public List<Plante> Plantes = new List<Plante>();
@@ -46,6 +46,18 @@ public class GrilleDeJeu
                 Grille[i, j] = " . ";
             }
         }
+    }
+
+    public Plante ? SelectionnerPlante(int x, int y)
+    {
+        foreach(Plante plante in Plantes)
+        {
+            if (plante.PlantePositionX == x && plante.PlantePositionY == y)
+            {
+                return plante;
+            }
+        }
+        return null;
     }
 
     public void DefineGrille(int x, int y)
@@ -95,7 +107,21 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                Console.Write(Grille[i, j]);
+                if (SelectionnerPlante(j,i) == null)
+                {
+                    Console.Write(Grille[i, j]);
+                }
+                else if (SelectionnerPlante(j,i).cycleStep == 5)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(Grille[i, j]);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.Write(Grille[i, j]);
+                }
+                
             }
             Console.WriteLine();
         }
