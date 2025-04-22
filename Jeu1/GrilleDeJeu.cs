@@ -5,7 +5,49 @@ public class GrilleDeJeu
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
     public string[] Inventaire {get; set;}
-    public int SelectInventaire {get; set;}
+
+    public string[] PlantesDispo {get; set;}
+
+    private int _selectInventaire;
+    public int SelectInventaire
+    {
+        get => _selectInventaire;
+        set
+        {
+            if (value < 0)
+            {
+                _selectInventaire = Inventaire.Length - 1;
+            }
+            else if (value >= Inventaire.Length)
+            {
+                _selectInventaire = 0;
+            }
+            else
+            {
+                _selectInventaire = value;
+            }
+        }
+    }
+    private int _selectPlante;
+    public int SelectPlante
+    {
+        get => _selectPlante;
+        set
+        {
+            if (value < 0)
+            {
+                _selectPlante = PlantesDispo.Length - 1;
+            }
+            else if (value >= PlantesDispo.Length)
+            {
+                _selectPlante = 0;
+            }
+            else
+            {
+                _selectPlante = value;
+            }
+        }
+    }
 
     public int Jours { get; set; } = 0;
     public int luminosity { get; set; } = 0;
@@ -18,7 +60,7 @@ public class GrilleDeJeu
     public Joueur Joueur { get; set; } 
     
 
-    public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null)
+    public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)
     {
         TailleX = tailleX;
         TailleY = tailleY;
@@ -32,6 +74,14 @@ public class GrilleDeJeu
         else
         {
             Inventaire = inventaire;
+        }
+        if (plantesDispo == null)
+        {
+            PlantesDispo = new string[] {"|Carotte|", "|Tomate|", "|Radis|", "|Salade|"};
+        }
+        else
+        {
+            PlantesDispo = plantesDispo;
         }
          
         InitialiserGrille();
@@ -119,6 +169,8 @@ public class GrilleDeJeu
         }
     }
 
+
+
     public void AfficherInventaire(int selection)
     {
         for(int i = 0; i < Inventaire.Length; i++ )
@@ -132,6 +184,23 @@ public class GrilleDeJeu
             else
             {
                 Console.Write(Inventaire[i]);
+            }
+        }
+        if (selection == 1)
+        {
+            for (int j = 0; j < PlantesDispo.Length; j++)
+            {
+                Console.Write("\n");
+                if (j == SelectPlante)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(PlantesDispo[j]);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    Console.Write(PlantesDispo[j]);
+                }            
             }
         }
     }

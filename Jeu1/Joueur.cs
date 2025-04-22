@@ -55,6 +55,8 @@ public class Joueur
 
             case 'l': Grille.SelectInventaire --; break;
             case 'm': Grille.SelectInventaire ++; break;
+            case 'o': Grille.SelectPlante --; break;
+            case 'p': Grille.SelectPlante ++; break;
             case 'e': Action(Grille.SelectInventaire); break;
             default: return; // Invalid key, skip
         }
@@ -87,8 +89,30 @@ public class Joueur
         switch (selection)
         {
             case 0: Labourer(); break;
-            case 1: PlacePlante(new Plante("Carotte", JoueurPositionX, JoueurPositionY,20,50)); break;
+            case 1: PlacePlante(ChoixPlante()); break;
         }    
+    }
+
+    public Plante ChoixPlante()
+    {
+        if (Grille.SelectPlante == 0)
+        {
+           return new Plante("Carotte", JoueurPositionX, JoueurPositionY, 20, 50);
+        }
+        if (Grille.SelectPlante == 1)
+        {
+            return new Plante("Tomate", JoueurPositionX, JoueurPositionY, 30, 60);
+        }
+        if (Grille.SelectPlante == 2)
+        {
+            return new Plante("Radis", JoueurPositionX, JoueurPositionY, 40, 30);
+        }
+        if (Grille.SelectPlante == 3)
+        {
+            return new Plante("Salade", JoueurPositionX, JoueurPositionY, 10, 100);
+        }
+    
+        return new Plante("Carotte", JoueurPositionX, JoueurPositionY, 20, 50); // Default case
     }
 
     public override string ToString()
