@@ -69,7 +69,7 @@ public class GrilleDeJeu
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
-            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
+            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
         }
         else
         {
@@ -161,7 +161,7 @@ public class GrilleDeJeu
                 {
                     Console.Write(Grille[i, j]);
                 }
-                else if (SelectionnerPlante(j,i).cycleStep == 5)
+                else if (SelectionnerPlante(j,i)?.cycleStep == 5)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.Write(Grille[i, j]);

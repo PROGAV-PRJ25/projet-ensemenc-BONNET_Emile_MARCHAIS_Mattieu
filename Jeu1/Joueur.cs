@@ -1,6 +1,6 @@
 public class Joueur
 {
-    public int[] TableauRecolte { get; set; }
+    public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade
     public int JoueurPositionX { get; set; }
 
     public int JoueurPositionY { get; set; }
@@ -70,6 +70,11 @@ public class Joueur
         }
     }
 
+
+    public void Labourer()
+    {
+        Grille.EstLaboure[JoueurPositionY, JoueurPositionX] = true;
+    }
     public void PlacePlante(Plante plante)
     {
         if (Grille.EstLaboure[JoueurPositionY, JoueurPositionX])
@@ -79,11 +84,39 @@ public class Joueur
         }
         
     }
-    public void Labourer()
-    {
-        Grille.EstLaboure[JoueurPositionY, JoueurPositionX] = true;
-    }
 
+    public void Recolter()
+    {
+        Plante plante = Grille.SelectionnerPlante(JoueurPositionX,JoueurPositionY);
+        if(plante == null)
+        {
+            Console.WriteLine("Il n'y à pas de plante à cette position");
+        }
+        else if (plante.cycleStep != 5)
+        {
+            Console.WriteLine("La plante n'a pas atteint sa maturité");
+        }
+        else
+        {
+            plante.EsperanceDeVie = 0;
+            if (plante.Type == "Carotte")
+            {
+                TableauRecolte[0]++;
+            }
+            else if (plante.Type == "Tomate")
+            {
+                TableauRecolte[1]++;
+            }
+            else if (plante.Type == "Radis")
+            {
+                TableauRecolte[2]++;
+            }
+            else if (plante.Type == "Salade")
+            {
+                TableauRecolte[3]++;
+            }
+        }
+    }
 
     public void Action(int selection)
     {
@@ -91,6 +124,7 @@ public class Joueur
         {
             case 0: Labourer(); break;
             case 1: PlacePlante(ChoixPlante()); break;
+            case 2: Recolter(); break;
         }    
     }
 
