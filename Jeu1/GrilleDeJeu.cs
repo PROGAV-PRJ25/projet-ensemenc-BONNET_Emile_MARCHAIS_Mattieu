@@ -55,12 +55,6 @@ public class GrilleDeJeu
             for (int j = 0; j < TailleY; j++)
                 Grille[i, j] = " . ";
 
-        // Place all plants
-        foreach (var plante in Plantes)
-        {
-            Grille[plante.PlantePositionY, plante.PlantePositionX] = " " + plante.Affichage + " ";
-        }
-
         // PLace labourage
         for (int i = 0; i < TailleX; i++)
         {
@@ -73,6 +67,11 @@ public class GrilleDeJeu
             }
         }
 
+        // Place all plants
+        foreach (var plante in Plantes)
+        {
+            Grille[plante.PlantePositionY, plante.PlantePositionX] = " " + plante.Affichage + " ";
+        }
 
         // Place player last
         Grille[y, x] = Joueur.Affichage;

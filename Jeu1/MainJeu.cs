@@ -5,7 +5,7 @@ public class MainJeu
 
     public MainJeu()
     {
-       Joueur = new Joueur(0, 0);
+        Joueur = new Joueur(0, 0);
         Grille = new GrilleDeJeu(10, 10, Joueur);
         Joueur.Grille = Grille; 
     }
