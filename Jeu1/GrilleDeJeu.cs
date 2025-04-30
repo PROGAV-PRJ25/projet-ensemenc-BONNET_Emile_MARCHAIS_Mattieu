@@ -4,6 +4,7 @@ public class GrilleDeJeu
     public string[,] Grille { get; private set; }
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
+    public bool ModeUrgence {get; set;}
     public string[] Inventaire {get; set;}
 
     public string[] PlantesDispo {get; set;}
@@ -65,13 +66,14 @@ public class GrilleDeJeu
     {
         TailleX = tailleX;
         TailleY = tailleY;
+        ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Plantenull = new Plante ("Plantenull", -1, -1, 0,100);
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
-            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|_| ", "|_| ", "|_| ", "|_| ", "|_| "}; 
+            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|_| ", "|Frapper| ", "|_| ", "|_| ", "|_| "}; 
         }
         else
         {
@@ -159,7 +161,7 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                if (SelectionnerPlante(j,i) == null)
+                if (SelectionnerPlante(j,i) == Plantenull)
                 {
                     Console.Write(Grille[i, j]);
                 }

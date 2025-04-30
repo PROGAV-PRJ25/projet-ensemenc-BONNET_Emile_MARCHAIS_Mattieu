@@ -30,6 +30,7 @@ public class Joueur
                 break;
             }
         }
+        // if urgence alors PNJ bouge
 
         timer.Stop();
         Grille.luminosity += 1; 
@@ -121,6 +122,29 @@ public class Joueur
 
     public void Action(int selection)
     {
+        if(Grille.ModeUrgence)
+        {
+            switch (selection)
+            {
+                case 0: Console.WriteLine("Vous ne pouvez pas labourer, il y a un intru. Eliminez le d'abord"); break;
+                case 1: Console.WriteLine("Vous ne pouvez rien planter, il y a un intru. Eliminez le d'abord"); break;
+                case 2: Console.WriteLine("Vous ne pouvez pas récolter, il y a un intru. Eliminez le d'abord"); break;
+                case 3: ;break;
+                case 4: Frapper(); break;
+            }
+            
+        }
+        else
+        {
+            switch (selection)
+            {
+                case 0: Labourer(); break;
+                case 1: PlacePlante(ChoixPlante()); break;
+                case 2: Recolter(); break;
+                case 3: ;break;
+                case 4: Console.WriteLine("Il n'y a personne à frapper ici"); break;
+            }        
+        }
         switch (selection)
         {
             case 0: Labourer(); break;
@@ -149,6 +173,11 @@ public class Joueur
         }
     
         return new Plante("Carotte", JoueurPositionX, JoueurPositionY, 20, 50); // Default case
+    }
+
+    public void Frapper()
+    {
+
     }
 
     public override string ToString()

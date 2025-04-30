@@ -13,7 +13,7 @@ public class MainJeu
     public void StartGame()
     {
         bool win = true;
-        while (win)
+        while (!Grille.ModeUrgence && win)
         {
             Grille.UpdatePlantes();
             Grille.InitialiserGrille();
@@ -21,6 +21,21 @@ public class MainJeu
             Grille.AfficherGrille();
             Joueur.MoveJoueur();
             
+        }
+
+        while (Grille.ModeUrgence && win)
+        {
+            var timer = new System.Diagnostics.Stopwatch();
+            timer.Start();
+            while (timer.ElapsedMilliseconds < 2000)
+            {
+                Grille.InitialiserGrille();
+                Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
+                Grille.AfficherGrille();
+                Joueur.MoveJoueur();
+            }
+            timer.Stop();
+            //BougerPNJ();           
         }
     }
 
