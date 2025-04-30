@@ -12,6 +12,7 @@ public class Joueur
     {
         JoueurPositionX = x;
         JoueurPositionY = y;
+        TableauRecolte = new int[] {0,0,0,0};
     }
     
     public void MoveJoueur()
@@ -88,7 +89,7 @@ public class Joueur
     public void Recolter()
     {
         Plante plante = Grille.SelectionnerPlante(JoueurPositionX, JoueurPositionY) ;
-        if(plante == null)
+        if(plante.Type == "Plantenull")
         {
             Console.WriteLine("Il n'y à pas de plante à cette position");
         }

@@ -53,6 +53,7 @@ public class GrilleDeJeu
     public int luminosity { get; set; } = 0;
 
     public bool[,] EstLaboure { get; set; }
+    public Plante Plantenull { get; }
 
 
     public List<Plante> Plantes = new List<Plante>();
@@ -66,6 +67,7 @@ public class GrilleDeJeu
         TailleY = tailleY;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
+        Plantenull = new Plante ("Plantenull", -1, -1, 0,100);
         Grille = new string[TailleX, TailleY];
         if (inventaire == null)
         {
@@ -98,7 +100,7 @@ public class GrilleDeJeu
         }
     }
 
-    public Plante ? SelectionnerPlante(int x, int y)
+    public Plante SelectionnerPlante(int x, int y)
     {
         foreach(Plante plante in Plantes)
         {
@@ -107,7 +109,7 @@ public class GrilleDeJeu
                 return plante;
             }
         }
-        return null;
+        return Plantenull;
     }
 
     public void DefineGrille(int x, int y)
@@ -146,7 +148,7 @@ public class GrilleDeJeu
             plante.MetAJour();
         }
 
-        Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
+        Plantes = Plantes.Where(p => (p.EsperanceDeVie > 0)).ToList();
     }
 
 
