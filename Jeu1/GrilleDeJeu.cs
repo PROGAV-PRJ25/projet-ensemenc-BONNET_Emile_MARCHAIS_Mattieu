@@ -166,6 +166,12 @@ public class GrilleDeJeu
                 {
                     Console.Write(Grille[i, j]);
                 }
+                else if (SelectionnerPlante(j,i).MaladieActuelle != null)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(Grille[i, j]);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
                 else if (SelectionnerPlante(j,i)?.cycleStep == 5)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;

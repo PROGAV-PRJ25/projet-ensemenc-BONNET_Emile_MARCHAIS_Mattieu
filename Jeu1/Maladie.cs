@@ -1,31 +1,26 @@
-public class Maladies 
+public class Maladie
 {
-    Random random = new Random();
-    public string Type { get; set; }
+    public string Type { get; set; } // Nom unique (ex: "MildiouTomate")
+    public int Duree { get; set; } // Nb de jours restants
+    public int Severite { get; set; } // Impact négatif sur TauxCroissance
 
-    Plante Plante { get; set; }
-
-    public double Probabilite { get; set; }
-
-    public int Duree { get; set; }
-
-    public int DureeRestante { get; set; } = 0;
-
-    public Maladies(string type, double probabilite, int duree, Plante plante)
+    public Maladie(string type, int duree, int severite)
     {
         Type = type;
-        Probabilite = probabilite;
         Duree = duree;
-        Plante = plante;
+        Severite = severite;
     }
 
-    public void AppliquerMaladie()
+    public void AppliquerEffet(Plante plante)
     {
-        double chance = random.NextDouble();
-        if (DureeRestante > 0 && chance < Probabilite)
+        if (Duree > 0)
         {
-            Plante.TauxCroissance -= 10; // Reset the plant's growth cycle
-            DureeRestante--;
+            plante.TauxCroissance -= Severite;
+            Duree--;
+        }
+        if (Duree <= 0)
+        {
+            plante.MaladieActuelle = null; // Guérison automatique
         }
     }
 }
