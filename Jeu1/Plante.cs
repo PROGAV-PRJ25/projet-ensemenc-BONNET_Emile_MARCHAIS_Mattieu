@@ -14,7 +14,23 @@ public class Plante
     public double TauxCroissance { get; set; }
     public int cycleStep = 0;
     private string[] EtatPlante = new string[6];
-    public string Affichage => EtatPlante[cycleStep];
+    public string Affichage
+{
+    get
+    {
+        if (Type == "Plantenull") return " . ";
+
+        return Type switch
+        {
+            "Carotte" => cycleStep < 3 ? "🌱" : "🥕",
+
+            "Tomate" => cycleStep < 3 ? "🌱" : "🍅",
+            "Radis" => cycleStep < 3 ? "🌱" : "🔴",
+            "Salade" => cycleStep < 3 ? "🌱" : "🥬",
+            _ => "?"
+        };
+    }
+}
 
     public GrilleDeJeu Grille { get; set; }
 
