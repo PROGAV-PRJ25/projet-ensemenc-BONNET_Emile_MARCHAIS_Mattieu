@@ -21,7 +21,7 @@ public class Joueur
         var timer = new System.Diagnostics.Stopwatch();
         timer.Start();
 
-        while (timer.ElapsedMilliseconds < 300)
+        while (timer.ElapsedMilliseconds < 1000)
         {
             if (Console.KeyAvailable)
             {
@@ -141,7 +141,7 @@ public class Joueur
                 case 0: Labourer(); break;
                 case 1: PlacePlante(ChoixPlante()); break;
                 case 2: Recolter(); break;
-                case 3: ;break;
+                case 3: Arroser();break;
                 case 4: Console.WriteLine("Il n'y a personne à frapper ici"); break;
             }        
         }
@@ -155,29 +155,29 @@ public class Joueur
 
     public Plante ChoixPlante()
     {
-        if (Grille.SelectPlante == 0)
+        int x = JoueurPositionX;
+        int y = JoueurPositionY;
+        var grille = Grille;
+
+        return Grille.SelectPlante switch
         {
-           return new Plante("Carotte", JoueurPositionX, JoueurPositionY, 20, 50);
-        }
-        if (Grille.SelectPlante == 1)
-        {
-            return new Plante("Tomate", JoueurPositionX, JoueurPositionY, 30, 60);
-        }
-        if (Grille.SelectPlante == 2)
-        {
-            return new Plante("Radis", JoueurPositionX, JoueurPositionY, 40, 30);
-        }
-        if (Grille.SelectPlante == 3)
-        {
-            return new Plante("Salade", JoueurPositionX, JoueurPositionY, 10, 100);
-        }
-    
-        return new Plante("Carotte", JoueurPositionX, JoueurPositionY, 20, 50); // Default case
+            0 => new Plante("Carotte", x, y, 20, 40, 6, grille),
+            1 => new Plante("Tomate", x, y, 30, 50, 8, grille),
+            2 => new Plante("Radis", x, y, 40, 30, 5, grille),
+            3 => new Plante("Salade", x, y, 10, 60, 4, grille),
+            _ => new Plante("Carotte", x, y, 20, 40, 6, grille),
+        };
     }
 
     public void Frapper()
     {
 
+    }
+
+    public void Arroser()
+    {
+        Plante plante = Grille.SelectionnerPlante(JoueurPositionX, JoueurPositionY) ;
+        plante.Hydratation = Math.Min(plante.Hydratation + 30, 100);
     }
 
     public override string ToString()

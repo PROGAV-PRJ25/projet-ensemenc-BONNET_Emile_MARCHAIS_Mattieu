@@ -69,11 +69,11 @@ public class GrilleDeJeu
         ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
-        Plantenull = new Plante ("Plantenull", -1, -1, 0,100);
         Grille = new string[TailleX, TailleY];
+        Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
         if (inventaire == null)
         {
-            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|_| ", "|Frapper| ", "|_| ", "|_| ", "|_| "}; 
+            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|_| ", "|_| ", "|_| "}; 
         }
         else
         {
@@ -196,6 +196,15 @@ public class GrilleDeJeu
         else if (luminosity <= 16)
         {
             Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
+        }
+
+        foreach (var plante in Plantes)
+        {
+            if (Joueur.JoueurPositionX == plante.PlantePositionX && Joueur.JoueurPositionY == plante.PlantePositionY)
+            {
+                Console.WriteLine(plante);
+            }
+
         }
     }
 
