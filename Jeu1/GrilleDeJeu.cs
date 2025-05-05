@@ -60,6 +60,7 @@ public class GrilleDeJeu
     public List<Plante> Plantes = new List<Plante>();
 
     public Joueur Joueur { get; set; } 
+    public Rongeur Rongeur {get; set;}
     
 
     public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)

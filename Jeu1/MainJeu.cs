@@ -1,7 +1,9 @@
 public class MainJeu
 {
+    Random rnd = new Random();
     public Joueur Joueur { get; set; }
     public GrilleDeJeu Grille { get; set; }
+    public Rongeur? Rongeur {get; set;}
 
     public MainJeu()
     {
@@ -22,7 +24,7 @@ public class MainJeu
             Joueur.MoveJoueur();
             
         }
-
+        Rongeur = new Rongeur(5,5);
         while (Grille.ModeUrgence && win)
         {
             var timer = new System.Diagnostics.Stopwatch();
@@ -35,7 +37,12 @@ public class MainJeu
                 Joueur.MoveJoueur();
             }
             timer.Stop();
-            //BougerPNJ();           
+            Rongeur.MoveRongeur();    
+            if (Rongeur.PV <= 0)
+            {
+                Rongeur = null;
+                Grille.ModeUrgence = false;
+            }     
         }
     }
 

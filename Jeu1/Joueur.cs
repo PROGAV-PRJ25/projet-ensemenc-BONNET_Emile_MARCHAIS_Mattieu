@@ -30,8 +30,6 @@ public class Joueur
                 break;
             }
         }
-        // if urgence alors PNJ bouge
-
         timer.Stop();
         Grille.luminosity += 1; 
         if (Grille.luminosity == 16)
