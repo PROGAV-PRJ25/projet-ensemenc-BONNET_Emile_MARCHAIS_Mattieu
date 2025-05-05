@@ -63,13 +63,14 @@ public class GrilleDeJeu
     public Rongeur Rongeur {get; set;}
     
 
-    public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)
+    public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, Rongeur? rongeur = null, string[]? inventaire = null, string[]? plantesDispo = null)
     {
         TailleX = tailleX;
         TailleY = tailleY;
-        ModeUrgence = false;
+        ModeUrgence = true;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
+        Rongeur = rongeur ?? new Rongeur(0,0,0);
         Grille = new string[TailleX, TailleY];
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
         if (inventaire == null)
@@ -139,6 +140,12 @@ public class GrilleDeJeu
         {
             Grille[plante.PlantePositionY, plante.PlantePositionX] = " " + plante.Affichage + " ";
         }
+
+        if (ModeUrgence)
+        {
+            Grille[Rongeur.PositionY,Rongeur.PositionX] = Rongeur.Affichage;
+        }
+            
 
         // Place player last
         Grille[y, x] = Joueur.Affichage;
