@@ -110,6 +110,13 @@ public class Plante
         // Ajustement par l’âge
         if (EsperanceDeVie < 10)
             taux -= 20;
+        string terrainSousPlante = Grille.CarteTerrains[PlantePositionY, PlantePositionX].Type;
+        bool bonus = (Type == "Carotte" && terrainSousPlante == "*") ||
+                    (Type == "Tomate" && terrainSousPlante == "+") ||
+                    (Type == "Radis" && terrainSousPlante == "+") ||
+                    (Type == "Salade" && terrainSousPlante == "-");
+
+        if (bonus) taux += 10;
 
         TauxCroissance = Math.Clamp(taux, 0, 100);
     }

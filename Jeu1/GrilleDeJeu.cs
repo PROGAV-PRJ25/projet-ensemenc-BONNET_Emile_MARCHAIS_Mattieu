@@ -9,6 +9,8 @@ public class GrilleDeJeu
 
     public string[] PlantesDispo {get; set;}
 
+    public Terrain[,] CarteTerrains { get; private set; }
+
     private int _selectInventaire;
     public int SelectInventaire
     {
@@ -72,6 +74,7 @@ public class GrilleDeJeu
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Rongeur = rongeur ?? new Rongeur(0,0,0);
         Grille = new string[TailleX, TailleY];
+        CarteTerrains = new Terrain[TailleX, TailleY];
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
         if (inventaire == null)
         {
@@ -95,14 +98,45 @@ public class GrilleDeJeu
 
     public void InitialiserGrille()
     {
+        Grille = new string[TailleX, TailleY];
+        CarteTerrains = new Terrain[TailleX, TailleY];
+
+        // Remplir avec un terrain par défaut
+        for (int i = 0; i < TailleX; i++)
+            for (int j = 0; j < TailleY; j++)
+                CarteTerrains[i, j] = new Terrain("*");
+
+        // Créer des patchs (3 à 4)
+        string[] types = new string[] { "-", "+", "*" };
+        Random rnd = new Random();
+        int nbPatchs = rnd.Next(3, 5);
+
+        for (int p = 0; p < nbPatchs; p++)
+        {
+            string type = types[rnd.Next(types.Length)];
+            int patchWidth = rnd.Next(3, 6);
+            int patchHeight = rnd.Next(3, 6);
+            int startX = rnd.Next(0, TailleX - patchWidth);
+            int startY = rnd.Next(0, TailleY - patchHeight);
+
+            for (int i = startX; i < startX + patchWidth; i++)
+            {
+                for (int j = startY; j < startY + patchHeight; j++)
+                {
+                    CarteTerrains[i, j] = new Terrain(type);
+                }
+            }
+        }
+
         for (int i = 0; i < TailleX; i++)
         {
             for (int j = 0; j < TailleY; j++)
             {
-                Grille[i, j] = " . ";
+                Grille[i, j] = " " + CarteTerrains[i, j].Type + " ";
             }
         }
     }
+
 
     public Plante SelectionnerPlante(int x, int y)
     {
@@ -171,7 +205,9 @@ public class GrilleDeJeu
             {
                 if (SelectionnerPlante(j,i) == Plantenull)
                 {
-                    Console.Write(Grille[i, j]);
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.Write(" " + CarteTerrains[i, j].Type + " ");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else if (SelectionnerPlante(j,i).MaladieActuelle != null)
                 {
