@@ -11,38 +11,39 @@ public class MainJeu
         Grille = new GrilleDeJeu(10, 10, Joueur);
         Joueur.Grille = Grille;
 
-        Rongeur = new Rongeur(0,0,Grille,0);
+        Rongeur = new Rongeur(0,0,Grille);
     }
 
     public void StartGame()
     {
         bool win = true;
-        while (!Grille.ModeUrgence && win)
+        while (win)
         {
-            Grille.UpdatePlantes();
-            Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
-            Grille.AfficherGrille();
-            Joueur.MoveJoueur();
-            
-        }
-        //Grille.Rongeur = new Rongeur(5,5);
-        while (Grille.ModeUrgence && win)
-        {
-            var timer = new System.Diagnostics.Stopwatch();
-            timer.Start();
-            while (timer.ElapsedMilliseconds < 2000)
+            while (!Grille.ModeUrgence)
             {
+                Grille.UpdatePlantes();
                 Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
                 Grille.AfficherGrille();
                 Joueur.MoveJoueur();
+                
             }
-            timer.Stop();
-            Rongeur.MoveRongeur();    
-            if (Rongeur.PV <= 0)
+            while (Grille.ModeUrgence)
             {
-                Rongeur = null;
-                Grille.ModeUrgence = false;
-            }   
+                var timer = new System.Diagnostics.Stopwatch();
+                timer.Start();
+                while (timer.ElapsedMilliseconds < 2000)
+                {
+                    Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
+                    Grille.AfficherGrille();
+                    Joueur.MoveJoueur();
+                }
+                timer.Stop();
+                Rongeur.MoveRongeur();    
+                if (Rongeur.PV <= 0)
+                {
+                    Grille.ModeUrgence = false;
+                }   
+            }
         }
     }
 

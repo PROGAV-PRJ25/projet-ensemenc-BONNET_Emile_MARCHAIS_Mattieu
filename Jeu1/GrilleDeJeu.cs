@@ -68,7 +68,7 @@ public class GrilleDeJeu
     {
         TailleX = tailleX;
         TailleY = tailleY;
-        ModeUrgence = false;
+        ModeUrgence = true;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Grille = new string[TailleX, TailleY];
