@@ -196,7 +196,13 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                if (SelectionnerPlante(j,i).MaladieActuelle != null)
+                if (Joueur.JoueurPositionX == j && Joueur.JoueurPositionY == i)
+                {
+                    Console.ForegroundColor = ConsoleColor.Cyan;
+                    Console.Write(Grille[i, j]);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else if (SelectionnerPlante(j,i).MaladieActuelle != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write(Grille[i, j]);
