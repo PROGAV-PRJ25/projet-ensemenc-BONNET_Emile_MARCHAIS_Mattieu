@@ -3,12 +3,15 @@ public class MainJeu
     Random rnd = new Random();
     public Joueur Joueur { get; set; }
     public GrilleDeJeu Grille { get; set; }
+    public Rongeur Rongeur { get; set; }
 
     public MainJeu()
     {
         Joueur = new Joueur(0, 0);
         Grille = new GrilleDeJeu(10, 10, Joueur);
-        Joueur.Grille = Grille; 
+        Joueur.Grille = Grille;
+
+        Rongeur = new Rongeur(0,0,Grille,0);
     }
 
     public void StartGame()
@@ -23,7 +26,7 @@ public class MainJeu
             Joueur.MoveJoueur();
             
         }
-        Grille.Rongeur = new Rongeur(5,5);
+        //Grille.Rongeur = new Rongeur(5,5);
         while (Grille.ModeUrgence && win)
         {
             var timer = new System.Diagnostics.Stopwatch();
@@ -36,12 +39,12 @@ public class MainJeu
                 Joueur.MoveJoueur();
             }
             timer.Stop();
-            Grille.Rongeur.MoveRongeur();    
-            if (Grille.Rongeur.PV <= 0)
+            Rongeur.MoveRongeur();    
+            if (Rongeur.PV <= 0)
             {
-                Grille.Rongeur = null;
+                Rongeur = null;
                 Grille.ModeUrgence = false;
-            }     
+            }   
         }
     }
 

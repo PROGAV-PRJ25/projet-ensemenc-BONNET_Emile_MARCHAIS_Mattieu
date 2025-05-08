@@ -1,19 +1,19 @@
 public class Rongeur
 {
     Random rnd = new Random();
+    public GrilleDeJeu Grille { get; set; }
     public int PositionX { get; set; }
 
     public int PositionY { get; set; }
     public int PV {get; set;}
 
-    public GrilleDeJeu Grille { get; set; }
-
-    public string Affichage { get; set; } = " M ";
-    public Rongeur(int x, int y, int pv = 3)
+    public string Affichage { get; set; } = " E ";
+    public Rongeur(int x, int y, GrilleDeJeu grille, int pv = 3)
     {
         PositionX = x;
         PositionY = y;
         PV = pv;
+        Grille = grille;
     }
 
     public void MoveRongeur()
@@ -31,7 +31,7 @@ public class Rongeur
             default : return;
         }        
 
-        if (tempX >= 0 && tempX < Grille.TailleX && tempY >= 0 && tempY < Grille.TailleY)
+        if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX)
         {
             PositionX = tempX;
             PositionY = tempY;
