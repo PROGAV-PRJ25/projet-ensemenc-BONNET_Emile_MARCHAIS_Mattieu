@@ -20,7 +20,6 @@ public class MainJeu
         while (!Grille.ModeUrgence && win)
         {
             Grille.UpdatePlantes();
-            Grille.InitialiserGrille();
             Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
             Grille.AfficherGrille();
             Joueur.MoveJoueur();
@@ -33,7 +32,6 @@ public class MainJeu
             timer.Start();
             while (timer.ElapsedMilliseconds < 2000)
             {
-                Grille.InitialiserGrille();
                 Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
                 Grille.AfficherGrille();
                 Joueur.MoveJoueur();
