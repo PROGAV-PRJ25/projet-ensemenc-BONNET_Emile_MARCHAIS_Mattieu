@@ -68,7 +68,7 @@ public class GrilleDeJeu
     {
         TailleX = tailleX;
         TailleY = tailleY;
-        ModeUrgence = true;
+        ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Grille = new string[TailleX, TailleY];
@@ -130,7 +130,7 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                Grille[i, j] = " " + CarteTerrains[i, j].Type + " ";
+                Grille[i, j] = "   ";
             }
         }
     }
@@ -153,7 +153,7 @@ public class GrilleDeJeu
         // Reset everything to empty
         for (int i = 0; i < TailleX; i++)
             for (int j = 0; j < TailleY; j++)
-                Grille[i, j] = " " + CarteTerrains[i, j].Type + " ";
+                Grille[i, j] = "   ";
 
         // Place labourage
         for (int i = 0; i < TailleX; i++)
@@ -196,6 +196,13 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
+                switch(CarteTerrains[i, j].Type)
+                {
+                    case "-": Console.BackgroundColor = ConsoleColor.DarkGreen; break;
+                    case "+": Console.BackgroundColor = ConsoleColor.DarkCyan; break;
+                    case "*": Console.BackgroundColor = ConsoleColor.DarkYellow; break;
+                }
+                
                 if (Joueur.JoueurPositionX == j && Joueur.JoueurPositionY == i)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
@@ -223,6 +230,14 @@ public class GrilleDeJeu
                 
             }
             Console.WriteLine();
+        }
+        if(luminosity == 0 || luminosity >= 12)
+        {
+            Console.BackgroundColor = ConsoleColor.Black;
+        }
+        else
+        {
+            Console.BackgroundColor = ConsoleColor.DarkGray;
         }
         AfficherInventaire(SelectInventaire);
         Console.WriteLine("\nJours: " + Jours);

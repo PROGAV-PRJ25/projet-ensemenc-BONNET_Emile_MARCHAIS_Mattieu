@@ -21,7 +21,6 @@ public class MainJeu
         {
             while (!Grille.ModeUrgence)
             {
-                Grille.UpdatePlantes();
                 Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
                 Grille.AfficherGrille();
                 Joueur.MoveJoueur();

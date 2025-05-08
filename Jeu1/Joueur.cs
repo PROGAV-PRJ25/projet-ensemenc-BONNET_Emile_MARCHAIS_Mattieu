@@ -41,7 +41,11 @@ public class Joueur
 
         // If no input, do nothing
         if (action == null)
-            return;
+            {
+                Grille.UpdatePlantes();
+                return;
+            }
+            
 
         int tempX = JoueurPositionX;
         int tempY = JoueurPositionY;

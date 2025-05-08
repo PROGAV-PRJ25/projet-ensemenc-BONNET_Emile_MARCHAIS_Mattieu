@@ -22,7 +22,7 @@ public class Plante
 
         return Type switch
         {
-            "Carotte" => cycleStep < 3 ? "🌱" : "🥕",
+            "Carotte" => cycleStep < 4 ? "c" : "C",
 
             "Tomate" => cycleStep < 3 ? "🌱" : "🍅",
             "Radis" => cycleStep < 3 ? "🌱" : "🔴",
