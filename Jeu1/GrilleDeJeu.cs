@@ -69,7 +69,7 @@ public class GrilleDeJeu
     {
         TailleX = tailleX;
         TailleY = tailleY;
-        ModeUrgence = true;
+        ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Rongeur = rongeur ?? new Rongeur(0,0,0);
@@ -155,7 +155,7 @@ public class GrilleDeJeu
         // Reset everything to empty
         for (int i = 0; i < TailleX; i++)
             for (int j = 0; j < TailleY; j++)
-                Grille[i, j] = " . ";
+                Grille[i, j] = " " + CarteTerrains[i, j].Type + " ";
 
         // PLace labourage
         for (int i = 0; i < TailleX; i++)
@@ -203,13 +203,7 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                if (SelectionnerPlante(j,i) == Plantenull)
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.Write(" " + CarteTerrains[i, j].Type + " ");
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else if (SelectionnerPlante(j,i).MaladieActuelle != null)
+                if (SelectionnerPlante(j,i).MaladieActuelle != null)
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.Write(Grille[i, j]);
@@ -223,7 +217,9 @@ public class GrilleDeJeu
                 }
                 else
                 {
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.Write(Grille[i, j]);
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 
             }
