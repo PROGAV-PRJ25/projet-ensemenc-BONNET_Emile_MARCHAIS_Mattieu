@@ -23,10 +23,9 @@ public class Plante
         return Type switch
         {
             "Carotte" => cycleStep < 4 ? "c" : "C",
-
-            "Tomate" => cycleStep < 3 ? "🌱" : "🍅",
-            "Radis" => cycleStep < 3 ? "🌱" : "🔴",
-            "Salade" => cycleStep < 3 ? "🌱" : "🥬",
+            "Tomate" => cycleStep < 4 ? "t" : "T",
+            "Radis" => cycleStep < 4 ? "r" : "R",
+            "Salade" => cycleStep < 4 ? "s" : "S",
             _ => "?"
         };
     }

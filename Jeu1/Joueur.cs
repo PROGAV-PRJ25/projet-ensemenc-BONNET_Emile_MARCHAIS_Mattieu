@@ -5,6 +5,7 @@ public class Joueur
 
     public int JoueurPositionY { get; set; }
 
+    public bool AFrappe { get; set; }
     public GrilleDeJeu Grille { get; set; }
 
     public string Affichage { get; set; } = " J ";
@@ -12,16 +13,17 @@ public class Joueur
     {
         JoueurPositionX = x;
         JoueurPositionY = y;
+        AFrappe = false;
         TableauRecolte = new int[] {0,0,0,0};
     }
     
-    public void MoveJoueur()
+    public void MoveJoueur(int tempsBoucle)
     {
         char? action = null;
         var timer = new System.Diagnostics.Stopwatch();
         timer.Start();
 
-        while (timer.ElapsedMilliseconds < 1000)
+        while (timer.ElapsedMilliseconds < tempsBoucle)
         {
             if (Console.KeyAvailable)
             {
@@ -31,13 +33,6 @@ public class Joueur
             }
         }
         timer.Stop();
-        Grille.luminosity += 1; 
-        if (Grille.luminosity == 16)
-        {
-            Grille.Jours ++;
-            Grille.luminosity = 0; // Reset luminosity after reaching a certain threshold
-        }
-
 
         // If no input, do nothing
         if (action == null)
@@ -173,7 +168,10 @@ public class Joueur
 
     public void Frapper()
     {
-
+        if(Grille.Grille[JoueurPositionY,JoueurPositionX] == " E ")
+        {
+            AFrappe = true;
+        }
     }
 
     public void Arroser()

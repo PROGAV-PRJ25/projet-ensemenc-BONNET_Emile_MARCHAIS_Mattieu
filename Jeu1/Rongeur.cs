@@ -37,5 +37,20 @@ public class Rongeur
             PositionY = tempY;
         }
     }
+
+
+    public void MangerPlante()
+    {
+        for(int i = Grille.Plantes.Count - 1; i >= 0; i--)
+        {
+            if((PositionX == Grille.Plantes[i].PlantePositionX) && (PositionY == Grille.Plantes[i].PlantePositionY))
+            {
+                Grille.Plantes.Remove(Grille.Plantes[i]);
+            }
+        }
+
+        Grille.EstLaboure[PositionY, PositionX] = false;
+
+    }
 }
 
