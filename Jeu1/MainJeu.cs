@@ -23,13 +23,14 @@ public class MainJeu
             {
                 var timer = new System.Diagnostics.Stopwatch();
                 timer.Start();
-                while (timer.ElapsedMilliseconds < 400)
+                while (timer.ElapsedMilliseconds < 1000)
                 {
                     Grille.DefineGrille(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
                     Grille.AfficherGrille();
                     Joueur.MoveJoueur(1000);
                 }
                 timer.Stop();
+                Grille.UpdatePlantes();
                 Grille.luminosity += 1; 
                 if (Grille.luminosity == 16)
                 {

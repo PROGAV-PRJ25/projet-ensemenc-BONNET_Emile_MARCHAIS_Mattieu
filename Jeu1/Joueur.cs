@@ -37,7 +37,6 @@ public class Joueur
         // If no input, do nothing
         if (action == null)
             {
-                Grille.UpdatePlantes();
                 return;
             }
             
@@ -91,7 +90,7 @@ public class Joueur
         {
             Console.WriteLine("Il n'y à pas de plante à cette position");
         }
-        else if (plante.cycleStep != 5)
+        else if (plante.cycleStep != 10)
         {
             Console.WriteLine("La plante n'a pas atteint sa maturité");
         }
@@ -158,11 +157,11 @@ public class Joueur
 
         return Grille.SelectPlante switch
         {
-            0 => new Plante("Carotte", x, y, 20, 40, 6, grille),
-            1 => new Plante("Tomate", x, y, 30, 50, 8, grille),
-            2 => new Plante("Radis", x, y, 40, 30, 5, grille),
-            3 => new Plante("Salade", x, y, 10, 60, 4, grille),
-            _ => new Plante("Carotte", x, y, 20, 40, 6, grille),
+            0 => new Plante("Carotte", x, y, 30, 40, 6, grille),
+            1 => new Plante("Tomate", x, y, 40, 50, 8, grille),
+            2 => new Plante("Radis", x, y, 50, 30, 5, grille),
+            3 => new Plante("Salade", x, y, 15, 60, 4, grille),
+            _ => new Plante("Carotte", x, y, 30, 40, 6, grille),
         };
     }
 

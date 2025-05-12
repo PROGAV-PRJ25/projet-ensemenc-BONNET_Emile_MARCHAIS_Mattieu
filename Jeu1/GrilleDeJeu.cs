@@ -68,7 +68,7 @@ public class GrilleDeJeu
     {
         TailleX = tailleX;
         TailleY = tailleY;
-        ModeUrgence = true;
+        ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
         Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
         Grille = new string[TailleX, TailleY];
@@ -184,15 +184,28 @@ public class GrilleDeJeu
             plante.MetAJour();
         }
 
-        Plantes = Plantes.Where(p => (p.EsperanceDeVie > 0)).ToList();
+        Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
     }
 
 
     public void AfficherGrille()
     {
         Console.Clear();
+        Console.WriteLine();
+        Console.WriteLine();
+        Console.WriteLine();
         for (int i = 0; i < TailleX; i++)
         {
+            Console.SetCursorPosition((Console.WindowWidth - TailleX*9)/2, Console.CursorTop);
+            if(luminosity == 0 || luminosity >= 12)
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
+            else
+            {   
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+            }
+            Console.Write("                              ");
             for (int j = 0; j < TailleY; j++)
             {
                 switch(CarteTerrains[i, j].Type)
@@ -201,22 +214,27 @@ public class GrilleDeJeu
                     case "+": Console.BackgroundColor = ConsoleColor.DarkCyan; break;
                     case "*": Console.BackgroundColor = ConsoleColor.DarkYellow; break;
                 }
-                
                 if (Joueur.JoueurPositionX == j && Joueur.JoueurPositionY == i)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(Grille[i, j]);
                     Console.ForegroundColor = ConsoleColor.White;
                 }
-                else if (SelectionnerPlante(j,i).MaladieActuelle != null)
+                else if (SelectionnerPlante(j, i) != Plantenull)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.Write(Grille[i, j]);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else if (SelectionnerPlante(j,i)?.cycleStep == 5)
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
+                    Plante plante = SelectionnerPlante(j, i);
+                    if (plante.MaladieActuelle != null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Magenta;
+                    }
+                    else if (plante.cycleStep == 10)
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Black; // ou autre
+                    }
                     Console.Write(Grille[i, j]);
                     Console.ForegroundColor = ConsoleColor.White;
                 }
@@ -228,17 +246,22 @@ public class GrilleDeJeu
                 }
                 
             }
+            if(luminosity == 0 || luminosity >= 12)
+            {
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
+            else
+            {   
+                Console.BackgroundColor = ConsoleColor.DarkGray;
+            }
+            Console.Write("                              ");
             Console.WriteLine();
         }
-        if(luminosity == 0 || luminosity >= 12)
-        {
-            Console.BackgroundColor = ConsoleColor.Black;
-        }
-        else
-        {
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-        }
+        Console.BackgroundColor = ConsoleColor.Black;
+        Console.WriteLine();
+        Console.WriteLine();
         AfficherInventaire(SelectInventaire);
+        Console.WriteLine();
         Console.WriteLine("\nJours: " + Jours);
         if (luminosity <= 4)
         {
@@ -256,14 +279,13 @@ public class GrilleDeJeu
         {
             Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
         }
+        Console.WriteLine();
+        Console.WriteLine();
 
-        foreach (var plante in Plantes)
+        if (SelectionnerPlante(Joueur.JoueurPositionX, Joueur.JoueurPositionY) != Plantenull)
         {
-            if (Joueur.JoueurPositionX == plante.PlantePositionX && Joueur.JoueurPositionY == plante.PlantePositionY)
-            {
-                Console.WriteLine(plante);
-            }
-
+            Plante plante = SelectionnerPlante(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
+            plante.AfficherPlanteStatistique();
         }
     }
 

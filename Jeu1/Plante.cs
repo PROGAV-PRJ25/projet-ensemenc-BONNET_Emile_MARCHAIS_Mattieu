@@ -2,7 +2,6 @@ public class Plante
 {
     Random rnd = new Random();
     public string Type { get; set; }
-    public string TypeAfficher { get; set; }
     public int EsperanceDeVie { get; set; }
     public int PlantePositionX { get; set; }
     public int PlantePositionY { get; set; }
@@ -13,23 +12,22 @@ public class Plante
     public int BesoinLuminosite { get; set; } 
     public double TauxCroissance { get; set; }
     public int cycleStep = 0;
-    private string[] EtatPlante = new string[6];
     public string Affichage
-{
-    get
     {
-        if (Type == "Plantenull") return " . ";
-
-        return Type switch
+        get
         {
-            "Carotte" => cycleStep < 4 ? "c" : "C",
-            "Tomate" => cycleStep < 4 ? "t" : "T",
-            "Radis" => cycleStep < 4 ? "r" : "R",
-            "Salade" => cycleStep < 4 ? "s" : "S",
-            _ => "?"
-        };
+            if (Type == "Plantenull") return " . ";
+
+            return Type switch
+            {
+                "Carotte" => cycleStep < 10 ? "c" : "C",
+                "Tomate" => cycleStep < 10 ? "t" : "T",
+                "Radis" => cycleStep < 10 ? "r" : "R",
+                "Salade" => cycleStep < 10 ? "s" : "S",
+                _ => "?"
+            };
+        }
     }
-}
 
     public GrilleDeJeu Grille { get; set; }
 
@@ -37,9 +35,6 @@ public class Plante
     public Plante(string type, int x, int y, int esperanceDeVie, int besoinEau, int besoinLuminosite, GrilleDeJeu grille)
     {
         Type = type;
-        TypeAfficher = $"{type.ToLower()[0]}";
-        for (int i = 0; i < EtatPlante.Length; i++)
-            EtatPlante[i] = (i < 3) ? TypeAfficher : TypeAfficher.ToUpper();
 
         PlantePositionX = x;
         PlantePositionY = y;
@@ -72,15 +67,25 @@ public class Plante
 
         RecalculerTauxCroissance();
 
-        int essaiMAJ = rnd.Next(1, 101);
-        if ((essaiMAJ <= TauxCroissance) && (cycleStep < EtatPlante.Length - 1))
+
+        if (((rnd.NextDouble()*100) <= TauxCroissance) && (cycleStep < 10 ))
         {
             cycleStep++;
         }
 
-        if (TauxCroissance < 50)
+        if (TauxCroissance < 1)
         {
-            EsperanceDeVie = 0; // meurt si insatisfaite
+            EsperanceDeVie = 0; // La plante meurt d'insatisfaction
+        }
+        else if (TauxCroissance < 10)
+        {
+            if ((rnd.NextDouble()*100) <= 50)
+                EsperanceDeVie = 0; // 1/2 chance de mourrir d'insatisfaction
+        }
+        else if (TauxCroissance < 20)
+        {
+            if ((rnd.NextDouble()*100) <= 30)
+                EsperanceDeVie = 0; // 1/3 chance de mourrir d'insatisfaction
         }
     }
 
@@ -126,16 +131,16 @@ public class Plante
         switch (Type)
         {
             case "Tomate":
-                MaladieActuelle = new Maladie("MildiouTomate", 3, 15);
+                MaladieActuelle = new Maladie("MildiouTomate", 10, 15);
                 break;
             case "Carotte":
-                MaladieActuelle = new Maladie("RouilleCarotte", 2, 10);
+                MaladieActuelle = new Maladie("RouilleCarotte", 20, 10);
                 break;
             case "Radis":
-                MaladieActuelle = new Maladie("PourritureRadis", 3, 20);
+                MaladieActuelle = new Maladie("PourritureRadis", 15, 20);
                 break;
             case "Salade":
-                MaladieActuelle = new Maladie("TacheSalade", 2, 15);
+                MaladieActuelle = new Maladie("TacheSalade", 5, 15);
                 break;
         }
     }
@@ -162,8 +167,255 @@ public class Plante
         }
     }
 
+
+    public void AfficherPlanteStatistique()
+    {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("--------------------------------Statistique de la plante--------------------------------");
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        //Stats de base
+        string stat = $"Type: {Type}, Espérance de vie: {EsperanceDeVie}";
+        Console.WriteLine(stat);
+        Console.WriteLine();
+
+        //Hydratation
+        Console.Write("Hydratation:  ");
+        switch(Hydratation/10)
+        {
+            case 0 : 
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine("▒▒▒▒▒▒▒▒▒▒ 0%"); break;
+            }
+            case 1 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("█▒▒▒▒▒▒▒▒▒ 10%"); break;
+            }
+            case 2 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("██▒▒▒▒▒▒▒▒ 20%"); break;
+            }
+            case 3 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("███▒▒▒▒▒▒▒ 30%"); break;
+            }
+            case 4 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("████▒▒▒▒▒▒ 40%"); break;
+            }
+            case 5 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("█████▒▒▒▒▒ 50%"); break;
+            }
+            case 6 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("██████▒▒▒▒ 60%"); break;
+            }
+            case 7 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("███████▒▒▒ 70%"); break;
+            }
+            case 8 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("████████▒▒ 80%"); break;
+            }
+            case 9 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("█████████▒ 90%"); break;
+            }
+            case 10 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("██████████ 100%"); break;
+            }
+        }
+        Console.ForegroundColor = ConsoleColor.White;
+
+        //Maladie
+        string maladie;
+        if (MaladieActuelle == null)
+        {
+            maladie = "La plante est en parfaite santé";
+        }
+        else
+        {
+            maladie = $"La plante possède {MaladieActuelle.Type} il reste {MaladieActuelle.Duree} avant qu'elle guerisse.";
+        }
+        Console.WriteLine(maladie);
+
+        //Taux de croissance
+        Console.Write("Jauge de satisfaction:  ");
+        switch(TauxCroissance/10)
+        {
+            case 0 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("▒▒▒▒▒▒▒▒▒▒ 0%"); break;
+            }
+            case 1 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("█▒▒▒▒▒▒▒▒▒ 10%"); break;
+            }
+            case 2 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("██▒▒▒▒▒▒▒▒ 20%"); break;
+            }
+            case 3 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("███▒▒▒▒▒▒▒ 30%"); break;
+            }
+            case 4 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine("████▒▒▒▒▒▒ 40%"); break;
+            }
+            case 5 : 
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("█████▒▒▒▒▒ 50%"); break;
+            }
+            case 6 : 
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("██████▒▒▒▒ 60%"); break;
+            }
+            case 7 : 
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("███████▒▒▒ 70%"); break;
+            }
+            case 8 : 
+            {
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("████████▒▒ 80%"); break;
+            }
+            case 9 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("█████████▒ 90%"); break;
+            }
+            case 10 : 
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("██████████ 100%"); break;
+            }
+        }
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine();
+
+        // Progression de grandissement
+        string plante = "";
+        switch(cycleStep)
+        {
+            case 1: 
+            {
+                plante =  "                          \n";
+                plante += "                          \n";
+                plante += "                          \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 2: 
+            {
+                plante =  "                          \n";
+                plante += "                          \n";
+                plante += "                      |   \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 3: 
+            {
+                plante =  "                          \n";
+                plante += "                          \n";
+                plante += "                      |   \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 4: 
+            {
+                plante =  "                          \n";
+                plante += "                      |   \n";
+                plante += "                      |   \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 5: 
+            {
+                plante =  "                          \n";
+                plante += "                      |   \n";
+                plante += "                      |   \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 6: 
+            {
+                plante =  "                          \n";
+                plante += "                      |   \n";
+                plante += "                      |/   \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 7: 
+            {
+                plante =  "                      o    \n";
+                plante += "                      |   \n";
+                plante += "                      |/  \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 8: 
+            {
+                plante =  "                      o   \n";
+                plante += "                      | / \n";
+                plante += "                      |/  \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 9: 
+            {
+                plante =  "                      o   \n";
+                plante += "                      | / \n";
+                plante += "                      |/  \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+            case 10: 
+            {
+                plante =  "                    ( o ) \n";
+                plante += "                      | / \n";
+                plante += "                      |/  \n";
+                plante += "                    ( * )   ";
+                break;
+            }
+        }
+        if (cycleStep == 10)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine(plante);
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine("Votre plante est arrivée à maturité, Bravo !!! Vous pouvez la récupérer");
+        }
+        else 
+        {
+            Console.WriteLine(plante);
+        }
+    }
     public override string ToString()
     {
-        return $"Type: {Type}, Jauge de Satisfaction: {TauxCroissance}";
+        return $"Type: {Type}, Espérance de vie: {EsperanceDeVie}, Hydratation actuelle {Hydratation}";
     }
 }
