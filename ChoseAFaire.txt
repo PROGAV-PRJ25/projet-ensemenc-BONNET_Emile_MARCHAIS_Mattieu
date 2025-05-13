@@ -1,8 +1,3 @@
-Espace de jeu:
-    - Faire que des liste ou que des tableau pour l'inventaire les (unifier)
-    - Affichage choix plante sur une seul ligne 
-
-
 Joueur :
     - Ajouter variables dans récolter (nouvelles plantes)
     - Naviguer avec fleche dans boutique
@@ -28,4 +23,5 @@ Créatif :
     -Amélioration boutique (Ex: meilleur labourrage/arrosage)
     -Gagner (acheter : "retraite") (pouvoir l'acheter petit à petit)
     -Perdre quand un certain nombre de plantes meurent.
+    -Affichage texte mieux
     -Sauvegarde ??? 

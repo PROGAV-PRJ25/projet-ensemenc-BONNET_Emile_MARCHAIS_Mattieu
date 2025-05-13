@@ -8,7 +8,7 @@ public class MainJeu
     public MainJeu()
     {
         Joueur = new Joueur(0, 0);
-        EspaceDeJeu = new EspaceDeJeu(10, 10, Joueur);
+        EspaceDeJeu = new EspaceDeJeu(15, 15, Joueur);
         Joueur.Grille = EspaceDeJeu;
 
         Rongeur = new Rongeur(0,0,EspaceDeJeu);

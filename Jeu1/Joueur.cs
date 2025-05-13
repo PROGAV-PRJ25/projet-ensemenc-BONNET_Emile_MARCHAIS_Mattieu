@@ -234,7 +234,7 @@ public class Joueur
                 if (Argent >= prix)
                 {
                     Argent -= prix;
-                    Grille.PlantesDispo = Grille.PlantesDispo.Append($"|{plante}|").ToArray();
+                    Grille.PlantesDispo.Add($"|{plante}|");
                     Console.WriteLine($"✅ Vous avez débloqué la plante : {plante} !");
                 }
                 else

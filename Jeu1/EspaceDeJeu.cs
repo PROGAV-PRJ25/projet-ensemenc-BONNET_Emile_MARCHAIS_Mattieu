@@ -3,8 +3,6 @@ public class EspaceDeJeu
 {
     public Terrain[,] CarteTerrains { get; private set; }
     public string[,] Grille { get; private set; }
-    public string[] Inventaire {get; set;}
-    public string[] PlantesDispo {get; set;}
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
     private int _selectInventaire;
@@ -15,9 +13,9 @@ public class EspaceDeJeu
         {
             if (value < 0)
             {
-                _selectInventaire = Inventaire.Length - 1;
+                _selectInventaire = Inventaire.Count() - 1;
             }
-            else if (value >= Inventaire.Length)
+            else if (value >= Inventaire.Count())
             {
                 _selectInventaire = 0;
             }
@@ -35,9 +33,9 @@ public class EspaceDeJeu
         {
             if (value < 0)
             {
-                _selectPlante = PlantesDispo.Length - 1;
+                _selectPlante = PlantesDispo.Count() - 1;
             }
-            else if (value >= PlantesDispo.Length)
+            else if (value >= PlantesDispo.Count())
             {
                 _selectPlante = 0;
             }
@@ -54,12 +52,14 @@ public class EspaceDeJeu
     public bool[,] EstLaboure { get; set; }
     public Plante Plantenull { get; }
     public List<Plante> Plantes = new List<Plante>();
+    public List<string> PlantesDispo { get; set; } = new List<string> {"|Carotte|", "|Tomate|", "|Radis|", "|Salade|"};
     public List<string> PlantesBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise" };
+    public List<string> Inventaire { get; set; } = new List<string> {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| ", "|_| ", "|_| "};
     public Joueur Joueur { get; set; }
  
     
 
-    public EspaceDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)
+    public EspaceDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? plantesDispo = null)
     {
         TailleX = tailleX;
         TailleY = tailleY;
@@ -69,22 +69,6 @@ public class EspaceDeJeu
         Grille = new string[TailleX, TailleY];
         CarteTerrains = new Terrain[TailleX, TailleY];
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
-        if (inventaire == null)
-        {
-            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| ", "|_| ", "|_| "}; 
-        }
-        else
-        {
-            Inventaire = inventaire;
-        }
-        if (plantesDispo == null)
-        {
-            PlantesDispo = new string[] {"|Carotte|", "|Tomate|", "|Radis|", "|Salade|"};
-        }
-        else
-        {
-            PlantesDispo = plantesDispo;
-        }
          
         InitialiserGrille();
     }
@@ -97,10 +81,10 @@ public class EspaceDeJeu
         // Remplir avec un terrain par défaut
         for (int i = 0; i < TailleX; i++)
             for (int j = 0; j < TailleY; j++)
-                CarteTerrains[i, j] = new Terrain("*");
+                CarteTerrains[i, j] = new Terrain("-");
 
         // Créer des patchs (3 à 4)
-        string[] types = new string[] { "-", "+" };
+        string[] types = new string[] { "+", "*" };
         Random rnd = new Random();
         int nbPatchs = rnd.Next(3, 5);
 
@@ -233,7 +217,6 @@ public class EspaceDeJeu
         Console.WriteLine();
         Console.WriteLine();
         AfficherInventaire(SelectInventaire);
-        Console.WriteLine();
         Console.WriteLine("\nJours: " + Jours);
         if (luminosity <= 4)
         {
@@ -252,20 +235,19 @@ public class EspaceDeJeu
             Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
         }
         Console.WriteLine();
-        Console.WriteLine();
+        Console.WriteLine($" Argent : {Joueur.Argent} pièces");
 
         if (SelectionnerPlante(Joueur.PositionX, Joueur.PositionY) != Plantenull)
         {
             Plante plante = SelectionnerPlante(Joueur.PositionX, Joueur.PositionY);
             plante.AfficherPlanteStatistique();
         }
-        Console.WriteLine($" Argent : {Joueur.Argent} pièces");
     }
 
 
     public void AfficherInventaire(int selection)
     {
-        for(int i = 0; i < Inventaire.Length; i++ )
+        for(int i = 0; i < Inventaire.Count; i++ )
         {
             if (i == selection)
             {
@@ -278,9 +260,10 @@ public class EspaceDeJeu
                 Console.Write(Inventaire[i]);
             }
         }
+        Console.WriteLine("");
         if (selection == 1)
         {
-            for (int j = 0; j < PlantesDispo.Length; j++)
+            for (int j = 0; j < PlantesDispo.Count(); j++)
             {
                 if (j == SelectPlante)
                 {
