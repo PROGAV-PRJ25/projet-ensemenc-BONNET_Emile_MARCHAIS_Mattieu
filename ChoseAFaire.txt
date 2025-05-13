@@ -11,9 +11,6 @@ Joueur :
 Plante :
     -
 
-Maladie : 
-    - Ajouter variables dans ContracterMaladie (nouvelles plantes)
-
 Terrains
     - Enlever ???
 
