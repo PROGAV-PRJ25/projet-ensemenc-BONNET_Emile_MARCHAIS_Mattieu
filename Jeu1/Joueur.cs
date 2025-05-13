@@ -1,19 +1,21 @@
 public class Joueur
 {
     public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade
-    public int JoueurPositionX { get; set; }
+    public int PositionX { get; set; }
 
-    public int JoueurPositionY { get; set; }
+    public int PositionY { get; set; }
     public int Argent { get; set; } = 100;
 
     public bool AFrappe { get; set; }
-    public GrilleDeJeu Grille { get; set; }
+    public EspaceDeJeu Grille { get; set; }
 
     public string Affichage { get; set; } = " J ";
+
+
     public Joueur(int x, int y)
     {
-        JoueurPositionX = x;
-        JoueurPositionY = y;
+        PositionX = x;
+        PositionY = y;
         AFrappe = false;
         TableauRecolte = new int[] {0,0,0,0};
     }
@@ -35,15 +37,14 @@ public class Joueur
         }
         timer.Stop();
 
-        // If no input, do nothing
+        // Si aucune instruction rentrée, on ne fait rien 
         if (action == null)
             {
                 return;
             }
             
-
-        int tempX = JoueurPositionX;
-        int tempY = JoueurPositionY;
+        int tempX = PositionX; //VAriables temporaires
+        int tempY = PositionY;
 
         switch (action)
         {
@@ -57,65 +58,16 @@ public class Joueur
             case 'o': Grille.SelectPlante --; break;
             case 'p': Grille.SelectPlante ++; break;
             case 'e': Action(Grille.SelectInventaire); break;
-            default: return; // Invalid key, skip
+            default: return; 
         }
 
-
-        // Stay within bounds
         if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX)
         {
-            JoueurPositionX = tempX;
-            JoueurPositionY = tempY;
+            PositionX = tempX;
+            PositionY = tempY;
         }
     }
 
-
-    public void Labourer()
-    {
-        Grille.EstLaboure[JoueurPositionY, JoueurPositionX] = true;
-    }
-    public void PlacePlante(Plante plante)
-    {
-        if (Grille.EstLaboure[JoueurPositionY, JoueurPositionX])
-        {
-            Grille.Plantes.Add(plante);
-            Grille.EstLaboure[JoueurPositionY, JoueurPositionX] = false;
-        }
-        
-    }
-
-    public void Recolter()
-    {
-        Plante plante = Grille.SelectionnerPlante(JoueurPositionX, JoueurPositionY) ;
-        if(plante.Type == "Plantenull")
-        {
-            Console.WriteLine("Il n'y à pas de plante à cette position");
-        }
-        else if (plante.cycleStep != 10)
-        {
-            Console.WriteLine("La plante n'a pas atteint sa maturité");
-        }
-        else
-        {
-            plante.EsperanceDeVie = 0;
-            if (plante.Type == "Carotte")
-            {
-                TableauRecolte[0]++;
-            }
-            else if (plante.Type == "Tomate")
-            {
-                TableauRecolte[1]++;
-            }
-            else if (plante.Type == "Radis")
-            {
-                TableauRecolte[2]++;
-            }
-            else if (plante.Type == "Salade")
-            {
-                TableauRecolte[3]++;
-            }
-        }
-    }
 
     public void Action(int selection)
     {
@@ -143,17 +95,63 @@ public class Joueur
                 case 5: AccederBoutique(); break;
             }        
         }
-        switch (selection)
+    }
+
+    public void Labourer()
+    {
+        Grille.EstLaboure[PositionY, PositionX] = true;
+    }
+    public void PlacePlante(Plante plante)
+    {
+        if (Grille.EstLaboure[PositionY, PositionX])
         {
-            case 0: Labourer(); break;
-            case 1: PlacePlante(ChoixPlante()); break;
-            case 2: Recolter(); break;
-        }    
+            Grille.Plantes.Add(plante);
+            Grille.EstLaboure[PositionY, PositionX] = false;
+        }
+        
+    }
+
+    public void Recolter()
+    {
+        Plante plante = Grille.SelectionnerPlante(PositionX, PositionY) ;
+        if(plante.Type == "Plantenull")
+        {
+            Console.WriteLine("Il n'y à pas de plante à cette position");
+        }
+        else if (plante.Progression != 10)
+        {
+            Console.WriteLine("La plante n'a pas atteint sa maturité");
+        }
+        else
+        {
+            plante.EsperanceDeVie = 0;
+            if (plante.Type == "Carotte")
+            {
+                TableauRecolte[0]++;
+                Argent += 10;
+            }
+            else if (plante.Type == "Tomate")
+            {
+                TableauRecolte[1]++;
+                Argent += 10;
+            }
+            else if (plante.Type == "Radis")
+            {
+                TableauRecolte[2]++;
+                Argent += 10;
+            }
+            else if (plante.Type == "Salade")
+            {
+                TableauRecolte[3]++;
+                Argent += 10;
+            }
+            
+        }
     }
     public Plante ChoixPlante()
     {
-        int x = JoueurPositionX;
-        int y = JoueurPositionY;
+        int x = PositionX;
+        int y = PositionY;
         string type = Grille.PlantesDispo[Grille.SelectPlante].Trim('|');
 
         return type switch
@@ -170,24 +168,23 @@ public class Joueur
         };
     }
 
+    public void Arroser()
+    {
+        Plante plante = Grille.SelectionnerPlante(PositionX, PositionY) ;
+        plante.Hydratation = Math.Min(plante.Hydratation + 30, 100);
+    }
 
     public void Frapper()
     {
-        if(Grille.Grille[JoueurPositionY,JoueurPositionX] == " E ")
+        if(Grille.Grille[PositionY,PositionX] == " E ")
         {
             AFrappe = true;
         }
     }
 
-    public void Arroser()
-    {
-        Plante plante = Grille.SelectionnerPlante(JoueurPositionX, JoueurPositionY) ;
-        plante.Hydratation = Math.Min(plante.Hydratation + 30, 100);
-    }
-
     public void AccederBoutique()
     {
-        if (JoueurPositionX != 0 || JoueurPositionY != 0)
+        if (PositionX != 0 || PositionY != 0)
         {
             Console.WriteLine("Vous devez être sur la case boutique (0,0) pour accéder à la boutique !");
             return;
@@ -250,7 +247,6 @@ public class Joueur
         Console.WriteLine("\nAppuyez sur une touche pour continuer...");
         Console.ReadKey(true);
     }
-
 
     public override string ToString()
     {

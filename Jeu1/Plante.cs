@@ -1,17 +1,16 @@
 public class Plante
 {
     Random rnd = new Random();
-    public string Type { get; set; }
-    public int EsperanceDeVie { get; set; }
-    public int PlantePositionX { get; set; }
-    public int PlantePositionY { get; set; }
+    public int PositionX { get; set; }
+    public int PositionY { get; set; }
     public int BesoinEau { get; set; }
     public int Hydratation { get; set; }
-    public Maladie? MaladieActuelle { get; set; }
-
     public int BesoinLuminosite { get; set; } 
+    public int EsperanceDeVie { get; set; }
+    public int Progression = 0;
     public double TauxCroissance { get; set; }
-    public int cycleStep = 0;
+    public Maladie? MaladieActuelle { get; set; }
+    public string Type { get; set; }
     public string Affichage
     {
         get
@@ -20,24 +19,24 @@ public class Plante
 
             return Type switch
             {
-                "Carotte" => cycleStep < 10 ? "c" : "C",
-                "Tomate" => cycleStep < 10 ? "t" : "T",
-                "Radis" => cycleStep < 10 ? "r" : "R",
-                "Salade" => cycleStep < 10 ? "s" : "S",
+                "Carotte" => Progression < 10 ? "c" : "C",
+                "Tomate" => Progression < 10 ? "t" : "T",
+                "Radis" => Progression < 10 ? "r" : "R",
+                "Salade" => Progression < 10 ? "s" : "S",
                 _ => "?"
             };
         }
     }
 
-    public GrilleDeJeu Grille { get; set; }
+    public EspaceDeJeu Grille { get; set; }
 
 
-    public Plante(string type, int x, int y, int esperanceDeVie, int besoinEau, int besoinLuminosite, GrilleDeJeu grille)
+    public Plante(string type, int x, int y, int esperanceDeVie, int besoinEau, int besoinLuminosite, EspaceDeJeu grille)
     {
         Type = type;
 
-        PlantePositionX = x;
-        PlantePositionY = y;
+        PositionX = x;
+        PositionY = y;
         EsperanceDeVie = esperanceDeVie;
         BesoinEau = besoinEau;
         Hydratation = 100; // Commence à 100%
@@ -68,9 +67,9 @@ public class Plante
         RecalculerTauxCroissance();
 
 
-        if (((rnd.NextDouble()*100) <= TauxCroissance) && (cycleStep < 10 ))
+        if (((rnd.NextDouble()*100) <= TauxCroissance) && (Progression < 10 ))
         {
-            cycleStep++;
+            Progression++;
         }
 
         if (TauxCroissance < 1)
@@ -114,7 +113,7 @@ public class Plante
         // Ajustement par l’âge
         if (EsperanceDeVie < 10)
             taux -= 20;
-        string terrainSousPlante = Grille.CarteTerrains[PlantePositionY, PlantePositionX].Type;
+        string terrainSousPlante = Grille.CarteTerrains[PositionY, PositionX].Type;
         bool bonus = (Type == "Carotte" && terrainSousPlante == "*") ||
                     (Type == "Tomate" && terrainSousPlante == "+") ||
                     (Type == "Radis" && terrainSousPlante == "+") ||
@@ -150,8 +149,8 @@ public class Plante
         var offsets = new (int dx, int dy)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
         foreach (var (dx, dy) in offsets)
         {
-            int nx = PlantePositionX + dx;
-            int ny = PlantePositionY + dy;
+            int nx = PositionX + dx;
+            int ny = PositionY + dy;
 
             if (nx >= 0 && nx < Grille.TailleY && ny >= 0 && ny < Grille.TailleX)
             {
@@ -166,7 +165,6 @@ public class Plante
             }
         }
     }
-
 
     public void AfficherPlanteStatistique()
     {
@@ -319,7 +317,7 @@ public class Plante
 
         // Progression de grandissement
         string plante = "";
-        switch(cycleStep)
+        switch(Progression)
         {
             case 1: 
             {
@@ -402,7 +400,7 @@ public class Plante
                 break;
             }
         }
-        if (cycleStep == 10)
+        if (Progression == 10)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(plante);

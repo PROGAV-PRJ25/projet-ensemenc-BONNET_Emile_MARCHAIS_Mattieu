@@ -1,16 +1,12 @@
 
-public class GrilleDeJeu
+public class EspaceDeJeu
 {
+    public Terrain[,] CarteTerrains { get; private set; }
     public string[,] Grille { get; private set; }
+    public string[] Inventaire {get; set;}
+    public string[] PlantesDispo {get; set;}
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
-    public bool ModeUrgence {get; set;}
-    public string[] Inventaire {get; set;}
-
-    public string[] PlantesDispo {get; set;}
-
-    public Terrain[,] CarteTerrains { get; private set; }
-
     private int _selectInventaire;
     public int SelectInventaire
     {
@@ -54,26 +50,22 @@ public class GrilleDeJeu
 
     public int Jours { get; set; } = 0;
     public int luminosity { get; set; } = 0;
-
+    public bool ModeUrgence {get; set;}
     public bool[,] EstLaboure { get; set; }
     public Plante Plantenull { get; }
-
-
     public List<Plante> Plantes = new List<Plante>();
-
-    public Joueur Joueur { get; set; }
-
     public List<string> PlantesBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise" };
+    public Joueur Joueur { get; set; }
  
     
 
-    public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)
+    public EspaceDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)
     {
         TailleX = tailleX;
         TailleY = tailleY;
         ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
-        Joueur = joueur ?? new Joueur(0, 0); // Default player if none provided
+        Joueur = joueur ?? new Joueur(0, 0);
         Grille = new string[TailleX, TailleY];
         CarteTerrains = new Terrain[TailleX, TailleY];
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
@@ -108,7 +100,7 @@ public class GrilleDeJeu
                 CarteTerrains[i, j] = new Terrain("*");
 
         // Créer des patchs (3 à 4)
-        string[] types = new string[] { "-", "+", "*" };
+        string[] types = new string[] { "-", "+" };
         Random rnd = new Random();
         int nbPatchs = rnd.Next(3, 5);
 
@@ -138,29 +130,16 @@ public class GrilleDeJeu
         }
     }
 
-
-    public Plante SelectionnerPlante(int x, int y)
+    public void DefinirGrille(int x, int y)
     {
-        foreach(Plante plante in Plantes)
-        {
-            if (plante.PlantePositionX == x && plante.PlantePositionY == y)
-            {
-                return plante;
-            }
-        }
-        return Plantenull;
-    }
-
-    public void DefineGrille(int x, int y)
-    {
-        // Reset everything to empty
+        // Vider la grille pour mettre à jours
         for (int i = 0; i < TailleX; i++)
             for (int j = 0; j < TailleY; j++)
                 Grille[i, j] = "   ";
 
         Grille[0, 0] = " B ";
 
-        // Place labourage
+        // Placer les labourages
         for (int i = 0; i < TailleX; i++)
         {
             for (int j = 0; j < TailleY; j++)
@@ -172,27 +151,15 @@ public class GrilleDeJeu
             }
         }
 
-        // Place all plants
+        // Placer toutes les plantes
         foreach (var plante in Plantes)
         {
-            Grille[plante.PlantePositionY, plante.PlantePositionX] = " " + plante.Affichage + " ";
+            Grille[plante.PositionY, plante.PositionX] = " " + plante.Affichage + " ";
         }
 
-        // Place player last
+        // Placer le joueur en dernier
         Grille[y, x] = Joueur.Affichage;
     }
-
-    public void UpdatePlantes()
-    {
-        foreach (var plante in Plantes)
-        {
-            plante.MetAJour();
-        }
-
-        Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
-    }
-
-
     public void AfficherGrille()
     {
         Console.Clear();
@@ -219,7 +186,7 @@ public class GrilleDeJeu
                     case "+": Console.BackgroundColor = ConsoleColor.DarkCyan; break;
                     case "*": Console.BackgroundColor = ConsoleColor.DarkYellow; break;
                 }
-                if (Joueur.JoueurPositionX == j && Joueur.JoueurPositionY == i)
+                if (Joueur.PositionX == j && Joueur.PositionY == i)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(Grille[i, j]);
@@ -232,13 +199,13 @@ public class GrilleDeJeu
                     {
                         Console.ForegroundColor = ConsoleColor.Magenta;
                     }
-                    else if (plante.cycleStep == 10)
+                    else if (plante.Progression == 10)
                     {
                         Console.ForegroundColor = ConsoleColor.White;
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Black; // ou autre
+                        Console.ForegroundColor = ConsoleColor.Black; 
                     }
                     Console.Write(Grille[i, j]);
                     Console.ForegroundColor = ConsoleColor.White;
@@ -287,14 +254,13 @@ public class GrilleDeJeu
         Console.WriteLine();
         Console.WriteLine();
 
-        if (SelectionnerPlante(Joueur.JoueurPositionX, Joueur.JoueurPositionY) != Plantenull)
+        if (SelectionnerPlante(Joueur.PositionX, Joueur.PositionY) != Plantenull)
         {
-            Plante plante = SelectionnerPlante(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
+            Plante plante = SelectionnerPlante(Joueur.PositionX, Joueur.PositionY);
             plante.AfficherPlanteStatistique();
         }
         Console.WriteLine($" Argent : {Joueur.Argent} pièces");
     }
-
 
 
     public void AfficherInventaire(int selection)
@@ -316,7 +282,6 @@ public class GrilleDeJeu
         {
             for (int j = 0; j < PlantesDispo.Length; j++)
             {
-                Console.Write("\n");
                 if (j == SelectPlante)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -329,5 +294,26 @@ public class GrilleDeJeu
                 }            
             }
         }
+    }
+        public void UpdatePlantes()
+    {
+        foreach (var plante in Plantes)
+        {
+            plante.MetAJour();
+        }
+
+        Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
+    }
+
+    public Plante SelectionnerPlante(int x, int y)
+    {
+        foreach(Plante plante in Plantes)
+        {
+            if (plante.PositionX == x && plante.PositionY == y)
+            {
+                return plante;
+            }
+        }
+        return Plantenull;
     }
 }

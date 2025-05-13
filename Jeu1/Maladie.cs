@@ -1,8 +1,8 @@
 public class Maladie
 {
-    public string Type { get; set; } // Nom unique (ex: "MildiouTomate")
-    public int Duree { get; set; } // Nb de jours restants
-    public int Severite { get; set; } // Impact négatif sur TauxCroissance
+    public string Type { get; set; }
+    public int Duree { get; set; } // Nb de tours restants
+    public int Severite { get; set; } 
 
     public Maladie(string type, int duree, int severite)
     {

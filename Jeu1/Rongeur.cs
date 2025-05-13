@@ -1,14 +1,15 @@
 public class Rongeur
 {
     Random rnd = new Random();
-    public GrilleDeJeu Grille { get; set; }
+    public EspaceDeJeu Grille { get; set; }
     public int PositionX { get; set; }
 
     public int PositionY { get; set; }
     public int PV {get; set;}
 
     public string Affichage { get; set; } = " E ";
-    public Rongeur(int x, int y, GrilleDeJeu grille, int pv = 3)
+
+    public Rongeur(int x, int y, EspaceDeJeu grille, int pv = 3)
     {
         PositionX = x;
         PositionY = y;
@@ -43,7 +44,7 @@ public class Rongeur
     {
         for(int i = Grille.Plantes.Count - 1; i >= 0; i--)
         {
-            if((PositionX == Grille.Plantes[i].PlantePositionX) && (PositionY == Grille.Plantes[i].PlantePositionY))
+            if((PositionX == Grille.Plantes[i].PositionX) && (PositionY == Grille.Plantes[i].PositionY))
             {
                 Grille.Plantes.Remove(Grille.Plantes[i]);
             }
