@@ -206,65 +206,95 @@ public class Joueur
         if (PositionX != 0 || PositionY != 0)
         {
             Console.WriteLine("Vous devez être sur la case boutique (0,0) pour accéder à la boutique !");
+            Console.ReadKey(true);
             return;
         }
 
-        Console.Clear();
-        Console.WriteLine("🛒 Bienvenue à la Boutique !");
-        Console.WriteLine($"💰 Votre argent : {Argent} pièces\n");
-
-        var nomPlantes = Grille.PlantesBoutique;
         var prixPlantes = new Dictionary<string, int>
         {
             {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}
         };
 
-        // Filtrer uniquement les plantes encore non débloquées
-        var plantesAchetables = nomPlantes
+        // Liste des plantes non encore achetées
+        var plantesAchetables = Grille.PlantesBoutique
             .Where(p => !Grille.PlantesDispo.Contains($"|{p}|"))
             .ToList();
 
         if (plantesAchetables.Count == 0)
         {
-            Console.WriteLine("Toutes les plantes spéciales ont été débloquées !");
+            Console.Clear();
+            Console.WriteLine("🛒 Toutes les plantes spéciales ont déjà été débloquées !");
             Console.ReadKey(true);
             return;
         }
 
-        Console.WriteLine("Plantes spéciales à débloquer :");
-        for (int i = 0; i < plantesAchetables.Count; i++)
+        int selection = 0;
+        bool enCours = true;
+
+        while (enCours)
         {
-            string p = plantesAchetables[i];
-            Console.WriteLine($"{i + 1}. {p} - {prixPlantes[p]} pièces");
-        }
+            Console.Clear();
+            Console.WriteLine("🛒 Boutique - Plantes spéciales à débloquer :");
+            Console.WriteLine($"💰 Argent : {Argent} pièces\n");
 
-        Console.WriteLine("\nAppuyez sur le numéro correspondant à la plante à acheter, ou une autre touche pour quitter.");
-        var input = Console.ReadKey(true).KeyChar;
-
-        if (char.IsDigit(input))
-        {
-            int choix = int.Parse(input.ToString()) - 1;
-
-            if (choix >= 0 && choix < plantesAchetables.Count)
+            for (int i = 0; i < plantesAchetables.Count; i++)
             {
-                string plante = plantesAchetables[choix];
-                int prix = prixPlantes[plante];
-
-                if (Argent >= prix)
+                string plante = plantesAchetables[i];
+                Console.WriteLine("\n");
+                if (i == selection)
                 {
-                    Argent -= prix;
-                    Grille.PlantesDispo.Add($"|{plante}|");
-                    Console.WriteLine($"✅ Vous avez débloqué la plante : {plante} !");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write($"|{plante}| ");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
                 {
-                    Console.WriteLine("❌ Pas assez d'argent !");
+                    Console.Write($"|{plante}| ");
                 }
             }
-        }
 
-        Console.WriteLine("\nAppuyez sur une touche pour continuer...");
-        Console.ReadKey(true);
+            Console.WriteLine("\n\nUtilise 'z'/'s' pour naviguer, 'e' pour acheter, 'x' pour quitter.");
+
+            ConsoleKeyInfo key = Console.ReadKey(true);
+            switch (key.KeyChar)
+            {
+                case 'z':
+                    selection = (selection - 1 + plantesAchetables.Count) % plantesAchetables.Count;
+                    break;
+                case 's':
+                    selection = (selection + 1) % plantesAchetables.Count;
+                    break;
+                case 'e':
+                    string choix = plantesAchetables[selection];
+                    int prix = prixPlantes[choix];
+                    if (Argent >= prix)
+                    {
+                        Argent -= prix;
+                        Grille.PlantesDispo.Add($"|{choix}|");
+                        Console.WriteLine($"\n✅ {choix} débloquée pour la plantation !");
+                        plantesAchetables.RemoveAt(selection);
+                        if (plantesAchetables.Count == 0)
+                        {
+                            Console.WriteLine("\nToutes les plantes ont été achetées !");
+                            enCours = false;
+                        }
+                        else
+                        {
+                            selection %= plantesAchetables.Count;
+                        }
+                        Console.ReadKey(true);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n❌ Pas assez d'argent !");
+                        Console.ReadKey(true);
+                    }
+                    break;
+                case 'x':
+                    enCours = false;
+                    break;
+            }
+        }
     }
 
     public override string ToString()
