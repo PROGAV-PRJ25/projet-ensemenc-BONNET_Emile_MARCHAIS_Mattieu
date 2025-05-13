@@ -5,6 +5,7 @@ public class EspaceDeJeu
     public string[,] Grille { get; private set; }
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
+    public int NombrePlanteMorte { get; set; }
     private int _selectInventaire;
     public int SelectInventaire
     {
@@ -59,17 +60,17 @@ public class EspaceDeJeu
  
     
 
-    public EspaceDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? plantesDispo = null)
+    public EspaceDeJeu(int tailleX, int tailleY, Joueur? joueur = null)
     {
+        CarteTerrains = new Terrain[TailleX, TailleY];
+        Grille = new string[TailleX, TailleY];
         TailleX = tailleX;
         TailleY = tailleY;
+        NombrePlanteMorte = 0;
         ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
-        Joueur = joueur ?? new Joueur(0, 0);
-        Grille = new string[TailleX, TailleY];
-        CarteTerrains = new Terrain[TailleX, TailleY];
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
-         
+        Joueur = joueur ?? new Joueur(0, 0);
         InitialiserGrille();
     }
 
@@ -147,7 +148,6 @@ public class EspaceDeJeu
     public void AfficherGrille()
     {
         Console.Clear();
-        Console.WriteLine();
         Console.WriteLine();
         Console.WriteLine();
         for (int i = 0; i < TailleX; i++)
@@ -235,6 +235,7 @@ public class EspaceDeJeu
             Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
         }
         Console.WriteLine();
+        Console.WriteLine($"Actuellement {NombrePlanteMorte} sont mortent. Si 100 plantes meurent, vous avez perdu");
         Console.WriteLine($" Argent : {Joueur.Argent} pièces");
 
         if (SelectionnerPlante(Joueur.PositionX, Joueur.PositionY) != Plantenull)
@@ -285,7 +286,10 @@ public class EspaceDeJeu
             plante.MetAJour();
         }
 
+        int tempNombrePlanteMorte = Plantes.Count();
         Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
+        NombrePlanteMorte += tempNombrePlanteMorte - Plantes.Count();
+
     }
 
     public Plante SelectionnerPlante(int x, int y)

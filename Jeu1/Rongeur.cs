@@ -1,7 +1,7 @@
 public class Rongeur
 {
     Random rnd = new Random();
-    public EspaceDeJeu Grille { get; set; }
+    public EspaceDeJeu EspaceDeJeu { get; set; }
     public int PositionX { get; set; }
 
     public int PositionY { get; set; }
@@ -14,7 +14,7 @@ public class Rongeur
         PositionX = x;
         PositionY = y;
         PV = pv;
-        Grille = grille;
+        EspaceDeJeu = grille;
     }
 
     public void MoveRongeur()
@@ -32,25 +32,25 @@ public class Rongeur
             default : return;
         }        
 
-        if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX)
+        if (tempX >= 0 && tempX < EspaceDeJeu.TailleY && tempY >= 0 && tempY < EspaceDeJeu.TailleX)
         {
             PositionX = tempX;
             PositionY = tempY;
         }
     }
 
-
     public void MangerPlante()
     {
-        for(int i = Grille.Plantes.Count - 1; i >= 0; i--)
+        for(int i = EspaceDeJeu.Plantes.Count - 1; i >= 0; i--)
         {
-            if((PositionX == Grille.Plantes[i].PositionX) && (PositionY == Grille.Plantes[i].PositionY))
+            if((PositionX == EspaceDeJeu.Plantes[i].PositionX) && (PositionY == EspaceDeJeu.Plantes[i].PositionY))
             {
-                Grille.Plantes.Remove(Grille.Plantes[i]);
+                EspaceDeJeu.Plantes.Remove(EspaceDeJeu.Plantes[i]);
+                EspaceDeJeu.NombrePlanteMorte ++;
             }
         }
 
-        Grille.EstLaboure[PositionY, PositionX] = false;
+        EspaceDeJeu.EstLaboure[PositionY, PositionX] = false;
 
     }
 }

@@ -124,7 +124,7 @@ public class Joueur
         }
         else
         {
-            plante.EsperanceDeVie = 0;
+            Grille.Plantes.Remove(plante);
             if (plante.Type == "Carotte")
             {
                 TableauRecolte[0]++;

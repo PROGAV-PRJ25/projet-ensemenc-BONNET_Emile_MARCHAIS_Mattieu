@@ -4,6 +4,7 @@ public class MainJeu
     public Joueur Joueur { get; set; }
     public EspaceDeJeu EspaceDeJeu { get; set; }
     public Rongeur Rongeur { get; set; }
+    public int ConditionFinDeJeu { get; set; }
 
     public MainJeu()
     {
@@ -42,7 +43,11 @@ public class MainJeu
                         EspaceDeJeu.ModeUrgence = true;
                     }
                 }
-                
+                if (EspaceDeJeu.NombrePlanteMorte >= 100)
+                {
+                    win = false;
+                    ConditionFinDeJeu = 1;
+                }
             }
             while (EspaceDeJeu.ModeUrgence)
             {
