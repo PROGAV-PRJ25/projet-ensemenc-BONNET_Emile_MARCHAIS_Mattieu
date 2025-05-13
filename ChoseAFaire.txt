@@ -1,5 +1,4 @@
 Joueur :
-    - Ajouter variables dans récolter (nouvelles plantes)
     - Naviguer avec fleche dans boutique
 
 

@@ -23,6 +23,10 @@ public class Plante
                 "Tomate" => Progression < 10 ? "t" : "T",
                 "Radis" => Progression < 10 ? "r" : "R",
                 "Salade" => Progression < 10 ? "s" : "S",
+                "Piment" => Progression < 10 ? "p" : "P",
+                "Melon" => Progression < 10 ? "m" : "M",
+                "Citrouille" => Progression < 10 ? "h" : "H",
+                "Fraise" => Progression < 10 ? "f" : "F",
                 _ => "?"
             };
         }
@@ -118,7 +122,12 @@ public class Plante
         bool bonus = (Type == "Carotte" && terrainSousPlante == "*") ||
                     (Type == "Tomate" && terrainSousPlante == "+") ||
                     (Type == "Radis" && terrainSousPlante == "+") ||
-                    (Type == "Salade" && terrainSousPlante == "-");
+                    (Type == "Salade" && terrainSousPlante == "-") ||
+                    (Type == "Piment" && terrainSousPlante == "-") || 
+                    (Type == "Melon" && terrainSousPlante == "*") ||
+                    (Type == "Citrouille" && terrainSousPlante == "*") ||
+                    (Type == "Fraise" && terrainSousPlante == "+");
+                    
 
         if (bonus) taux += 10;
 

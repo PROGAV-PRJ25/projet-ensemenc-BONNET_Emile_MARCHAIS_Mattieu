@@ -1,6 +1,6 @@
 public class Joueur
 {
-    public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade
+    public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade 
     public int PositionX { get; set; }
 
     public int PositionY { get; set; }
@@ -17,7 +17,7 @@ public class Joueur
         PositionX = x;
         PositionY = y;
         AFrappe = false;
-        TableauRecolte = new int[] {0,0,0,0};
+        TableauRecolte = new int[] {0,0,0,0,0,0,0,0};
     }
     
     public void MoveJoueur(int tempsBoucle)
@@ -145,7 +145,26 @@ public class Joueur
                 TableauRecolte[3]++;
                 Argent += 10;
             }
-            
+            else if (plante.Type == "Piment")
+            {
+                TableauRecolte[4]++;
+                Argent += 15;
+            }
+            else if (plante.Type == "Melon")
+            {
+                TableauRecolte[5]++;
+                Argent += 20;
+            }
+            else if (plante.Type == "Citrouille")
+            {
+                TableauRecolte[6]++;
+                Argent += 25;
+            }
+            else if (plante.Type == "Fraise")
+            {
+                TableauRecolte[7]++;
+                Argent += 30;
+            }
         }
     }
     public Plante ChoixPlante()
