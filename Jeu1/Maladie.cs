@@ -41,6 +41,18 @@ public class Maladie
             case "Salade":
                 plante.MaladieActuelle = new Maladie("TacheSalade", 5, 15);
                 break;
+            case "Piment":
+                plante.MaladieActuelle = new Maladie("Virus de la mosaïque", 15, 5);
+                break;
+            case "Melon":
+                plante.MaladieActuelle = new Maladie("Oïdium", 5, 20);
+                break;
+            case "Citrouille":
+                plante.MaladieActuelle = new Maladie("Anthracnose", 30, 5);
+                break;
+            case "Fraise":
+                plante.MaladieActuelle = new Maladie("Botrytis", 2, 30);
+                break;
         }
     }
     public void PropagerMaladie(Plante plante, Random rnd, EspaceDeJeu grille)

@@ -50,7 +50,7 @@ public class Plante
         EsperanceDeVie--;
 
         // Vérifie si elle tombe malade (très faible chance)
-        if (MaladieActuelle == null && rnd.NextDouble() < 0.5) // 1% de chance
+        if (MaladieActuelle == null && rnd.NextDouble() < 0.01) // 1% de chance
         {
             Maladie maladiePotentielle = new Maladie(Type, 0, 0);
             maladiePotentielle.ContracterMaladie(this);
