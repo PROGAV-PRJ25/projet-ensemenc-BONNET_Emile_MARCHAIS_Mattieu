@@ -12,7 +12,6 @@ Plante :
     -
 
 Maladie : 
-    - Changer les méthode de plante dans maladie
     - Ajouter variables dans ContracterMaladie (nouvelles plantes)
 
 Terrains

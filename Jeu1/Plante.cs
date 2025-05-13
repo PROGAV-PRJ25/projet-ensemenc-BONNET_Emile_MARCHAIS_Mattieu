@@ -50,19 +50,20 @@ public class Plante
         EsperanceDeVie--;
 
         // Vérifie si elle tombe malade (très faible chance)
-        if (MaladieActuelle == null && rnd.NextDouble() < 0.01)
+        if (MaladieActuelle == null && rnd.NextDouble() < 0.5) // 1% de chance
         {
-            ContracterMaladie();
+            Maladie maladiePotentielle = new Maladie(Type, 0, 0);
+            maladiePotentielle.ContracterMaladie(this);
         }
-
         // Applique les effets si elle est déjà malade
         MaladieActuelle?.AppliquerEffet(this);
 
         // Tente de contaminer les voisines
         if (MaladieActuelle != null)
         {
-            PropagerMaladie();
+            MaladieActuelle.PropagerMaladie(this, rnd, Grille);
         }
+
 
         RecalculerTauxCroissance();
 
@@ -123,49 +124,6 @@ public class Plante
 
         TauxCroissance = Math.Clamp(taux, 0, 100);
     }
-
-    private void ContracterMaladie()
-    {
-        // Maladie unique par type
-        switch (Type)
-        {
-            case "Tomate":
-                MaladieActuelle = new Maladie("MildiouTomate", 10, 15);
-                break;
-            case "Carotte":
-                MaladieActuelle = new Maladie("RouilleCarotte", 20, 10);
-                break;
-            case "Radis":
-                MaladieActuelle = new Maladie("PourritureRadis", 15, 20);
-                break;
-            case "Salade":
-                MaladieActuelle = new Maladie("TacheSalade", 5, 15);
-                break;
-        }
-    }
-
-    private void PropagerMaladie()
-    {
-        var offsets = new (int dx, int dy)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
-        foreach (var (dx, dy) in offsets)
-        {
-            int nx = PositionX + dx;
-            int ny = PositionY + dy;
-
-            if (nx >= 0 && nx < Grille.TailleY && ny >= 0 && ny < Grille.TailleX)
-            {
-                var voisine = Grille.SelectionnerPlante(nx, ny);
-                if (voisine.Type == this.Type && voisine.MaladieActuelle == null)
-                {
-                    if (rnd.NextDouble() < 0.3) // propagation élevée
-                    {
-                        voisine.MaladieActuelle = new Maladie(this.MaladieActuelle.Type, this.MaladieActuelle.Duree, this.MaladieActuelle.Severite);
-                    }
-                }
-            }
-        }
-    }
-
     public void AfficherPlanteStatistique()
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
