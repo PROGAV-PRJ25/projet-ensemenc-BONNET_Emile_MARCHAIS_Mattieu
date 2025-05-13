@@ -4,6 +4,7 @@ public class Joueur
     public int JoueurPositionX { get; set; }
 
     public int JoueurPositionY { get; set; }
+    public int Argent { get; set; } = 100;
 
     public bool AFrappe { get; set; }
     public GrilleDeJeu Grille { get; set; }
@@ -139,6 +140,7 @@ public class Joueur
                 case 2: Recolter(); break;
                 case 3: Arroser();break;
                 case 4: Console.WriteLine("Il n'y a personne à frapper ici"); break;
+                case 5: AccederBoutique(); break;
             }        
         }
         switch (selection)
@@ -148,22 +150,26 @@ public class Joueur
             case 2: Recolter(); break;
         }    
     }
-
     public Plante ChoixPlante()
     {
         int x = JoueurPositionX;
         int y = JoueurPositionY;
-        var grille = Grille;
+        string type = Grille.PlantesDispo[Grille.SelectPlante].Trim('|');
 
-        return Grille.SelectPlante switch
+        return type switch
         {
-            0 => new Plante("Carotte", x, y, 30, 40, 6, grille),
-            1 => new Plante("Tomate", x, y, 40, 50, 8, grille),
-            2 => new Plante("Radis", x, y, 50, 30, 5, grille),
-            3 => new Plante("Salade", x, y, 15, 60, 4, grille),
-            _ => new Plante("Carotte", x, y, 30, 40, 6, grille),
+            "Carotte" => new Plante(type, x, y, 30, 40, 6, Grille),
+            "Tomate" => new Plante(type, x, y, 40, 50, 8, Grille),
+            "Radis" => new Plante(type, x, y, 50, 30, 5, Grille),
+            "Salade" => new Plante(type, x, y, 15, 60, 4, Grille),
+            "Piment" => new Plante(type, x, y, 25, 50, 7, Grille),
+            "Melon" => new Plante(type, x, y, 60, 60, 10, Grille),
+            "Citrouille" => new Plante(type, x, y, 70, 70, 10, Grille),
+            "Fraise" => new Plante(type, x, y, 20, 30, 6, Grille),
+            _ => new Plante("Carotte", x, y, 30, 40, 6, Grille)
         };
     }
+
 
     public void Frapper()
     {
@@ -178,6 +184,73 @@ public class Joueur
         Plante plante = Grille.SelectionnerPlante(JoueurPositionX, JoueurPositionY) ;
         plante.Hydratation = Math.Min(plante.Hydratation + 30, 100);
     }
+
+    public void AccederBoutique()
+    {
+        if (JoueurPositionX != 0 || JoueurPositionY != 0)
+        {
+            Console.WriteLine("Vous devez être sur la case boutique (0,0) pour accéder à la boutique !");
+            return;
+        }
+
+        Console.Clear();
+        Console.WriteLine("🛒 Bienvenue à la Boutique !");
+        Console.WriteLine($"💰 Votre argent : {Argent} pièces\n");
+
+        var nomPlantes = Grille.PlantesBoutique;
+        var prixPlantes = new Dictionary<string, int>
+        {
+            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}
+        };
+
+        // Filtrer uniquement les plantes encore non débloquées
+        var plantesAchetables = nomPlantes
+            .Where(p => !Grille.PlantesDispo.Contains($"|{p}|"))
+            .ToList();
+
+        if (plantesAchetables.Count == 0)
+        {
+            Console.WriteLine("Toutes les plantes spéciales ont été débloquées !");
+            Console.ReadKey(true);
+            return;
+        }
+
+        Console.WriteLine("Plantes spéciales à débloquer :");
+        for (int i = 0; i < plantesAchetables.Count; i++)
+        {
+            string p = plantesAchetables[i];
+            Console.WriteLine($"{i + 1}. {p} - {prixPlantes[p]} pièces");
+        }
+
+        Console.WriteLine("\nAppuyez sur le numéro correspondant à la plante à acheter, ou une autre touche pour quitter.");
+        var input = Console.ReadKey(true).KeyChar;
+
+        if (char.IsDigit(input))
+        {
+            int choix = int.Parse(input.ToString()) - 1;
+
+            if (choix >= 0 && choix < plantesAchetables.Count)
+            {
+                string plante = plantesAchetables[choix];
+                int prix = prixPlantes[plante];
+
+                if (Argent >= prix)
+                {
+                    Argent -= prix;
+                    Grille.PlantesDispo = Grille.PlantesDispo.Append($"|{plante}|").ToArray();
+                    Console.WriteLine($"✅ Vous avez débloqué la plante : {plante} !");
+                }
+                else
+                {
+                    Console.WriteLine("❌ Pas assez d'argent !");
+                }
+            }
+        }
+
+        Console.WriteLine("\nAppuyez sur une touche pour continuer...");
+        Console.ReadKey(true);
+    }
+
 
     public override string ToString()
     {

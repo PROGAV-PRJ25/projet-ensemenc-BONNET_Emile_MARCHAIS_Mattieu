@@ -61,7 +61,10 @@ public class GrilleDeJeu
 
     public List<Plante> Plantes = new List<Plante>();
 
-    public Joueur Joueur { get; set; } 
+    public Joueur Joueur { get; set; }
+
+    public List<string> PlantesBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise" };
+ 
     
 
     public GrilleDeJeu(int tailleX, int tailleY, Joueur? joueur = null, string[]? inventaire = null, string[]? plantesDispo = null)
@@ -76,7 +79,7 @@ public class GrilleDeJeu
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
         if (inventaire == null)
         {
-            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|_| ", "|_| ", "|_| "}; 
+            Inventaire = new string[] {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| ", "|_| ", "|_| "}; 
         }
         else
         {
@@ -154,6 +157,8 @@ public class GrilleDeJeu
         for (int i = 0; i < TailleX; i++)
             for (int j = 0; j < TailleY; j++)
                 Grille[i, j] = "   ";
+
+        Grille[0, 0] = " B ";
 
         // Place labourage
         for (int i = 0; i < TailleX; i++)
@@ -287,6 +292,7 @@ public class GrilleDeJeu
             Plante plante = SelectionnerPlante(Joueur.JoueurPositionX, Joueur.JoueurPositionY);
             plante.AfficherPlanteStatistique();
         }
+        Console.WriteLine($" Argent : {Joueur.Argent} pièces");
     }
 
 
