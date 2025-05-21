@@ -49,12 +49,13 @@ public class EspaceDeJeu
 
     public int Jours { get; set; } = 0;
     public int luminosity { get; set; } = 0;
-    public bool ModeUrgence {get; set;}
+    public bool ModeUrgence { get; set; } = false;
+    public bool Retraite { get; set; } = false;
     public bool[,] EstLaboure { get; set; }
     public Plante Plantenull { get; }
     public List<Plante> Plantes = new List<Plante>();
     public List<string> PlantesDispo { get; set; } = new List<string> {"|Carotte|", "|Tomate|", "|Radis|", "|Salade|"};
-    public List<string> PlantesBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise" };
+    public List<string> ObjetBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise", "Retraite" };
     public List<string> Inventaire { get; set; } = new List<string> {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| ", "|_| ", "|_| "};
     public Joueur Joueur { get; set; }
  
@@ -67,7 +68,6 @@ public class EspaceDeJeu
         TailleX = tailleX;
         TailleY = tailleY;
         NombrePlanteMorte = 0;
-        ModeUrgence = false;
         EstLaboure = new bool[TailleX, TailleY];
         Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
         Joueur = joueur ?? new Joueur(0, 0);
@@ -235,7 +235,7 @@ public class EspaceDeJeu
             Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
         }
         Console.WriteLine();
-        Console.WriteLine($"Actuellement {NombrePlanteMorte} sont mortent. Si 100 plantes meurent, vous avez perdu");
+        Console.WriteLine($"Actuellement {NombrePlanteMorte} sont mortent. Si 50 plantes meurent, vous avez perdu");
         Console.WriteLine($" Argent : {Joueur.Argent} pièces");
 
         if (SelectionnerPlante(Joueur.PositionX, Joueur.PositionY) != Plantenull)

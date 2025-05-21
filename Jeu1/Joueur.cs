@@ -210,20 +210,20 @@ public class Joueur
             return;
         }
 
-        var prixPlantes = new Dictionary<string, int>
+        var prixObjet = new Dictionary<string, int>
         {
-            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}
+            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}, {"Retraite", 500}
         };
 
         // Liste des plantes non encore achetées
-        var plantesAchetables = Grille.PlantesBoutique
+        var ObjetAchetables = Grille.ObjetBoutique
             .Where(p => !Grille.PlantesDispo.Contains($"|{p}|"))
             .ToList();
 
-        if (plantesAchetables.Count == 0)
+        if (ObjetAchetables.Count == 1)
         {
             Console.Clear();
-            Console.WriteLine("🛒 Toutes les plantes spéciales ont déjà été débloquées !");
+            Console.WriteLine("Il ne vous reste plus qu'à économiser pour votre retraite...");
             Console.ReadKey(true);
             return;
         }
@@ -237,19 +237,19 @@ public class Joueur
             Console.WriteLine("🛒 Boutique - Plantes spéciales à débloquer :");
             Console.WriteLine($"💰 Argent : {Argent} pièces\n");
 
-            for (int i = 0; i < plantesAchetables.Count; i++)
+            for (int i = 0; i < ObjetAchetables.Count; i++)
             {
-                string plante = plantesAchetables[i];
+                string objet = ObjetAchetables[i];
                 Console.WriteLine("\n");
                 if (i == selection)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"|{plante}| ");
+                    Console.Write($"|{objet}| : {prixObjet[objet]}");
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 else
                 {
-                    Console.Write($"|{plante}| ");
+                    Console.Write($"|{objet}| ");
                 }
             }
 
@@ -259,28 +259,46 @@ public class Joueur
             switch (key.KeyChar)
             {
                 case 'z':
-                    selection = (selection - 1 + plantesAchetables.Count) % plantesAchetables.Count;
+                    selection = (selection - 1 + ObjetAchetables.Count) % ObjetAchetables.Count;
                     break;
                 case 's':
-                    selection = (selection + 1) % plantesAchetables.Count;
+                    selection = (selection + 1) % ObjetAchetables.Count;
                     break;
                 case 'e':
-                    string choix = plantesAchetables[selection];
-                    int prix = prixPlantes[choix];
-                    if (Argent >= prix)
+                    string choix = ObjetAchetables[selection];
+                    int prix = prixObjet[choix];
+                    if (choix == "Retraite")
+                    {
+                        prixObjet[choix] -= Argent;
+                        Argent = 0;
+
+                        if (prixObjet[choix] <= 0)
+                        {
+                            Console.WriteLine($"\n✅ Bravo vous avez assez économisé pour la retraite !!");
+                            ObjetAchetables.RemoveAt(selection);
+                            Grille.Retraite = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nEncore un peu d'effort pour votre retraite !");
+                        }
+                        Console.ReadKey(true);
+                        
+                    }
+                    else if (Argent >= prix)
                     {
                         Argent -= prix;
                         Grille.PlantesDispo.Add($"|{choix}|");
                         Console.WriteLine($"\n✅ {choix} débloquée pour la plantation !");
-                        plantesAchetables.RemoveAt(selection);
-                        if (plantesAchetables.Count == 0)
+                        ObjetAchetables.RemoveAt(selection);
+                        if (ObjetAchetables.Count == 1)
                         {
                             Console.WriteLine("\nToutes les plantes ont été achetées !");
                             enCours = false;
                         }
                         else
                         {
-                            selection %= plantesAchetables.Count;
+                            selection %= ObjetAchetables.Count;
                         }
                         Console.ReadKey(true);
                     }
