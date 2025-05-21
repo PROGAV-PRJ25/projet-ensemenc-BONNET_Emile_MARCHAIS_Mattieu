@@ -5,7 +5,5 @@ Menu
 
 Créatif :
     -Amélioration boutique (Ex: meilleur labourrage/arrosage)
-    -Gagner (acheter : "retraite") (pouvoir l'acheter petit à petit) (avec ecran de win)
-    -ecran de lose
     -Affichage texte mieux
     -Sauvegarde ??? 
