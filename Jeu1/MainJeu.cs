@@ -6,6 +6,8 @@ public class MainJeu
     public Rongeur Rongeur { get; set; }
     public int ConditionFinDeJeu { get; set; }
 
+    public string nextPrint { get; set; } = "";
+
     public MainJeu()
     {
         Joueur = new Joueur(0, 0);
@@ -107,5 +109,69 @@ public class MainJeu
 
         }
     }
+    void PrintIntro()//-> Affiche l'introduction du jeu
+    {
+        nextPrint = "JURENSIC WORLD";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop); // Placement du curseur au centre de la console
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.WriteLine();
+        PrintAscii();
+        Console.WriteLine();
+        Console.WriteLine();
+
+        nextPrint = "Le plus grand prédateur de l'histoire est à vos trousses !";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        nextPrint = "Saurez-vous l'enfermer dans sa cage ?";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        Console.WriteLine();
+
+        nextPrint = "(Appuyer sur n'importe quelle touche pour jouer.)";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+
+        Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+        char suite = Console.ReadKey().KeyChar;
+        Console.Clear();
+    }
+
+    void PrintAscii() // -> Affiche un motif de dinosaure
+    {
+        string[] lines = new string[]
+        {
+            "                      ,",
+            "               ,  ;:._.-`''.",
+            "             ;.;'.;`      _ `.",
+            "              ',;`       ( \\ ,`-.  ",
+            "           `:.`,         (_/ ;\\  `-.",
+            "            ';:              / `.   `-._",
+            "          `;.;'              `-,/ .     `-.",
+            "          ';;'              _    `^`       `.",
+            "         ';;            ,'-' `--._          ;",
+            "':      `;;        ,;     `.    ':`,,.__,,_ /",
+            " `;`:;`;:`       ,;  '.    ;,      ';';':';;`",
+            "              .,; '    '-._ `':.;   ",
+            "            .:; `          '._ `';;,",
+            "          ;:` `    :'`'       ',__.)",
+            "        `;:;:.,...;'`'",
+            "      ';. '`'::'`''  .'`'",
+            "    ,'jgs`';;:,..::;`'`'",
+            ", .;`      `'::''`",
+            ",`;`."
+        };
+
+        int startX = Console.WindowWidth / 3;
+
+        foreach (string line in lines)
+        {
+            Console.SetCursorPosition(startX, Console.CursorTop);
+            Console.WriteLine(line);
+        }
+    }
+
 
 }

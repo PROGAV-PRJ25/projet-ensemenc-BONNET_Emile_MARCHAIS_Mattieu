@@ -1,0 +1,361 @@
+string nextPrint = "";//Servira pour le placement du curseur au milieu lors de l'affichage du texte
+int selectNumber = 1;
+void PrintIntro()//-> Affiche l'introduction du jeu
+{
+    nextPrint = "JURENSIC WORLD";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop); // Placement du curseur au centre de la console
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+    PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
+
+    nextPrint = "Le plus grand prédateur de l'histoire est à vos trousses !";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    nextPrint = "Saurez-vous l'enfermer dans sa cage ?";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    Console.WriteLine();
+
+    nextPrint = "(Appuyer sur n'importe quelle touche pour jouer.)";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+
+    Console.SetCursorPosition((Console.WindowWidth) / 2, Console.CursorTop);
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();
+}
+
+void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l'entier x (il y a 4 possibilités)
+{
+    Console.Clear();
+    nextPrint = "JURENSIC WORLD";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+    PrintAscii();
+    Console.WriteLine();
+    Console.WriteLine();
+    nextPrint = "Naviguer avec z pour monter et s pour descendre";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    nextPrint = "Appuyer sur 'espace' pour confirmer votre choix";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+    nextPrint = "Vous êtes en difficulté: " + difficulty;
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+    Console.WriteLine();
+
+    if (x == 1)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Options  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        nextPrint = "Jouer Classic";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Indominus Rex";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Règles";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else if (x == 2)
+    {
+        nextPrint = "Options";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Jouer Classic  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        nextPrint = "Jouer Indominus Rex";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Règles";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else if (x == 3)
+    {
+        nextPrint = "Options";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Classic";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Jouer Indominus Rex  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+
+        nextPrint = "Règles";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+    }
+    else
+    {
+        nextPrint = "Options";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Classic";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        nextPrint = "Jouer Indominus Rex";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        nextPrint = ">-  Règles  -<";
+        Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+        Console.WriteLine(nextPrint);
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.White;
+    }
+
+}
+
+void SelectScreen()//-> Permet la selection des différents écrans de selection
+{
+    Console.Clear();
+    bool again = true;
+    while (again)
+    {
+        PrintSelectScreen(selectNumber);
+        Console.SetCursorPosition(Console.WindowWidth / 2, Console.CursorTop);
+        char action = Console.ReadKey().KeyChar;
+        Console.Beep(440, 100); // Beep pour un feedback de sélection
+        switch (action)
+        {
+            case 'z':
+                if (selectNumber != 1)
+                {
+                    selectNumber--;
+                }
+                break;
+            case 's':
+                if (selectNumber != 4)
+                {
+                    selectNumber++;
+                }
+                break;
+            case ' ':
+                again = false;
+                break;
+        }
+    }
+}
+
+void PrintColoredText(string input)//-> Affiche un texte avec les couleurs pour chaque personnage
+{
+    {
+        string[] words = input.Split(' ');
+
+        foreach (var word in words)
+        {
+            if (word.Contains("Owen"))
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+            }
+            else if (word.Contains("Blue"))
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+            }
+            else if (word.Contains("l'Indominus"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else if (word.Contains("L'Indominus"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else if (word.Contains("Rex"))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+            }
+            else if (word.Contains("Maisie"))
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+            }
+            else if (word.Contains("grenade"))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+
+            Console.Write(word + " ");
+        }
+
+        Console.ResetColor(); // Reset to default color
+        Console.WriteLine();
+    }
+}
+
+void Rules()//-> Affiche les règles du jeu
+{
+    Console.Clear();
+    nextPrint = "Bienvenue dans JURENSIC WORLD. Nous allons vous expliquer comment jouer";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    Console.WriteLine();
+
+    string regle1 = "But du jeu :   ";
+    string regle2 = "Vous incarnerez 2 personnages dans ce jeu : Owen Grady et la raptor Blue. \nIls luttent ensembles pour sauver la petite Maisie qui est poursuivie par l'Indominus Rex.";
+    string regle3 = "Pour gagner une partie vous devrez enfermer L'Indominus Rex à l'aide de crevasse. \nCes crevasses sont provoquées par les grenades que Owen est capable de lancer. \nChaque grenade provoque deux crevasses côte à côte et Owen possède un nombre limité de grenade. \nIl ne peut lancer les grenades qu'à trois cases de lui maximum.";
+    string regle4 = "Owen et Blue ne se déplacent que d'une case à la fois. \nA chaque tour, Owen à le choix entre se déplacer ou lancer une grenade. \nBlue quant à elle peut faire reculer l'Indominus Rex lorsqu'elle entre en contact avec elle. \nL'Indominus Rex recule alors de 3 cases (ou moins si elle rencontre une crevasse ou un bord du jeu) et est immobilisée pour ce tour.";
+    string regle5 = "Maisie elle n'est pas un personnage jouable, elle panique face à la férocité de l'Indominus Rex et bouge donc aléatoirement d'une case par tour. \n( Cependant elle ne peut pas se jeter sur l'Indominus Rex )";
+    string regle6 = "L'Indominus Rex est attirée par tout le monde, elle ne sait plus où donner de la tête. Ses mouvements sont donc aléatoires. \nL'Indominus Rex peut manger Owen ou Maisie la partie sera alors perdue. \nL'Indominus Rex ne mange pas ses compères, Blue ne peut donc pas être mangée. \nDe plus l'Indominus Rex à la peau trop dure pour craindre les grenades.";
+    string regle7 = "Si n'importe quel personnage de votre équipe se prend une grenade, c'est la défaite. \nAttention donc à bien viser car une grenade provoque 2 crevasses, \nla première là où Owen l'a lancée et la deuxième aléatoirement entre les 4 positions possibles autour de la première crevasse";
+    string regle8 = "Dans le mode Difficile, une fois sur cinq l'Indominus Rex bouge 2 fois et cherche constamment l'humain le plus proche. On vous fournit un filet qui l'empêche de bouger pendant 2 tours.";
+    string regle9 = "Dans le mode Impossible, l'Indominus Rex bouge 2 fois à chaque tour tout en cherchant l'humain le plus proche à chaque tour. On vous fournit un filet qui l'empêche de bouger pendant 2 tours.";
+    string regle10 = "Vous pouvez également choisir de ne pas controler Blue, dans quel cas elle se déplacera automatiquement vers l'Indominus Rex à chaque fois.";
+
+    PrintColoredText(regle1);
+    Console.WriteLine();
+    PrintColoredText(regle2);
+    Console.WriteLine();
+    PrintColoredText(regle3);
+    Console.WriteLine();
+    PrintColoredText(regle4);
+    Console.WriteLine();
+    PrintColoredText(regle5);
+    Console.WriteLine();
+    PrintColoredText(regle6);
+    Console.WriteLine();
+    PrintColoredText(regle7);
+    Console.WriteLine();
+    PrintColoredText(regle8);
+    Console.WriteLine();
+    PrintColoredText(regle9);
+    Console.WriteLine();
+    PrintColoredText(regle10);
+    Console.WriteLine();
+
+    nextPrint = "Appuyer sur n'importe quelle touche pour revenir à l'écran de selection.";
+    Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop);
+    Console.WriteLine(nextPrint);
+    char suite = Console.ReadKey().KeyChar;
+    Console.Clear();
+}
+
+void InterfaceJeu()//-> Effectue toutes les interfaces et actions avant le lancement réel du jeu (Ecran de sélection/Options/Règles)
+{
+    PrintIntro();
+    while (selectNumber != 2 && selectNumber != 3)
+    {
+        SelectScreen();
+        if (selectNumber == 1)
+        {
+            Options();
+        }
+        if (selectNumber == 4)
+        {
+            Rules();
+        }
+    }
+    ChooseLengthGrid();
+
+}
+
+void PrintAscii()//-> Affiche un motif de dinosaure
+{
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("                      ,");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("               ,  ;:._.-`''.");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("             ;.;'.;`      _ `.");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("              ',;`       ( \x5c ,`-.  ");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("           `:.`,         (_/ ;\x5c  `-.");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("            ';:              / `.   `-._");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("          `;.;'              `-,/ .     `-.");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("          ';;'              _    `^`       `.");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("         ';;            ,'-' `--._          ;");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("':      `;;        ,;     `.    ':`,,.__,,_ /");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine(" `;`:;`;:`       ,;  '.    ;,      ';';':';;`");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("              .,; '    '-._ `':.;   ");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("            .:; `          '._ `';;,");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("          ;:` `    :'`'       ',__.)");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("        `;:;:.,...;'`'");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("      ';. '`'::'`''  .'`'");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine("    ,'jgs`';;:,..::;`'`'");
+
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine(", .;`      `'::''`");
+
+    Console.SetCursorPosition((Console.WindowWidth) / 3, Console.CursorTop);
+    Console.WriteLine(",`;`.");
+}
