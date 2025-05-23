@@ -131,7 +131,7 @@ public class MainJeu
         }
         Console.ReadLine();
     }
-    void PrintIntro()//-> Affiche l'introduction du jeu
+    public void PrintIntro()//-> Affiche l'introduction du jeu
     {
         nextPrint = "ENSEMENC";
         Console.SetCursorPosition((Console.WindowWidth - nextPrint.Length) / 2, Console.CursorTop); // Placement du curseur au centre de la console
@@ -169,7 +169,7 @@ public class MainJeu
         Console.Clear();
     }
 
-    void FleurAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
+    public void FleurAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
     {
         string[] lines = new string[]
         {
@@ -214,7 +214,7 @@ public class MainJeu
             Console.WriteLine(line);
         }
     }
-    void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l'entier x 
+    public void PrintSelectScreen(int x)//-> Affiche l'écran de selection en fonction de l'entier x 
     {
         Console.Clear();
         nextPrint = "ENSEMENC";
@@ -265,7 +265,7 @@ public class MainJeu
         }
     }
 
-    void SelectScreen()//-> Permet la selection des différents écrans de selection
+    public void SelectScreen()//-> Permet la selection des différents écrans de selection
     {
         Console.Clear();
         bool again = true;
@@ -295,7 +295,7 @@ public class MainJeu
         }
     }
 
-    void PrintColoredText(string input) // -> Permet d'afficher le texte en couleur
+    public void PrintColoredText(string input) // -> Permet d'afficher le texte en couleur
     {
         string[] words = input.Split(' ');
 
@@ -324,7 +324,7 @@ public class MainJeu
     }
 
 
-    void Regles() // -> Affiche les règles du jeu
+    public void Regles() // -> Affiche les règles du jeu
     {
         Console.Clear();
         nextPrint = "Bienvenue dans ENSEMENC. Voici les règles du jeu :";
@@ -357,7 +357,7 @@ public class MainJeu
         Console.ReadKey(true);
         Console.Clear();
     }
-    void WinAscii() // -> Affiche un ascii art de la victoire
+    public void WinAscii() // -> Affiche un ascii art de la victoire
     {
         string[] lines = new string[]
         {
@@ -394,7 +394,7 @@ public class MainJeu
             Console.WriteLine(line);
         }
     }
-    void LoseAscii() // -> Affiche un ascii art de la défaite
+    public void LoseAscii() // -> Affiche un ascii art de la défaite
     {
         string[] lines = new string[]
         {
@@ -425,7 +425,7 @@ public class MainJeu
             Console.WriteLine(line);
         }
     }
-    void InterfaceJeu()
+    public void InterfaceJeu()
     {
         PrintIntro();
         bool enCours = true;
