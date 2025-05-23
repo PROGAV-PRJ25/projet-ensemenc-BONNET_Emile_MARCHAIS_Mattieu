@@ -1,18 +1,17 @@
 public class Joueur
 {
-    public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade 
-    public int PrixRetraite { get; set; } = 1000;
-    public int PositionX { get; set; }
-
-    public int PositionY { get; set; }
+    public int[] TableauRecolte { get; set; } // Tableau de récolte en foction de la plante
+    public int PrixRetraite { get; set; } = 1000; // Prix de la victoire
+    public int PositionX { get; set; } // Position du joueur sur la grille
+    public int PositionY { get; set; } // Position du joueur sur la grille
     public int Argent { get; set; } = 5;
 
-    public HashSet<string> AmeliorationsAchetées { get; set; } = new HashSet<string>();
+    public HashSet<string> AmeliorationsAchetées { get; set; } = new HashSet<string>(); // Liste des améliorations achetées
 
-    public bool AFrappe { get; set; }
-    public EspaceDeJeu Grille { get; set; }
+    public bool AFrappe { get; set; } // Indique si le joueur a frappé un rongeur
+    public EspaceDeJeu Grille { get; set; } 
 
-    public string Affichage { get; set; } = " J ";
+    public string Affichage { get; set; } = " J "; 
 
 
     public Joueur(int x, int y)
@@ -20,16 +19,16 @@ public class Joueur
         PositionX = x;
         PositionY = y;
         AFrappe = false;
-        TableauRecolte = new int[] {0,0,0,0,0,0,0,0};
+        TableauRecolte = new int[] {0,0,0,0,0,0,0,0}; 
     }
     
-    public void MoveJoueur(int tempsBoucle)
+    public void MoveJoueur(int tempsBoucle) // Déplace le joueur sur la grille 
     {
         char? action = null;
-        var timer = new System.Diagnostics.Stopwatch();
+        var timer = new System.Diagnostics.Stopwatch(); // Timer pour permettre de faire avancer le temps même si le joueur ne fait rien
         timer.Start();
 
-        while (timer.ElapsedMilliseconds < tempsBoucle)
+        while (timer.ElapsedMilliseconds < tempsBoucle) // On attend que le temps soit écoulé ou qu'un action soit effectuée
         {
             if (Console.KeyAvailable)
             {
@@ -46,7 +45,7 @@ public class Joueur
                 return;
             }
             
-        int tempX = PositionX; //VAriables temporaires
+        int tempX = PositionX; //Variables temporaires
         int tempY = PositionY;
 
         switch (action)
@@ -64,7 +63,7 @@ public class Joueur
             default: return; 
         }
 
-        if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX)
+        if (tempX >= 0 && tempX < Grille.TailleY && tempY >= 0 && tempY < Grille.TailleX) // Une fois action prise on change la position du joueur avec certaines sécurités
         {
             PositionX = tempX;
             PositionY = tempY;
@@ -72,9 +71,9 @@ public class Joueur
     }
 
 
-    public void Action(int selection)
+    public void Action(int selection) // Action du joueur en fonction de la sélection
     {
-        if(Grille.ModeUrgence)
+        if(Grille.ModeUrgence) // Si le mode urgence est activé, on ne peut faire aucune autre action
         {
             switch (selection)
             {
@@ -105,7 +104,7 @@ public class Joueur
         int x = PositionX;
         int y = PositionY;
 
-        if (AmeliorationsAchetées.Contains("Motoculteur"))
+        if (AmeliorationsAchetées.Contains("Motoculteur")) 
         {
             for (int dx = -1; dx <= 1; dx++)
             {
@@ -139,7 +138,7 @@ public class Joueur
 
     public void Recolter()
     {
-        Plante plante = Grille.SelectionnerPlante(PositionX, PositionY) ;
+        Plante plante = Grille.SelectionnerPlante(PositionX, PositionY);
         if(plante.Type == "Plantenull")
         {
             Console.WriteLine("Il n'y à pas de plante à cette position");
@@ -153,12 +152,12 @@ public class Joueur
             Grille.Plantes.Remove(plante);
             if (plante.Type == "Carotte")
             {
-                TableauRecolte[0]++;
-                int gainBase = 5;
+                TableauRecolte[0]++; // Incrémenter le compteur de chaque plante
+                int gainBase = 5; //Indique la valeur de base de la plante
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -169,7 +168,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -180,7 +179,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -191,7 +190,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -202,7 +201,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -213,7 +212,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -224,7 +223,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -235,7 +234,7 @@ public class Joueur
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
-                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5;
                 }
                 Argent += (int)(gainBase * multiplicateur);
             }
@@ -247,7 +246,7 @@ public class Joueur
         int y = PositionY;
         string type = Grille.PlantesDispo[Grille.SelectPlante].Trim('|');
 
-        return type switch
+        return type switch // Chaque plante est créée avec ses caractéristiques ici 
         {
             "Carotte" => new Plante(type, x, y, 50, 10, 4, Grille),
             "Tomate" => new Plante(type, x, y, 40, 30, 8, Grille),
@@ -275,7 +274,7 @@ public class Joueur
         }
     }
 
-    public void AccederBoutique()
+    public void AccederBoutique() 
     {
         if (PositionX != 0 || PositionY != 0)
         {
@@ -284,14 +283,14 @@ public class Joueur
             return;
         }
 
-        var prixObjet = new Dictionary<string, int>
+        var prixObjet = new Dictionary<string, int> // Chaque objet de la boutique avec son prix
         {
             {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 40},
             {"Capitalisme", 10}, {"Engrais", 15},
             {"Motoculteur", 50}, {"Insecticide", 30}, {"Irrigation automatique", 100},
             {"Katana", 20}, {"SuperRepousse", 50}, {"Retraite", PrixRetraite}
-        };
-        var descriptions = new Dictionary<string, string>
+        }; 
+        var descriptions = new Dictionary<string, string> // Tous les objets de la boutique avec leur description permettant au joueur de savoir ce qu'il achète
         {
             // Plantes
             {"Piment", "Plante épicée nécessitant peu d'eau. Rapport moyen."},
@@ -323,7 +322,7 @@ public class Joueur
         if (!AmeliorationsAchetées.Contains("Capitalisme"))
             ObjetAchetables.Add("Capitalisme");
 
-        // Ajouter autres upgrades si Capitalisme est achetée
+        // Ajouter autres améliorations si Capitalisme est achetée
         string[] upgrades = { "Engrais", "Motoculteur", "Insecticide", "Irrigation automatique", "Katana", "SuperRepousse" };
         if (AmeliorationsAchetées.Contains("Capitalisme"))
         {
@@ -337,11 +336,11 @@ public class Joueur
         int selection = 0;
         bool enCours = true;
 
-        while (enCours)
+        while (enCours) // Dans la boutique, on peut acheter des plantes ou des améliorations et le temps ne passe pas
         {
             Console.Clear();
-            Console.WriteLine("🛒 Boutique - Plantes spéciales à débloquer :");
-            Console.WriteLine($"💰 Argent : {Argent} pièces\n");
+            Console.WriteLine(" Boutique - Plantes spéciales à débloquer :");
+            Console.WriteLine($" Argent : {Argent} pièces\n");
 
             for (int i = 0; i < ObjetAchetables.Count; i++)
             {
@@ -353,7 +352,7 @@ public class Joueur
                     Console.BackgroundColor = ConsoleColor.DarkGray;
 
                 string tag;
-                if (objet == "Retraite")
+                if (objet == "Retraite") // On affiche la condition de victoire différamment des plantes et différament des améliorations
                 {
                     tag = "[🏆 Victoire]";
                     Console.ForegroundColor = ConsoleColor.Magenta;
@@ -409,12 +408,12 @@ public class Joueur
                         if (Grille.ObjetBoutique.Contains(choix))
                         {
                             Grille.PlantesDispo.Add($"|{choix}|");
-                            Console.WriteLine($"\n✅ {choix} débloquée !");
+                            Console.WriteLine($"\n {choix} débloquée !");
                         }
                         else
                         {
                             AmeliorationsAchetées.Add(choix);
-                            Console.WriteLine($"\n✅ Amélioration {choix} achetée !");
+                            Console.WriteLine($"\n Amélioration {choix} achetée !");
                         }
 
                         ObjetAchetables.RemoveAt(selection);
@@ -423,7 +422,7 @@ public class Joueur
                     }
                     else
                     {
-                        Console.WriteLine("\n❌ Pas assez d'argent !");
+                        Console.WriteLine("\n Pas assez d'argent !");
                     }
                     Console.ReadKey(true);
                     break;
@@ -435,7 +434,7 @@ public class Joueur
         }
     }
 
-    public override string ToString()
+    public override string ToString() // Affichage du joueur en fontion du caractère qui le représente
     {
         return Affichage;
     }

@@ -19,17 +19,17 @@ public class MainJeu
         Rongeur = new Rongeur(0, 0, EspaceDeJeu);
     }
 
-    public void StartGame()
+    public void StartGame() 
     {
-        InterfaceJeu();
+        InterfaceJeu(); // -> Affiche l'écran d'accueil et de selection
         bool win = true;
-        while (win)
+        while (win) // Boucle principale du jeu en fonction du mode urgence
         {
             while (!EspaceDeJeu.ModeUrgence && win)
             {
                 var timer = new System.Diagnostics.Stopwatch();
                 timer.Start();
-                while (timer.ElapsedMilliseconds < 1000)
+                while (timer.ElapsedMilliseconds < 1000) // Ici un timer est également utilisé pour que le joueur puisse se déplacer et intéragir rapidement sans que les plantes ne continue de pousser
                 {
                     EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
                     EspaceDeJeu.AfficherJeu();
@@ -38,17 +38,17 @@ public class MainJeu
                 timer.Stop();
                 EspaceDeJeu.UpdatePlantes();
                 EspaceDeJeu.luminosité += 1;
-                if (EspaceDeJeu.luminosité == 16)
+                if (EspaceDeJeu.luminosité == 16) // -> Si la luminosité est à 16, on passe au jour suivant
                 {
                     EspaceDeJeu.Jours++;
                     EspaceDeJeu.luminosité = 0;
                     int frequence = Joueur.AmeliorationsAchetées.Contains("SuperRepousse") ? 6 : 2;
-                    if (EspaceDeJeu.Jours % frequence == 0)
+                    if (EspaceDeJeu.Jours % frequence == 0) // -> Si le nombre de jours est un multiple de 2, on lance le mode urgence
                     {
                         EspaceDeJeu.ModeUrgence = true;
                     }
                 }
-                if (EspaceDeJeu.NombrePlanteMorte >= 50)
+                if (EspaceDeJeu.NombrePlanteMorte >= 50) // -> Si le nombre de plantes mortes est supérieur à 50, on perd
                 {
                     win = false;
                     ConditionFinDeJeu = 1;
@@ -63,7 +63,7 @@ public class MainJeu
             {
                 var timer = new System.Diagnostics.Stopwatch();
                 timer.Start();
-                while (timer.ElapsedMilliseconds < 400)
+                while (timer.ElapsedMilliseconds < 400) // On accélère le jeu pendant le mode urgence
                 {
                     EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
                     EspaceDeJeu.Grille[Rongeur.PositionY, Rongeur.PositionX] = Rongeur.Affichage;
@@ -295,7 +295,7 @@ public class MainJeu
         }
     }
 
-    void PrintColoredText(string input)
+    void PrintColoredText(string input) // -> Permet d'afficher le texte en couleur
     {
         string[] words = input.Split(' ');
 
@@ -324,7 +324,7 @@ public class MainJeu
     }
 
 
-    void Regles()
+    void Regles() // -> Affiche les règles du jeu
     {
         Console.Clear();
         nextPrint = "Bienvenue dans ENSEMENC. Voici les règles du jeu :";
@@ -357,7 +357,7 @@ public class MainJeu
         Console.ReadKey(true);
         Console.Clear();
     }
-    void WinAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
+    void WinAscii() // -> Affiche un ascii art de la victoire
     {
         string[] lines = new string[]
         {
@@ -394,7 +394,7 @@ public class MainJeu
             Console.WriteLine(line);
         }
     }
-    void LoseAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
+    void LoseAscii() // -> Affiche un ascii art de la défaite
     {
         string[] lines = new string[]
         {

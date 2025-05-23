@@ -11,7 +11,7 @@ public class Plante
     public double TauxCroissance { get; set; }
     public Maladie? MaladieActuelle { get; set; }
     public string Type { get; set; }
-    public string Affichage
+    public string Affichage // Affichage de la plante en fonction de son âge
     {
         get
         {
@@ -33,7 +33,6 @@ public class Plante
     }
 
     public EspaceDeJeu Grille { get; set; }
-
 
     public Plante(string type, int x, int y, int esperanceDeVie, int besoinEau, int besoinLuminosite, EspaceDeJeu grille)
     {
@@ -133,7 +132,7 @@ public class Plante
 
         TauxCroissance = Math.Clamp(taux, 0, 100);
     }
-    public void AfficherPlanteStatistique()
+    public void AfficherPlanteStatistique() 
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
         Console.WriteLine("                                --------------------------------Statistique de la plante--------------------------------");
@@ -307,7 +306,7 @@ public class Plante
         Console.ForegroundColor = ConsoleColor.White;
         Console.WriteLine();
 
-        // Progression de grandissement
+        // Progression de grandissement modulo 10
         string plante = "";
         switch(Progression/10)
         {
@@ -403,9 +402,5 @@ public class Plante
         {
             Console.WriteLine(plante);
         }
-    }
-    public override string ToString()
-    {
-        return $"Type: {Type}, Espérance de vie: {EsperanceDeVie}, Hydratation actuelle {Hydratation}";
     }
 }
