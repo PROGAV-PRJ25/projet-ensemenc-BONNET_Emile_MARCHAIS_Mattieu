@@ -6,8 +6,10 @@ public class EspaceDeJeu
     public int TailleX { get; private set; }
     public int TailleY { get; private set; }
     public int NombrePlanteMorte { get; set; }
+
+    // Création de variables pour gérer la selection de l'inventaire
     private int _selectInventaire;
-    public int SelectInventaire
+    public int SelectInventaire 
     {
         get => _selectInventaire;
         set
@@ -26,6 +28,8 @@ public class EspaceDeJeu
             }
         }
     }
+
+    // Création de variables pour gérer la selection des palntes à planter
     private int _selectPlante;
     public int SelectPlante
     {
@@ -48,15 +52,15 @@ public class EspaceDeJeu
     }
 
     public int Jours { get; set; } = 0;
-    public int luminosity { get; set; } = 0;
+    public int luminosité { get; set; } = 0;
     public bool ModeUrgence { get; set; } = false;
     public bool Retraite { get; set; } = false;
     public bool[,] EstLaboure { get; set; }
-    public Plante Plantenull { get; }
+    public Plante Plantenull { get; } // Variable qui sert à géer le cas ou lorsqu'on cherche une plante qui n'existe pas 
     public List<Plante> Plantes = new List<Plante>();
     public List<string> PlantesDispo { get; set; } = new List<string> {"|Carotte|", "|Tomate|", "|Radis|", "|Salade|"};
     public List<string> ObjetBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise", "Retraite" };
-    public List<string> Inventaire { get; set; } = new List<string> {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| ", "|_| ", "|_| "};
+    public List<string> Inventaire { get; set; } = new List<string> {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| "};
     public Joueur Joueur { get; set; }
  
     
@@ -69,12 +73,13 @@ public class EspaceDeJeu
         TailleY = tailleY;
         NombrePlanteMorte = 0;
         EstLaboure = new bool[TailleX, TailleY];
-        Plantenull = new Plante ("Plantenull", -1, -1, 0, 40, 6, this);
+        Plantenull = new Plante ("Plantenull", -1, -1, 0, 0, 0, this); 
         Joueur = joueur ?? new Joueur(0, 0);
         InitialiserGrille();
     }
 
     public void InitialiserGrille()
+    /*Fonction servant à initialiser la grille de départ dans l'espace de jeu*/
     {
         Grille = new string[TailleX, TailleY];
         CarteTerrains = new Terrain[TailleX, TailleY];
@@ -84,22 +89,22 @@ public class EspaceDeJeu
             for (int j = 0; j < TailleY; j++)
                 CarteTerrains[i, j] = new Terrain("-");
 
-        // Créer des patchs (3 à 4)
+        // Créer des patchs (3 à 5)
         string[] types = new string[] { "+", "*" };
         Random rnd = new Random();
-        int nbPatchs = rnd.Next(3, 5);
+        int nbPatchs = rnd.Next(3, 6);
 
         for (int p = 0; p < nbPatchs; p++)
         {
             string type = types[rnd.Next(types.Length)];
-            int patchWidth = rnd.Next(3, 6);
-            int patchHeight = rnd.Next(3, 6);
-            int startX = rnd.Next(0, TailleX - patchWidth);
-            int startY = rnd.Next(0, TailleY - patchHeight);
+            int patchLargeur = rnd.Next(3, 6);
+            int patchHauteur = rnd.Next(3, 6);
+            int startX = rnd.Next(0, TailleX - patchLargeur);
+            int startY = rnd.Next(0, TailleY - patchHauteur);
 
-            for (int i = startX; i < startX + patchWidth; i++)
+            for (int i = startX; i < startX + patchLargeur; i++)
             {
-                for (int j = startY; j < startY + patchHeight; j++)
+                for (int j = startY; j < startY + patchHauteur; j++)
                 {
                     CarteTerrains[i, j] = new Terrain(type);
                 }
@@ -116,6 +121,7 @@ public class EspaceDeJeu
     }
 
     public void DefinirGrille(int x, int y)
+    /*Fonction servant à redéfinir la grille à chaque étapes*/
     {
         // Vider la grille pour mettre à jours
         for (int i = 0; i < TailleX; i++)
@@ -145,7 +151,8 @@ public class EspaceDeJeu
         // Placer le joueur en dernier
         Grille[y, x] = Joueur.Affichage;
     }
-    public void AfficherGrille()
+    public void AfficherJeu()
+    /*Fonction servant à afficher la grille*/
     {
         Console.Clear();
         Console.WriteLine();
@@ -153,7 +160,7 @@ public class EspaceDeJeu
         for (int i = 0; i < TailleX; i++)
         {
             Console.SetCursorPosition((Console.WindowWidth - TailleX*9)/2, Console.CursorTop);
-            if(luminosity == 0 || luminosity >= 12)
+            if(luminosité == 0 || luminosité >= 12)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
             }
@@ -164,18 +171,24 @@ public class EspaceDeJeu
             Console.Write("                              ");
             for (int j = 0; j < TailleY; j++)
             {
-                switch(CarteTerrains[i, j].Type)
+                
+                // Pour colorer le fond des terrains d'une couleur différente
+                switch (CarteTerrains[i, j].Type)
                 {
                     case "-": Console.BackgroundColor = ConsoleColor.DarkGreen; break;
                     case "+": Console.BackgroundColor = ConsoleColor.DarkCyan; break;
                     case "*": Console.BackgroundColor = ConsoleColor.DarkYellow; break;
                 }
+                
+                // On colorie le Joueur en cyan
                 if (Joueur.PositionX == j && Joueur.PositionY == i)
                 {
                     Console.ForegroundColor = ConsoleColor.Cyan;
                     Console.Write(Grille[i, j]);
                     Console.ForegroundColor = ConsoleColor.White;
                 }
+
+                // On colorie une plante en magenta si elle est malade, sinon si elle est prête à la récole elle est en blanc, et en noir sinon
                 else if (SelectionnerPlante(j, i) != Plantenull)
                 {
                     Plante plante = SelectionnerPlante(j, i);
@@ -189,11 +202,13 @@ public class EspaceDeJeu
                     }
                     else
                     {
-                        Console.ForegroundColor = ConsoleColor.Black; 
+                        Console.ForegroundColor = ConsoleColor.Black;
                     }
                     Console.Write(Grille[i, j]);
                     Console.ForegroundColor = ConsoleColor.White;
                 }
+
+                // Le reste est colorié en gris foncé
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -202,12 +217,14 @@ public class EspaceDeJeu
                 }
                 
             }
-            if(luminosity == 0 || luminosity >= 12)
+            
+            // On colorie les côté de la grille en noir s'il fait nuit et en gris foncé s'il fait jour
+            if (luminosité == 0 || luminosité >= 12)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
             }
             else
-            {   
+            {
                 Console.BackgroundColor = ConsoleColor.DarkGray;
             }
             Console.Write("                              ");
@@ -218,19 +235,19 @@ public class EspaceDeJeu
         Console.WriteLine();
         AfficherInventaire(SelectInventaire);
         Console.WriteLine("\nJours: " + Jours);
-        if (luminosity <= 4)
+        if (luminosité <= 4)
         {
             Console.WriteLine("Luminosité: On est le matin, il fait sombre.");
         }
-        else if (luminosity <= 8)
+        else if (luminosité <= 8)
         {
             Console.WriteLine("Luminosité: On est le midi, il fait jour.");
         }
-        else if (luminosity <= 12)
+        else if (luminosité <= 12)
         {
             Console.WriteLine("Luminosité: On est le soir, il fait sombre.");
         }
-        else if (luminosity <= 16)
+        else if (luminosité <= 16)
         {
             Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
         }
@@ -247,6 +264,7 @@ public class EspaceDeJeu
 
 
     public void AfficherInventaire(int selection)
+    /*Fonction pour afficher l'inventaire et surtout l'action que l'on séléctionne*/
     {
         for(int i = 0; i < Inventaire.Count; i++ )
         {
@@ -279,7 +297,8 @@ public class EspaceDeJeu
             }
         }
     }
-        public void UpdatePlantes()
+    public void UpdatePlantes()
+    /*Fonction pour mettre à jours toutes les plantes de l'espace de jeu*/
     {
         foreach (var plante in Plantes)
         {
@@ -287,12 +306,15 @@ public class EspaceDeJeu
         }
 
         int tempNombrePlanteMorte = Plantes.Count();
+
+        // On supprome les plantes mortes de la liste
         Plantes = Plantes.Where(p => p.EsperanceDeVie > 0).ToList();
         NombrePlanteMorte += tempNombrePlanteMorte - Plantes.Count();
 
     }
 
     public Plante SelectionnerPlante(int x, int y)
+    /*Fonction servant à séléctionner la plante se situant sur les coordonnée x, y*/
     {
         foreach(Plante plante in Plantes)
         {

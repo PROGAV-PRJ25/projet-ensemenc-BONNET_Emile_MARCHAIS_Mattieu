@@ -98,7 +98,7 @@ public class Plante
         double taux = 100;
 
         // Impact de la luminosité
-        int lumiDiff = Math.Abs(Grille.luminosity - BesoinLuminosite);
+        int lumiDiff = Math.Abs(Grille.luminosité - BesoinLuminosite);
         if (lumiDiff <= 1)
             taux += 10;
         else if (lumiDiff <= 3)
