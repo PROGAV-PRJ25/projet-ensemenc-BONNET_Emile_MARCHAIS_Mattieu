@@ -40,7 +40,7 @@ public class Rongeur
     }
 
     public void MangerPlante()
-    /*Fonction supprimant les plantes sur lequelles le rongeur est passé*/
+    /*Fonction supprimant les plantes sur lesquelles le rongeur est passé*/
     {
         for(int i = EspaceDeJeu.Plantes.Count - 1; i >= 0; i--)
         {

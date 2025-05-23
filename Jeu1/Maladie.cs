@@ -26,7 +26,7 @@ public class Maladie
     }
 
     public void ContracterMaladie(Plante plante)
-    /*Fonction qui applique une maladie selon une certaine probabilité à une plante*/
+    /*Fonction qui applique une maladie selon le type de la plante*/
     {
         // Maladie unique par type
         switch (Type)

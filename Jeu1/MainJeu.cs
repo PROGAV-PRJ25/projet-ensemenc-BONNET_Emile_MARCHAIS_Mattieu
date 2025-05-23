@@ -93,10 +93,24 @@ public class MainJeu
         Console.Clear();
         if (condition == 1)
         {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            LoseAscii();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Vous avez tué toute vos plantes...");
         }
         if (condition == 2)
         {
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
+            WinAscii();
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine();
             Console.WriteLine("Bravo, vous avez accumulé assez d'argent pour prendre votre retraite !!!");
             Console.WriteLine();
             Console.WriteLine();
@@ -115,6 +129,7 @@ public class MainJeu
             Console.WriteLine("Reposez vous bien :)");
 
         }
+        Console.ReadLine();
     }
     void PrintIntro()//-> Affiche l'introduction du jeu
     {
@@ -123,7 +138,7 @@ public class MainJeu
         Console.WriteLine(nextPrint);
         Console.WriteLine();
         Console.WriteLine();
-        PrintAscii();
+        FleurAscii();
         Console.WriteLine();
         Console.WriteLine();
 
@@ -154,7 +169,7 @@ public class MainJeu
         Console.Clear();
     }
 
-    void PrintAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
+    void FleurAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
     {
         string[] lines = new string[]
         {
@@ -207,7 +222,7 @@ public class MainJeu
         Console.WriteLine(nextPrint);
         Console.WriteLine();
         Console.WriteLine();
-        PrintAscii();
+        FleurAscii();
         Console.WriteLine();
         Console.WriteLine();
         nextPrint = "Naviguer avec z pour monter et s pour descendre";
@@ -342,7 +357,74 @@ public class MainJeu
         Console.ReadKey(true);
         Console.Clear();
     }
+    void WinAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
+    {
+        string[] lines = new string[]
+        {
+            "        GGGGGGGGGGGGG                                                                                 !!!  !!!  !!! ",
+            "     GGG::::::::::::G                                                                                !!:!!!!:!!!!:!!",
+            "   GG:::::::::::::::G                                                                                !:::!!:::!!:::!",
+            "  G:::::GGGGGGGG::::G                                                                                !:::!!:::!!:::!",
+            " G:::::G       GGGGGG  aaaaaaaaaaaaa     ggggggggg   gggggnnnn  nnnnnnnn        eeeeeeeeeeee         !:::!!:::!!:::!",
+            "G:::::G                a::::::::::::a   g:::::::::ggg::::gn:::nn::::::::nn    ee::::::::::::ee       !:::!!:::!!:::!",
+            "G:::::G                aaaaaaaaa:::::a g:::::::::::::::::gn::::::::::::::nn  e::::::eeeee:::::ee     !:::!!:::!!:::!",
+            "G:::::G    GGGGGGGGGG           a::::ag::::::ggggg::::::ggnn:::::::::::::::ne::::::e     e:::::e     !:::!!:::!!:::!",
+            "G:::::G    G::::::::G    aaaaaaa:::::ag:::::g     g:::::g   n:::::nnnn:::::ne:::::::eeeee::::::e     !:::!!:::!!:::!",
+            "G:::::G    GGGGG::::G  aa::::::::::::ag:::::g     g:::::g   n::::n    n::::ne:::::::::::::::::e      !:::!!:::!!:::!",
+            "G:::::G        G::::G a::::aaaa::::::ag:::::g     g:::::g   n::::n    n::::ne::::::eeeeeeeeeee       !!:!!!!:!!!!:!!",
+            " G:::::G       G::::Ga::::a    a:::::ag::::::g    g:::::g   n::::n    n::::ne:::::::e                 !!!  !!!  !!! ",
+            "  G:::::GGGGGGGG::::Ga::::a    a:::::ag:::::::ggggg:::::g   n::::n    n::::ne::::::::e                              ",
+            "   GG:::::::::::::::Ga:::::aaaa::::::a g::::::::::::::::g   n::::n    n::::n e::::::::eeeeeeee        !!!  !!!  !!! ",
+            "     GGG::::::GGG:::G a::::::::::aa:::a gg::::::::::::::g   n::::n    n::::n  ee:::::::::::::e       !!:!!!!:!!!!:!!",
+            "       GGGGGG   GGGG  aaaaaaaaaa  aaaa   gggggggg::::::g   nnnnnn    nnnnnn    eeeeeeeeeeeeee        !!!  !!!  !!! ",
+            "                                                  g:::::g                                                           ",
+            "                                      gggggg      g:::::g                                                           ",
+            "                                      g:::::gg   gg:::::g                                                           ",
+            "                                       g::::::ggg:::::::g                                                           ",
+            "                                        gg:::::::::::::g                                                            ",
+            "                                          ggg::::::ggg                                                              ",
+            "                                             gggggg    "
+        };
 
+        int startX = Console.WindowWidth / 8;
+
+        foreach (string line in lines)
+        {
+            Console.SetCursorPosition(startX, Console.CursorTop);
+            Console.WriteLine(line);
+        }
+    }
+    void LoseAscii() // -> Affiche une fleur imposante pour l'écran d'accueil
+    {
+        string[] lines = new string[]
+        {
+            "                                                                    dddddddd                      ",
+            "PPPPPPPPPPPPPPPPP                                                   d::::::d                      ",
+            "P::::::::::::::::P                                                  d::::::d                      ",
+            "P::::::PPPPPP:::::P                                                 d::::::d                      ",
+            "PP:::::P     P:::::P                                                d:::::d                       ",
+            "P::::P     P:::::P  eeeeeeeeeeee    rrrrr   rrrrrrrrr       ddddddddd:::::d uuuuuu    uuuuuu      ",
+            "P::::P     P:::::Pee::::::::::::ee  r::::rrr:::::::::r    dd::::::::::::::d u::::u    u::::u      ",
+            "P::::PPPPPP:::::Pe::::::eeeee:::::eer:::::::::::::::::r  d::::::::::::::::d u::::u    u::::u      ",
+            "P:::::::::::::PPe::::::e     e:::::err::::::rrrrr::::::rd:::::::ddddd:::::d u::::u    u::::u      ",
+            "P::::PPPPPPPPP  e:::::::eeeee::::::e r:::::r     r:::::rd::::::d    d:::::d u::::u    u::::u      ",
+            "P::::P          e:::::::::::::::::e  r:::::r     rrrrrrrd:::::d     d:::::d u::::u    u::::u      ",
+            "P::::P          e::::::eeeeeeeeeee   r:::::r            d:::::d     d:::::d u::::u    u::::u      ",
+            "P::::P          e:::::::e            r:::::r            d:::::d     d:::::d u:::::uuuu:::::u      ",
+            "PP::::::PP        e::::::::e           r:::::r            d::::::ddddd::::::ddu:::::::::::::::uu  ",
+            "P::::::::P         e::::::::eeeeeeee   r:::::r             d:::::::::::::::::d u:::::::::::::::u  ",
+            "P::::::::P          ee:::::::::::::e   r:::::r              d:::::::::ddd::::d  uu::::::::uu:::u  ",
+            "PPPPPPPPPP            eeeeeeeeeeeeee   rrrrrrr               ddddddddd   ddddd    uuuuuuuu  uuuu  ",
+        };
+
+        int startX = Console.WindowWidth / 4;
+
+        foreach (string line in lines)
+        {
+            Console.SetCursorPosition(startX, Console.CursorTop);
+            Console.WriteLine(line);
+        }
+    }
     void InterfaceJeu()
     {
         PrintIntro();
