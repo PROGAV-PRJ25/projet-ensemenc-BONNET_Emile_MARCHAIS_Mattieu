@@ -1,6 +1,7 @@
 public class Joueur
 {
     public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade 
+    public int PrixRetraite { get; set; } = 500;
     public int PositionX { get; set; }
 
     public int PositionY { get; set; }
@@ -212,7 +213,7 @@ public class Joueur
 
         var prixObjet = new Dictionary<string, int>
         {
-            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}, {"Retraite", 500}
+            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}, {"Retraite", PrixRetraite}
         };
 
         // Liste des plantes non encore achetées
@@ -269,7 +270,7 @@ public class Joueur
                     int prix = prixObjet[choix];
                     if (choix == "Retraite")
                     {
-                        prixObjet[choix] -= Argent;
+                        PrixRetraite -= Argent;
                         Argent = 0;
 
                         if (prixObjet[choix] <= 0)

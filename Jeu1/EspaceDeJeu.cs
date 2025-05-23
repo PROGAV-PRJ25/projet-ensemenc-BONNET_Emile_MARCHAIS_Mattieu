@@ -121,7 +121,7 @@ public class EspaceDeJeu
     }
 
     public void DefinirGrille(int x, int y)
-    /*Fonction servant à redéfinir la grille à chaque étapes*/
+    /*Fonction servant à redéfinir la grille à chaque étape*/
     {
         // Vider la grille pour mettre à jours
         for (int i = 0; i < TailleX; i++)
@@ -152,7 +152,7 @@ public class EspaceDeJeu
         Grille[y, x] = Joueur.Affichage;
     }
     public void AfficherJeu()
-    /*Fonction servant à afficher la grille*/
+    /*Fonction servant à afficher tout l'espace de jeu*/
     {
         Console.Clear();
         Console.WriteLine();
