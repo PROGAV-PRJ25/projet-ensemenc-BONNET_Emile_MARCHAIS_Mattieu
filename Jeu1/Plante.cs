@@ -136,17 +136,35 @@ public class Plante
     public void AfficherPlanteStatistique()
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("--------------------------------Statistique de la plante--------------------------------");
+        Console.WriteLine("                                --------------------------------Statistique de la plante--------------------------------");
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.White;
 
         //Stats de base
-        string stat = $"Type: {Type}, Espérance de vie: {EsperanceDeVie}";
+        string stat = $"                   Type: {Type}                                                 Espérance de vie: {EsperanceDeVie}";
         Console.WriteLine(stat);
+
+        //Appréciation du terrain
+        string appréciation = $"";
+        string bonus = $"                   Votre {Type} aime bien ce terrain";
+        string neutre = $"                   Votre {Type} ne semble pas affectée par ce terrain";
+        switch (Type, Grille.CarteTerrains[PositionY, PositionX].Type)
+        {
+            case ("Carotte", "*"): appréciation = bonus; break;
+            case ("Tomate", "+"): appréciation = bonus; break;
+            case ("Radis", "+"): appréciation = bonus; break;
+            case ("Salade", "-"): appréciation = bonus; break;
+            case ("Piment", "-"): appréciation = bonus; break;
+            case ("Melon", "*"): appréciation = bonus; break;
+            case ("Citrouille", "*"): appréciation = bonus; break;
+            case ("Fraise", "+"): appréciation = bonus; break; 
+            default : appréciation = neutre; break;
+        }
+        Console.WriteLine(appréciation);
         Console.WriteLine();
 
         //Hydratation
-        Console.Write("Hydratation:  ");
+        Console.Write("                   Hydratation :           ");
         switch(Hydratation/10)
         {
             case 0 : 
@@ -162,50 +180,51 @@ public class Plante
             case 2 : 
             {
                 Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine("██▒▒▒▒▒▒▒▒ 20%"); break;
+                Console.Write("██▒▒▒▒▒▒▒▒ 20%"); break;
             }
             case 3 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("███▒▒▒▒▒▒▒ 30%"); break;
+                Console.Write("███▒▒▒▒▒▒▒ 30%"); break;
             }
             case 4 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("████▒▒▒▒▒▒ 40%"); break;
+                Console.Write("████▒▒▒▒▒▒ 40%"); break;
             }
             case 5 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("█████▒▒▒▒▒ 50%"); break;
+                Console.Write("█████▒▒▒▒▒ 50%"); break;
             }
             case 6 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("██████▒▒▒▒ 60%"); break;
+                Console.Write("██████▒▒▒▒ 60%"); break;
             }
             case 7 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("███████▒▒▒ 70%"); break;
+                Console.Write("███████▒▒▒ 70%"); break;
             }
             case 8 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("████████▒▒ 80%"); break;
+                Console.Write("████████▒▒ 80%"); break;
             }
             case 9 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("█████████▒ 90%"); break;
+                Console.Write("█████████▒ 90%"); break;
             }
             case 10 : 
             {
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine("██████████ 100%"); break;
+                Console.Write("██████████ 100%"); break;
             }
         }
         Console.ForegroundColor = ConsoleColor.White;
+        Console.Write("                        ");
 
         //Maladie
         string maladie;
@@ -218,12 +237,13 @@ public class Plante
             maladie = $"La plante possède {MaladieActuelle.Type} il reste {MaladieActuelle.Duree} avant qu'elle guerisse.";
         }
         Console.WriteLine(maladie);
+        Console.WriteLine();
 
         //Taux de croissance
-        Console.Write("Jauge de satisfaction:  ");
+        Console.Write("                   Jauge de satisfaction:  ");
         switch(TauxCroissance/10)
         {
-            case 0 : 
+            case 0: 
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("▒▒▒▒▒▒▒▒▒▒ 0%"); break;
@@ -277,6 +297,11 @@ public class Plante
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("██████████ 100%"); break;
+            }
+            default :
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("▒▒▒▒▒▒▒▒▒▒ 0%"); break;    
             }
         }
         Console.ForegroundColor = ConsoleColor.White;
@@ -374,7 +399,7 @@ public class Plante
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Votre plante est arrivée à maturité, Bravo !!! Vous pouvez la récupérer");
         }
-        else 
+        else
         {
             Console.WriteLine(plante);
         }
