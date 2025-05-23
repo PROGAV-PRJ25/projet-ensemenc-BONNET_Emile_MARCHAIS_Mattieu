@@ -19,14 +19,14 @@ public class Plante
 
             return Type switch
             {
-                "Carotte" => Progression < 10 ? "c" : "C",
-                "Tomate" => Progression < 10 ? "t" : "T",
-                "Radis" => Progression < 10 ? "r" : "R",
-                "Salade" => Progression < 10 ? "s" : "S",
-                "Piment" => Progression < 10 ? "p" : "P",
-                "Melon" => Progression < 10 ? "m" : "M",
-                "Citrouille" => Progression < 10 ? "h" : "H",
-                "Fraise" => Progression < 10 ? "f" : "F",
+                "Carotte" => Progression < 100 ? "c" : "C",
+                "Tomate" => Progression < 100 ? "t" : "T",
+                "Radis" => Progression < 100 ? "r" : "R",
+                "Salade" => Progression < 100 ? "s" : "S",
+                "Piment" => Progression < 100 ? "p" : "P",
+                "Melon" => Progression < 100 ? "m" : "M",
+                "Citrouille" => Progression < 100 ? "h" : "H",
+                "Fraise" => Progression < 100 ? "f" : "F",
                 _ => "?"
             };
         }
@@ -72,9 +72,9 @@ public class Plante
         RecalculerTauxCroissance();
 
 
-        if (((rnd.NextDouble()*100) <= TauxCroissance) && (Progression < 10 ))
+        if (((rnd.NextDouble()*100) <= TauxCroissance) && (Progression < 100 ))
         {
-            Progression++;
+            Progression+=5;
         }
 
         if (TauxCroissance < 1)
@@ -309,7 +309,7 @@ public class Plante
 
         // Progression de grandissement
         string plante = "";
-        switch(Progression)
+        switch(Progression/10)
         {
             case 1: 
             {

@@ -59,7 +59,7 @@ public class EspaceDeJeu
     public Plante Plantenull { get; } // Variable qui sert à géer le cas ou lorsqu'on cherche une plante qui n'existe pas 
     public List<Plante> Plantes = new List<Plante>();
     public List<string> PlantesDispo { get; set; } = new List<string> {"|Carotte|", "|Tomate|", "|Radis|", "|Salade|"};
-    public List<string> ObjetBoutique { get; set; } = new List<string> { "Piment", "Melon", "Citrouille", "Fraise", "Retraite" };
+    public List<string> ObjetBoutique { get; set; } = new List<string> { "Retraite", "Piment", "Melon", "Citrouille", "Fraise"};
     public List<string> Inventaire { get; set; } = new List<string> {"|Labourer| ", "|Planter| ", "|Récolter| ", "|Arroser| ", "|Frapper| ", "|Boutique| "};
     public Joueur Joueur { get; set; }
  

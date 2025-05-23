@@ -1,11 +1,11 @@
 public class Joueur
 {
     public int[] TableauRecolte { get; set; } // 0 = Carotte; 1 = Tomate; 2 = Radis; 3 = Salade 
-    public int PrixRetraite { get; set; } = 500;
+    public int PrixRetraite { get; set; } = 1000;
     public int PositionX { get; set; }
 
     public int PositionY { get; set; }
-    public int Argent { get; set; } = 100;
+    public int Argent { get; set; } = 5;
 
     public HashSet<string> AmeliorationsAchetées { get; set; } = new HashSet<string>();
 
@@ -176,7 +176,7 @@ public class Joueur
             else if (plante.Type == "Radis")
             {
                 TableauRecolte[2]++;
-                int gainBase = 15;
+                int gainBase = 10;
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
@@ -187,7 +187,7 @@ public class Joueur
             else if (plante.Type == "Salade")
             {
                 TableauRecolte[3]++;
-                int gainBase = 20;
+                int gainBase = 12;
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
@@ -198,7 +198,7 @@ public class Joueur
             else if (plante.Type == "Piment")
             {
                 TableauRecolte[4]++;
-                int gainBase = 25;
+                int gainBase = 15;
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
@@ -209,7 +209,7 @@ public class Joueur
             else if (plante.Type == "Melon")
             {
                 TableauRecolte[5]++;
-                int gainBase = 30;
+                int gainBase = 17;
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
@@ -220,7 +220,7 @@ public class Joueur
             else if (plante.Type == "Citrouille")
             {
                 TableauRecolte[6]++;
-                int gainBase = 35;
+                int gainBase = 22;
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
@@ -231,7 +231,7 @@ public class Joueur
             else if (plante.Type == "Fraise")
             {
                 TableauRecolte[7]++;
-                int gainBase = 40;
+                int gainBase = 26;
                 double multiplicateur = 1;
                 if (AmeliorationsAchetées.Contains("Insecticide"))
                 {
@@ -249,15 +249,15 @@ public class Joueur
 
         return type switch
         {
-            "Carotte" => new Plante(type, x, y, 30, 40, 6, Grille),
-            "Tomate" => new Plante(type, x, y, 40, 50, 8, Grille),
-            "Radis" => new Plante(type, x, y, 50, 30, 5, Grille),
-            "Salade" => new Plante(type, x, y, 15, 60, 4, Grille),
-            "Piment" => new Plante(type, x, y, 25, 50, 7, Grille),
-            "Melon" => new Plante(type, x, y, 60, 60, 10, Grille),
-            "Citrouille" => new Plante(type, x, y, 70, 70, 10, Grille),
-            "Fraise" => new Plante(type, x, y, 20, 30, 6, Grille),
-            _ => new Plante("Carotte", x, y, 30, 40, 6, Grille)
+            "Carotte" => new Plante(type, x, y, 50, 10, 4, Grille),
+            "Tomate" => new Plante(type, x, y, 40, 30, 8, Grille),
+            "Radis" => new Plante(type, x, y, 70, 70, 5, Grille),
+            "Salade" => new Plante(type, x, y, 30, 60, 4, Grille),
+            "Piment" => new Plante(type, x, y, 30, 30, 7, Grille),
+            "Melon" => new Plante(type, x, y, 30, 50, 10, Grille),
+            "Citrouille" => new Plante(type, x, y, 20, 30, 10, Grille),
+            "Fraise" => new Plante(type, x, y, 20, 70, 12, Grille),
+            _ => new Plante("Carotte", x, y, 50, 10, 4, Grille)
         };
     }
 
@@ -286,10 +286,10 @@ public class Joueur
 
         var prixObjet = new Dictionary<string, int>
         {
-            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20},
+            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 40},
             {"Capitalisme", 10}, {"Engrais", 15},
             {"Motoculteur", 50}, {"Insecticide", 30}, {"Irrigation automatique", 100},
-            {"Katana", 20}, {"SuperRepousse", 30}, {"Retraite", PrixRetraite}
+            {"Katana", 20}, {"SuperRepousse", 50}, {"Retraite", PrixRetraite}
         };
         var descriptions = new Dictionary<string, string>
         {
@@ -346,6 +346,7 @@ public class Joueur
             for (int i = 0; i < ObjetAchetables.Count; i++)
             {
                 string objet = ObjetAchetables[i];
+
                 bool estAmelioration = prixObjet.ContainsKey(objet) && !Grille.ObjetBoutique.Contains(objet);
 
                 if (i == selection)
@@ -368,20 +369,10 @@ public class Joueur
                     Console.ForegroundColor = ConsoleColor.Green;
                 }
 
-                bool dejaAcheté = estAmelioration && AmeliorationsAchetées.Contains(objet);
-
-                if (dejaAcheté)
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                else if (estAmelioration)
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                else
-                    Console.ForegroundColor = ConsoleColor.Green;
-
-                string checkmark = dejaAcheté ? "✓ " : "";
                 if (objet == "Retraite")
                     Console.WriteLine($"✨ {tag} {objet.ToUpper()} : {prixObjet[objet]} ✨");
                 else
-                    Console.WriteLine($"- {tag} {checkmark}{objet} : {prixObjet[objet]}");
+                    Console.WriteLine($"- {tag}{objet} : {prixObjet[objet]}");
 
 
                 Console.ResetColor();

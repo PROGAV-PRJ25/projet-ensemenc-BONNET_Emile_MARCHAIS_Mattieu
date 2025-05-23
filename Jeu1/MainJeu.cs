@@ -23,67 +23,69 @@ public class MainJeu
     {
         InterfaceJeu();
         bool win = true;
-        while (!EspaceDeJeu.ModeUrgence && win)
+        while (win)
         {
-            var timer = new System.Diagnostics.Stopwatch();
-            timer.Start();
-            while (timer.ElapsedMilliseconds < 1000)
+            while (!EspaceDeJeu.ModeUrgence && win)
             {
-                EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
-                EspaceDeJeu.AfficherJeu();
-                Joueur.MoveJoueur(1000);
-            }
-            timer.Stop();
-            EspaceDeJeu.UpdatePlantes();
-            EspaceDeJeu.luminosité += 1;
-            if (EspaceDeJeu.luminosité == 16)
-            {
-                EspaceDeJeu.Jours++;
-                EspaceDeJeu.luminosité = 0;
-                int frequence = Joueur.AmeliorationsAchetées.Contains("SuperRepousse") ? 15 : 10;
-                if (EspaceDeJeu.Jours % frequence == 0)
+                var timer = new System.Diagnostics.Stopwatch();
+                timer.Start();
+                while (timer.ElapsedMilliseconds < 1000)
                 {
-                    EspaceDeJeu.ModeUrgence = true;
+                    EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
+                    EspaceDeJeu.AfficherJeu();
+                    Joueur.MoveJoueur(1000);
+                }
+                timer.Stop();
+                EspaceDeJeu.UpdatePlantes();
+                EspaceDeJeu.luminosité += 1;
+                if (EspaceDeJeu.luminosité == 16)
+                {
+                    EspaceDeJeu.Jours++;
+                    EspaceDeJeu.luminosité = 0;
+                    int frequence = Joueur.AmeliorationsAchetées.Contains("SuperRepousse") ? 6 : 2;
+                    if (EspaceDeJeu.Jours % frequence == 0)
+                    {
+                        EspaceDeJeu.ModeUrgence = true;
+                    }
+                }
+                if (EspaceDeJeu.NombrePlanteMorte >= 50)
+                {
+                    win = false;
+                    ConditionFinDeJeu = 1;
+                }
+                if (EspaceDeJeu.Retraite)
+                {
+                    win = false;
+                    ConditionFinDeJeu = 2;
                 }
             }
-            if (EspaceDeJeu.NombrePlanteMorte >= 2)
+            while (EspaceDeJeu.ModeUrgence && win)
             {
-                win = false;
-                ConditionFinDeJeu = 1;
-            }
-            if (EspaceDeJeu.Retraite)
-            {
-                win = false;
-                ConditionFinDeJeu = 2;
-            }
-        }
-        while (EspaceDeJeu.ModeUrgence && win)
-        {
-            var timer = new System.Diagnostics.Stopwatch();
-            timer.Start();
-            while (timer.ElapsedMilliseconds < 400)
-            {
-                EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
-                EspaceDeJeu.Grille[Rongeur.PositionY, Rongeur.PositionX] = Rongeur.Affichage;
-                EspaceDeJeu.AfficherJeu();
-                Joueur.MoveJoueur(300);
-                if (Joueur.AFrappe)
+                var timer = new System.Diagnostics.Stopwatch();
+                timer.Start();
+                while (timer.ElapsedMilliseconds < 400)
                 {
-                    int degats = Joueur.AmeliorationsAchetées.Contains("Katana") ? 2 : 1;
-                    Rongeur.PV -= degats;
-                    Joueur.AFrappe = false;
+                    EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
+                    EspaceDeJeu.Grille[Rongeur.PositionY, Rongeur.PositionX] = Rongeur.Affichage;
+                    EspaceDeJeu.AfficherJeu();
+                    Joueur.MoveJoueur(300);
+                    if (Joueur.AFrappe)
+                    {
+                        int degats = Joueur.AmeliorationsAchetées.Contains("Katana") ? 2 : 1;
+                        Rongeur.PV -= degats;
+                        Joueur.AFrappe = false;
+                    }
+                }
+                timer.Stop();
+                Rongeur.MangerPlante();
+                Rongeur.MoveRongeur();
+                if (Rongeur.PV <= 0)
+                {
+                    EspaceDeJeu.ModeUrgence = false;
+                    Rongeur.PV = 3;
                 }
             }
-            timer.Stop();
-            Rongeur.MangerPlante();
-            Rongeur.MoveRongeur();
-            if (Rongeur.PV <= 0)
-            {
-                EspaceDeJeu.ModeUrgence = false;
-                Rongeur.PV = 3;
-            }
         }
-
     }
 
     public void AfficherFinJeu(int condition)

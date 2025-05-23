@@ -3,7 +3,12 @@ Equilibrage
 Menu
 
 
+
 Créatif :
-    -Amélioration boutique (Ex: meilleur labourrage/arrosage)
     -Affichage texte mieux
     -Sauvegarde ??? 
+
+
+Truc à faire en 2 spe : Affichage win/lose
+Readapter  les descriptions des plantes
+labourer la boutique 
