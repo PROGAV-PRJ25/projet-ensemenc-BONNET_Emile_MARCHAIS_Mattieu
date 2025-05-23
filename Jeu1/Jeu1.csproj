@@ -8,10 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Windows.Extensions" Version="9.0.5" />
-    <Content Include="tadow.wav">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>    
+    <PackageReference Include="System.Windows.Extensions" Version="9.0.5" /> 
   </ItemGroup>
 
   <ItemGroup>
