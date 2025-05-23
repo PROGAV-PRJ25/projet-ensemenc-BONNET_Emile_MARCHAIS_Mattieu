@@ -40,7 +40,8 @@ public class MainJeu
             {
                 EspaceDeJeu.Jours++;
                 EspaceDeJeu.luminosité = 0;
-                if (EspaceDeJeu.Jours % 10 == 0)
+                int frequence = Joueur.AmeliorationsAchetées.Contains("SuperRepousse") ? 15 : 10;
+                if (EspaceDeJeu.Jours % frequence == 0)
                 {
                     EspaceDeJeu.ModeUrgence = true;
                 }
@@ -68,7 +69,8 @@ public class MainJeu
                 Joueur.MoveJoueur(300);
                 if (Joueur.AFrappe)
                 {
-                    Rongeur.PV--;
+                    int degats = Joueur.AmeliorationsAchetées.Contains("Katana") ? 2 : 1;
+                    Rongeur.PV -= degats;
                     Joueur.AFrappe = false;
                 }
             }

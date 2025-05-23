@@ -7,6 +7,8 @@ public class Joueur
     public int PositionY { get; set; }
     public int Argent { get; set; } = 100;
 
+    public HashSet<string> AmeliorationsAchetées { get; set; } = new HashSet<string>();
+
     public bool AFrappe { get; set; }
     public EspaceDeJeu Grille { get; set; }
 
@@ -100,17 +102,40 @@ public class Joueur
 
     public void Labourer()
     {
-        Grille.EstLaboure[PositionY, PositionX] = true;
+        int x = PositionX;
+        int y = PositionY;
+
+        if (AmeliorationsAchetées.Contains("Motoculteur"))
+        {
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    int nx = x + dx;
+                    int ny = y + dy;
+                    if (nx >= 0 && nx < Grille.TailleY && ny >= 0 && ny < Grille.TailleX)
+                        Grille.EstLaboure[ny, nx] = true;
+                }
+            }
+        }
+        else
+        {
+            Grille.EstLaboure[y, x] = true;
+        }
     }
+
     public void PlacePlante(Plante plante)
     {
         if (Grille.EstLaboure[PositionY, PositionX])
         {
             Grille.Plantes.Add(plante);
-            Grille.EstLaboure[PositionY, PositionX] = false;
+            if (!AmeliorationsAchetées.Contains("Engrais"))
+            {
+                Grille.EstLaboure[PositionY, PositionX] = false;
+            }
         }
-        
     }
+
 
     public void Recolter()
     {
@@ -129,42 +154,90 @@ public class Joueur
             if (plante.Type == "Carotte")
             {
                 TableauRecolte[0]++;
-                Argent += 10;
+                int gainBase = 5;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Tomate")
             {
                 TableauRecolte[1]++;
-                Argent += 10;
+                int gainBase = 10;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Radis")
             {
                 TableauRecolte[2]++;
-                Argent += 10;
+                int gainBase = 15;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Salade")
             {
                 TableauRecolte[3]++;
-                Argent += 10;
+                int gainBase = 20;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Piment")
             {
                 TableauRecolte[4]++;
-                Argent += 15;
+                int gainBase = 25;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Melon")
             {
                 TableauRecolte[5]++;
-                Argent += 20;
+                int gainBase = 30;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Citrouille")
             {
                 TableauRecolte[6]++;
-                Argent += 25;
+                int gainBase = 35;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
             else if (plante.Type == "Fraise")
             {
                 TableauRecolte[7]++;
-                Argent += 30;
+                int gainBase = 40;
+                double multiplicateur = 1;
+                if (AmeliorationsAchetées.Contains("Insecticide"))
+                {
+                    multiplicateur = new Random().NextDouble() * 1.5 + 0.5; // [0.5, 2]
+                }
+                Argent += (int)(gainBase * multiplicateur);
             }
         }
     }
@@ -213,20 +286,52 @@ public class Joueur
 
         var prixObjet = new Dictionary<string, int>
         {
-            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20}, {"Retraite", PrixRetraite}
+            {"Piment", 25}, {"Melon", 30}, {"Citrouille", 35}, {"Fraise", 20},
+            {"Capitalisme", 10}, {"Engrais", 15},
+            {"Motoculteur", 50}, {"Insecticide", 30}, {"Irrigation automatique", 100},
+            {"Katana", 20}, {"SuperRepousse", 30}, {"Retraite", PrixRetraite}
+        };
+        var descriptions = new Dictionary<string, string>
+        {
+            // Plantes
+            {"Piment", "Plante épicée à croissance modérée. Rapport moyen."},
+            {"Melon", "Fruit juteux à croissance lente. Rapport élevé."},
+            {"Citrouille", "Plante résistante mais lente. Rapport élevé."},
+            {"Fraise", "Plante rapide et rentable."},
+
+            // Améliorations
+            {"Capitalisme", "Débloque l'accès à des améliorations puissantes."},
+            {"Engrais", "Les cases labourées restent labourées après plantation."},
+            {"Motoculteur", "Laboure automatiquement les 9 cases autour."},
+            {"Insecticide", "Récolte boostée : gains entre x0.5 et x2."},
+            {"Irrigation automatique", "L'hydratation ne descend jamais sous 20%."},
+            {"Katana", "Double les dégâts infligés au rongeur."},
+            {"SuperRepousse", "Les urgences arrivent moins souvent."},
+            {"Retraite", "Permet de gagner le jeu si vous avez assez d'argent."}
         };
 
-        // Liste des plantes non encore achetées
-        var ObjetAchetables = Grille.ObjetBoutique
-            .Where(p => !Grille.PlantesDispo.Contains($"|{p}|"))
-            .ToList();
+        var ObjetAchetables = new List<string>();
 
-        if (ObjetAchetables.Count == 1)
+        // Ajouter les plantes non encore débloquées
+        foreach (var plante in Grille.ObjetBoutique)
         {
-            Console.Clear();
-            Console.WriteLine("Il ne vous reste plus qu'à économiser pour votre retraite...");
-            Console.ReadKey(true);
-            return;
+            if (!Grille.PlantesDispo.Contains($"|{plante}|"))
+                ObjetAchetables.Add(plante);
+        }
+
+        // Ajouter Capitalisme si pas encore achetée
+        if (!AmeliorationsAchetées.Contains("Capitalisme"))
+            ObjetAchetables.Add("Capitalisme");
+
+        // Ajouter autres upgrades si Capitalisme est achetée
+        string[] upgrades = { "Engrais", "Motoculteur", "Insecticide", "Irrigation automatique", "Katana", "SuperRepousse" };
+        if (AmeliorationsAchetées.Contains("Capitalisme"))
+        {
+            foreach (var up in upgrades)
+            {
+                if (!AmeliorationsAchetées.Contains(up))
+                    ObjetAchetables.Add(up);
+            }
         }
 
         int selection = 0;
@@ -241,18 +346,55 @@ public class Joueur
             for (int i = 0; i < ObjetAchetables.Count; i++)
             {
                 string objet = ObjetAchetables[i];
-                Console.WriteLine("\n");
+                bool estAmelioration = prixObjet.ContainsKey(objet) && !Grille.ObjetBoutique.Contains(objet);
+
                 if (i == selection)
+                    Console.BackgroundColor = ConsoleColor.DarkGray;
+
+                string tag;
+                if (objet == "Retraite")
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write($"|{objet}| : {prixObjet[objet]}");
-                    Console.ForegroundColor = ConsoleColor.White;
+                    tag = "[🏆 Victoire]";
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                }
+                else if (estAmelioration)
+                {
+                    tag = "[Upgrade]";
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                 }
                 else
                 {
-                    Console.Write($"|{objet}| ");
+                    tag = "[Plante]";
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
+
+                bool dejaAcheté = estAmelioration && AmeliorationsAchetées.Contains(objet);
+
+                if (dejaAcheté)
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                else if (estAmelioration)
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                else
+                    Console.ForegroundColor = ConsoleColor.Green;
+
+                string checkmark = dejaAcheté ? "✓ " : "";
+                if (objet == "Retraite")
+                    Console.WriteLine($"✨ {tag} {objet.ToUpper()} : {prixObjet[objet]} ✨");
+                else
+                    Console.WriteLine($"- {tag} {checkmark}{objet} : {prixObjet[objet]}");
+
+
+                Console.ResetColor();
             }
+            Console.WriteLine("\n──────────────────────────────────────────────");
+            string selectionActuelle = ObjetAchetables[selection];
+            if (descriptions.ContainsKey(selectionActuelle))
+            {
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine($"ℹ️  {descriptions[selectionActuelle]}");
+                Console.ResetColor();
+            }
+            Console.WriteLine("──────────────────────────────────────────────");
 
             Console.WriteLine("\n\nUtilise 'z'/'s' pour naviguer, 'e' pour acheter, 'x' pour quitter.");
 
@@ -268,47 +410,33 @@ public class Joueur
                 case 'e':
                     string choix = ObjetAchetables[selection];
                     int prix = prixObjet[choix];
-                    if (choix == "Retraite")
-                    {
-                        PrixRetraite -= Argent;
-                        Argent = 0;
 
-                        if (prixObjet[choix] <= 0)
-                        {
-                            Console.WriteLine($"\n✅ Bravo vous avez assez économisé pour la retraite !!");
-                            ObjetAchetables.RemoveAt(selection);
-                            Grille.Retraite = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("\nEncore un peu d'effort pour votre retraite !");
-                        }
-                        Console.ReadKey(true);
-                        
-                    }
-                    else if (Argent >= prix)
+                    if (Argent >= prix)
                     {
                         Argent -= prix;
-                        Grille.PlantesDispo.Add($"|{choix}|");
-                        Console.WriteLine($"\n✅ {choix} débloquée pour la plantation !");
-                        ObjetAchetables.RemoveAt(selection);
-                        if (ObjetAchetables.Count == 1)
+
+                        if (Grille.ObjetBoutique.Contains(choix))
                         {
-                            Console.WriteLine("\nToutes les plantes ont été achetées !");
-                            enCours = false;
+                            Grille.PlantesDispo.Add($"|{choix}|");
+                            Console.WriteLine($"\n✅ {choix} débloquée !");
                         }
                         else
                         {
-                            selection %= ObjetAchetables.Count;
+                            AmeliorationsAchetées.Add(choix);
+                            Console.WriteLine($"\n✅ Amélioration {choix} achetée !");
                         }
-                        Console.ReadKey(true);
+
+                        ObjetAchetables.RemoveAt(selection);
+                        if (ObjetAchetables.Count == 0) enCours = false;
+                        else selection %= ObjetAchetables.Count;
                     }
                     else
                     {
                         Console.WriteLine("\n❌ Pas assez d'argent !");
-                        Console.ReadKey(true);
                     }
+                    Console.ReadKey(true);
                     break;
+
                 case 'x':
                     enCours = false;
                     break;

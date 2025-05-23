@@ -300,8 +300,14 @@ public class EspaceDeJeu
     public void UpdatePlantes()
     /*Fonction pour mettre à jours toutes les plantes de l'espace de jeu*/
     {
+
+
         foreach (var plante in Plantes)
         {
+            if (Joueur.AmeliorationsAchetées.Contains("Irrigation automatique"))
+            {
+                plante.Hydratation = Math.Max(plante.Hydratation, 20);
+            }
             plante.MetAJour();
         }
 
