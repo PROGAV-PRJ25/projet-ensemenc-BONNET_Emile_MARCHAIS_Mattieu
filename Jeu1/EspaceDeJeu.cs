@@ -135,7 +135,7 @@ public class EspaceDeJeu
         {
             for (int j = 0; j < TailleY; j++)
             {
-                if (EstLaboure[i, j])
+                if (EstLaboure[i, j] && Grille[i,j] != " B ")
                 {
                     Grille[i, j] = " # ";
                 }

@@ -294,10 +294,10 @@ public class Joueur
         var descriptions = new Dictionary<string, string>
         {
             // Plantes
-            {"Piment", "Plante épicée à croissance modérée. Rapport moyen."},
-            {"Melon", "Fruit juteux à croissance lente. Rapport élevé."},
-            {"Citrouille", "Plante résistante mais lente. Rapport élevé."},
-            {"Fraise", "Plante rapide et rentable."},
+            {"Piment", "Plante épicée nécessitant peu d'eau. Rapport moyen."},
+            {"Melon", "Fruit juteux à moyenne espérance de vie. Rapport élevé."},
+            {"Citrouille", "Plante qui demande peu mais qui ne vit pas longtemps. Rapport élevé."},
+            {"Fraise", "Plante rapide et rentable mais très susceptible de mourir si arrosé trop peu."},
 
             // Améliorations
             {"Capitalisme", "Débloque l'accès à des améliorations puissantes."},
