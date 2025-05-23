@@ -2,21 +2,21 @@ public class Maladie
 {
     public string Type { get; set; }
     public int Duree { get; set; } 
-    public int Severite { get; set; }
+    public int Gravite { get; set; }
 
-
-    public Maladie(string type, int duree, int severite)
+    public Maladie(string type, int duree, int gravite)
     {
         Type = type;
         Duree = duree;
-        Severite = severite;
+        Gravite = gravite;
     }
 
     public void AppliquerEffet(Plante plante)
+    /*Applique les effets d'une maladie (affecte le taux de croissance et permet la guérison */
     {
         if (Duree > 0)
         {
-            plante.TauxCroissance -= Severite;
+            plante.TauxCroissance -= Gravite;
             Duree--;
         }
         if (Duree <= 0)
@@ -24,7 +24,9 @@ public class Maladie
             plante.MaladieActuelle = null; // Guérison automatique
         }
     }
-        public void ContracterMaladie(Plante plante)
+
+    public void ContracterMaladie(Plante plante)
+    /*Fonction qui applique une maladie selon une certaine probabilité à une plante*/
     {
         // Maladie unique par type
         switch (Type)
@@ -56,6 +58,7 @@ public class Maladie
         }
     }
     public void PropagerMaladie(Plante plante, Random rnd, EspaceDeJeu grille)
+    /*Fonction permettant d'appliquer une maladie selon une certaine probabilité aux plantes voisine*/
     {
         var offsets = new (int dx, int dy)[] { (-1, 0), (1, 0), (0, -1), (0, 1) };
         foreach (var (dx, dy) in offsets)
@@ -70,7 +73,7 @@ public class Maladie
                 {
                     if (rnd.NextDouble() < 0.3) // propagation élevée
                     {
-                        voisine.MaladieActuelle = new Maladie(plante.MaladieActuelle.Type, plante.MaladieActuelle.Duree, plante.MaladieActuelle.Severite);
+                        voisine.MaladieActuelle = new Maladie(plante.MaladieActuelle.Type, plante.MaladieActuelle.Duree, plante.MaladieActuelle.Gravite);
                     }
                 }
             }

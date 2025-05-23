@@ -3,11 +3,10 @@ public class Rongeur
     Random rnd = new Random();
     public EspaceDeJeu EspaceDeJeu { get; set; }
     public int PositionX { get; set; }
-
     public int PositionY { get; set; }
     public int PV {get; set;}
-
     public string Affichage { get; set; } = " E ";
+
 
     public Rongeur(int x, int y, EspaceDeJeu grille, int pv = 3)
     {
@@ -18,6 +17,7 @@ public class Rongeur
     }
 
     public void MoveRongeur()
+    /*Fonction permmettant de faire bouger aléatoirement le rongeur*/
     {
         int direction = rnd.Next(1,5); // 1 -> Nord, 2 -> Est, 3 -> Sud, 4 -> Ouest
         int tempX = PositionX;
@@ -40,6 +40,7 @@ public class Rongeur
     }
 
     public void MangerPlante()
+    /*Fonction supprimant les plantes sur lequelles le rongeur est passé*/
     {
         for(int i = EspaceDeJeu.Plantes.Count - 1; i >= 0; i--)
         {

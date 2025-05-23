@@ -25,16 +25,16 @@ public class MainJeu
             while (timer.ElapsedMilliseconds < 1000)
             {
                 EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
-                EspaceDeJeu.AfficherGrille();
+                EspaceDeJeu.AfficherJeu();
                 Joueur.MoveJoueur(1000);
             }
             timer.Stop();
             EspaceDeJeu.UpdatePlantes();
-            EspaceDeJeu.luminosity += 1;
-            if (EspaceDeJeu.luminosity == 16)
+            EspaceDeJeu.luminosité += 1;
+            if (EspaceDeJeu.luminosité == 16)
             {
                 EspaceDeJeu.Jours++;
-                EspaceDeJeu.luminosity = 0;
+                EspaceDeJeu.luminosité = 0;
                 if (EspaceDeJeu.Jours % 10 == 0)
                 {
                     EspaceDeJeu.ModeUrgence = true;
@@ -59,7 +59,7 @@ public class MainJeu
             {
                 EspaceDeJeu.DefinirGrille(Joueur.PositionX, Joueur.PositionY);
                 EspaceDeJeu.Grille[Rongeur.PositionY, Rongeur.PositionX] = Rongeur.Affichage;
-                EspaceDeJeu.AfficherGrille();
+                EspaceDeJeu.AfficherJeu();
                 Joueur.MoveJoueur(300);
                 if (Joueur.AFrappe)
                 {
