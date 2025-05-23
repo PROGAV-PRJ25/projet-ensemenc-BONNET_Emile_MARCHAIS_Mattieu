@@ -159,7 +159,7 @@ public class EspaceDeJeu
         Console.WriteLine();
         for (int i = 0; i < TailleX; i++)
         {
-            Console.SetCursorPosition((Console.WindowWidth - TailleX*9)/2, Console.CursorTop);
+            Console.SetCursorPosition((Console.WindowWidth - TailleX*7)/2, Console.CursorTop);
             if(luminosité == 0 || luminosité >= 12)
             {
                 Console.BackgroundColor = ConsoleColor.Black;
@@ -231,29 +231,33 @@ public class EspaceDeJeu
             Console.WriteLine();
         }
         Console.BackgroundColor = ConsoleColor.Black;
+        Console.WriteLine("Pour bouger le Joueur : Z,Q,S,D \nPour selectionner une action dans l'invetaire : L,M (gauche, droite) // Pour choisir une plante : O,P (gauche, droite) // Pour effectuer une action : E ");
         Console.WriteLine();
         Console.WriteLine();
         AfficherInventaire(SelectInventaire);
-        Console.WriteLine("\nJours: " + Jours);
+        Console.WriteLine();
+        Console.WriteLine();
         if (luminosité <= 4)
         {
-            Console.WriteLine("Luminosité: On est le matin, il fait sombre.");
+            Console.Write("Luminosité: On est le matin, il fait sombre.");
         }
         else if (luminosité <= 8)
         {
-            Console.WriteLine("Luminosité: On est le midi, il fait jour.");
+            Console.Write("Luminosité: On est le midi, il fait jour.");
         }
         else if (luminosité <= 12)
         {
-            Console.WriteLine("Luminosité: On est le soir, il fait sombre.");
+            Console.Write("Luminosité: On est le soir, il fait sombre.");
         }
         else if (luminosité <= 16)
         {
-            Console.WriteLine("Luminosité: On est la nuit, il fait nuit.");
+            Console.Write("Luminosité: On est la nuit, il fait nuit.");
         }
+        Console.WriteLine("           Jours: " + Jours);
         Console.WriteLine();
         Console.WriteLine($"Actuellement {NombrePlanteMorte} sont mortent. Si 50 plantes meurent, vous avez perdu");
-        Console.WriteLine($" Argent : {Joueur.Argent} pièces");
+        Console.WriteLine();
+        Console.WriteLine($"ARGENT : {Joueur.Argent} pièces");
 
         if (SelectionnerPlante(Joueur.PositionX, Joueur.PositionY) != Plantenull)
         {
